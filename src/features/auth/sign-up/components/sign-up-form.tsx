@@ -41,6 +41,8 @@ const formSchema = z
 
 export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,14 +53,30 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    // eslint-disable-next-line no-console
-    console.log(data)
-
-    setTimeout(() => {
+    setError(null)
+    setSuccess(null)
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      })
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Registration failed')
+      }
+      setSuccess('Registration successful! Please check your email to verify your account.')
+      // Optionally redirect or update UI here
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
       setIsLoading(false)
-    }, 3000)
+    }
   }
 
   return (
@@ -110,6 +128,8 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
         <Button className='mt-2' disabled={isLoading}>
           Create Account
         </Button>
+        {error && <div className='text-red-500 text-sm mt-2'>{error}</div>}
+        {success && <div className='text-green-600 text-sm mt-2'>{success}</div>}
 
         <div className='relative my-2'>
           <div className='absolute inset-0 flex items-center'>

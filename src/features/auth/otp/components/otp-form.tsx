@@ -30,6 +30,8 @@ const formSchema = z.object({
 export function OtpForm({ className, ...props }: OtpFormProps) {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,14 +40,27 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
 
   const otp = form.watch('otp')
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    showSubmittedData(data)
-
-    setTimeout(() => {
+    setError(null)
+    setSuccess(null)
+    try {
+      const response = await fetch('/api/auth/verify-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: data.otp }),
+      })
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Verification failed')
+      }
+      setSuccess('Email verified successfully!')
+      // Optionally redirect or update UI here
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
       setIsLoading(false)
-      navigate({ to: '/' })
-    }, 1000)
+    }
   }
 
   return (
@@ -90,6 +105,8 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
         <Button className='mt-2' disabled={otp.length < 6 || isLoading}>
           Verify
         </Button>
+        {error && <div className='text-red-500 text-sm mt-2'>{error}</div>}
+        {success && <div className='text-green-600 text-sm mt-2'>{success}</div>}
       </form>
     </Form>
   )
