@@ -43,6 +43,8 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const [showOnboarding, setShowOnboarding] = useState(false)
+  const [registeredUser, setRegisteredUser] = useState<{ email: string } | null>(null)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,13 +72,80 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
         const errorData = await response.json()
         throw new Error(errorData.message || 'Registration failed')
       }
-      setSuccess('Registration successful! Please check your email to verify your account.')
-      // Optionally redirect or update UI here
+      setSuccess('Registration successful! Please create your office to continue.')
+      setRegisteredUser({ email: data.email })
+      setShowOnboarding(true)
     } catch (err: any) {
       setError(err.message)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  // Onboarding form state
+  const [officeLoading, setOfficeLoading] = useState(false)
+  const [officeError, setOfficeError] = useState<string | null>(null)
+  const [officeSuccess, setOfficeSuccess] = useState<string | null>(null)
+  const [officeName, setOfficeName] = useState('')
+  const [officeDetails, setOfficeDetails] = useState('')
+
+  async function handleOnboardingSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setOfficeLoading(true)
+    setOfficeError(null)
+    setOfficeSuccess(null)
+    try {
+      // Replace with your actual API endpoint for creating an office
+      const response = await fetch('/api/offices', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: officeName,
+          details: officeDetails,
+          userEmail: registeredUser?.email,
+        }),
+      })
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Failed to create office')
+      }
+      setOfficeSuccess('Office created successfully! You can now access your dashboard.')
+      // Optionally redirect to dashboard or login
+    } catch (err: any) {
+      setOfficeError(err.message)
+    } finally {
+      setOfficeLoading(false)
+    }
+  }
+
+  if (showOnboarding) {
+    return (
+      <form onSubmit={handleOnboardingSubmit} className={cn('grid gap-3', className)}>
+        <h2 className="text-xl font-semibold mb-2">Create Your Office</h2>
+        <div>
+          <label className="block mb-1 font-medium">Office Name</label>
+          <Input
+            placeholder="e.g. Main Office"
+            value={officeName}
+            onChange={e => setOfficeName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-medium">Office Details</label>
+          <Input
+            placeholder="Optional details (address, description, etc.)"
+            value={officeDetails}
+            onChange={e => setOfficeDetails(e.target.value)}
+          />
+        </div>
+        <Button className="mt-2" disabled={officeLoading || !officeName}>
+          Create Office
+        </Button>
+        {officeError && <div className="text-red-500 text-sm mt-2">{officeError}</div>}
+        {officeSuccess && <div className="text-green-600 text-sm mt-2">{officeSuccess}</div>}
+      </form>
+    )
   }
 
   return (
