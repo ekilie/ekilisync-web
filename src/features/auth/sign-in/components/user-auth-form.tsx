@@ -57,10 +57,15 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       })
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.message || 'Login failed')
+        if (errorData.message === 'Email not verified') {
+          setError('Please verify your email before logging in.')
+        } else {
+          setError(errorData.message || 'Login failed')
+        }
+        return
       }
       const result = await response.json()
-      localStorage.setItem('token', result.token)
+      localStorage.setItem('token', result.access_token)
       localStorage.setItem('user', JSON.stringify(result.user))
       // Optionally redirect or update UI here
     } catch (err: any) {

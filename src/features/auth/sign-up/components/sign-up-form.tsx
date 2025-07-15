@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { HTMLAttributes, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -20,6 +21,7 @@ type SignUpFormProps = HTMLAttributes<HTMLFormElement>
 
 const formSchema = z
   .object({
+    name: z.string().min(1, { message: 'Please enter your name' }),
     email: z
       .string()
       .min(1, { message: 'Please enter your email' })
@@ -33,6 +35,7 @@ const formSchema = z
         message: 'Password must be at least 7 characters long',
       }),
     confirmPassword: z.string(),
+    officeId: z.string().min(1, { message: 'Please select an office' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match.",
@@ -43,17 +46,26 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const [showOnboarding, setShowOnboarding] = useState(false)
-  const [registeredUser, setRegisteredUser] = useState<{ email: string } | null>(null)
+  const [offices, setOffices] = useState<{ id: string; name: string }[]>([])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
+      officeId: '',
     },
   })
+
+  useEffect(() => {
+    // Fetch offices from backend
+    fetch('/api/offices')
+      .then((res) => res.json())
+      .then((data) => setOffices(data))
+      .catch(() => setOffices([]))
+  }, [])
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
@@ -64,88 +76,22 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          name: data.name,
           email: data.email,
           password: data.password,
+          officeId: data.officeId,
         }),
       })
       if (!response.ok) {
         const errorData = await response.json()
         throw new Error(errorData.message || 'Registration failed')
       }
-      setSuccess('Registration successful! Please create your office to continue.')
-      setRegisteredUser({ email: data.email })
-      setShowOnboarding(true)
+      setSuccess('Registration successful! Please check your email to verify your account.')
     } catch (err: any) {
       setError(err.message)
     } finally {
       setIsLoading(false)
     }
-  }
-
-  // Onboarding form state
-  const [officeLoading, setOfficeLoading] = useState(false)
-  const [officeError, setOfficeError] = useState<string | null>(null)
-  const [officeSuccess, setOfficeSuccess] = useState<string | null>(null)
-  const [officeName, setOfficeName] = useState('')
-  const [officeDetails, setOfficeDetails] = useState('')
-
-  async function handleOnboardingSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setOfficeLoading(true)
-    setOfficeError(null)
-    setOfficeSuccess(null)
-    try {
-      // Replace with your actual API endpoint for creating an office
-      const response = await fetch('/api/offices', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: officeName,
-          details: officeDetails,
-          userEmail: registeredUser?.email,
-        }),
-      })
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || 'Failed to create office')
-      }
-      setOfficeSuccess('Office created successfully! You can now access your dashboard.')
-      // Optionally redirect to dashboard or login
-    } catch (err: any) {
-      setOfficeError(err.message)
-    } finally {
-      setOfficeLoading(false)
-    }
-  }
-
-  if (showOnboarding) {
-    return (
-      <form onSubmit={handleOnboardingSubmit} className={cn('grid gap-3', className)}>
-        <h2 className="text-xl font-semibold mb-2">Create Your Office</h2>
-        <div>
-          <label className="block mb-1 font-medium">Office Name</label>
-          <Input
-            placeholder="e.g. Main Office"
-            value={officeName}
-            onChange={e => setOfficeName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Office Details</label>
-          <Input
-            placeholder="Optional details (address, description, etc.)"
-            value={officeDetails}
-            onChange={e => setOfficeDetails(e.target.value)}
-          />
-        </div>
-        <Button className="mt-2" disabled={officeLoading || !officeName}>
-          Create Office
-        </Button>
-        {officeError && <div className="text-red-500 text-sm mt-2">{officeError}</div>}
-        {officeSuccess && <div className="text-green-600 text-sm mt-2">{officeSuccess}</div>}
-      </form>
-    )
   }
 
   return (
@@ -155,6 +101,19 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
         className={cn('grid gap-3', className)}
         {...props}
       >
+        <FormField
+          control={form.control}
+          name='name'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder='Your name' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name='email'
@@ -194,12 +153,31 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name='officeId'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Office</FormLabel>
+              <FormControl>
+                <select {...field} className='input'>
+                  <option value=''>Select an office</option>
+                  {offices.map((office) => (
+                    <option key={office.id} value={office.id}>
+                      {office.name}
+                    </option>
+                  ))}
+                </select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button className='mt-2' disabled={isLoading}>
           Create Account
         </Button>
         {error && <div className='text-red-500 text-sm mt-2'>{error}</div>}
         {success && <div className='text-green-600 text-sm mt-2'>{success}</div>}
-
         <div className='relative my-2'>
           <div className='absolute inset-0 flex items-center'>
             <span className='w-full border-t' />
@@ -210,7 +188,6 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
             </span>
           </div>
         </div>
-
         <div className='grid grid-cols-2 gap-2'>
           <Button
             variant='outline'
