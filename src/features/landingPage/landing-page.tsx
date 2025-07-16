@@ -174,10 +174,12 @@ export default function LandingPage() {
                 FAQ
               </a>
               <div className="flex flex-col gap-2 pt-2 border-t">
-                <a href="#" className="py-2 text-sm font-medium" onClick={() => setMobileMenuOpen(false)}>
+                <a href="sign-in" className="py-2 text-sm font-medium" onClick={() => setMobileMenuOpen(false)}>
                   Log in
                 </a>
-                <Button className="rounded-md">
+                <Button className="rounded-md" onClick={()=>{
+                  
+                }}>
                   Get Started
                   <ChevronRight className="ml-1 size-4" />
                 </Button>
