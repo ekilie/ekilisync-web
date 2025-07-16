@@ -45,7 +45,6 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const [offices, setOffices] = useState<{ id: string; name: string }[]>([])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,14 +56,6 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
       officeId: '',
     },
   })
-
-  useEffect(() => {
-    // Fetch offices from backend
-    fetch('/api/offices')
-      .then((res) => res.json())
-      .then((data) => setOffices(data))
-      .catch(() => setOffices([]))
-  }, [])
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
@@ -78,7 +69,6 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           name: data.name,
           email: data.email,
           password: data.password,
-          officeId: data.officeId,
         }),
       })
       if (!response.ok) {
