@@ -802,7 +802,7 @@ export default function LandingPage() {
           </div>
           <div className="flex flex-col gap-4 sm:flex-row justify-between items-center border-t border-border/40 pt-8">
             <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} EkiliSync. All rights reserved.
+              &copy; {new Date().getFullYear()} ekilie. All rights reserved.
             </p>
             <div className="flex gap-4">
               <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
