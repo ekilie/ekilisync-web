@@ -669,7 +669,7 @@ export default function LandingPage() {
                 location-based technology.
               </p>
               <div className="flex gap-4">
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="https://facebook.com/ekilisync" className="text-muted-foreground hover:text-foreground transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -686,7 +686,7 @@ export default function LandingPage() {
                   </svg>
                   <span className="sr-only">Facebook</span>
                 </a>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="https://twitter.com/ekilisync" className="text-muted-foreground hover:text-foreground transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -703,7 +703,7 @@ export default function LandingPage() {
                   </svg>
                   <span className="sr-only">Twitter</span>
                 </a>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="https://linkedin.com/company/ekilisync" className="text-muted-foreground hover:text-foreground transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -738,12 +738,12 @@ export default function LandingPage() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/mobile-app" className="text-muted-foreground hover:text-foreground transition-colors">
                     Mobile App
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/api" className="text-muted-foreground hover:text-foreground transition-colors">
                     API
                   </a>
                 </li>
@@ -753,22 +753,22 @@ export default function LandingPage() {
               <h4 className="text-sm font-bold">Resources</h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/documentation" className="text-muted-foreground hover:text-foreground transition-colors">
                     Documentation
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/help-center" className="text-muted-foreground hover:text-foreground transition-colors">
                     Help Center
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
                     Blog
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/support" className="text-muted-foreground hover:text-foreground transition-colors">
                     Support
                   </a>
                 </li>
@@ -778,12 +778,12 @@ export default function LandingPage() {
               <h4 className="text-sm font-bold">Company</h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
                     About
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/careers" className="text-muted-foreground hover:text-foreground transition-colors">
                     Careers
                   </a>
                 </li>

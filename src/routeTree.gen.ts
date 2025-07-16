@@ -10,7 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as PoliciesRouteImport } from './routes/policies'
+import { Route as MobileAppRouteImport } from './routes/mobile-app'
+import { Route as DocumentationRouteImport } from './routes/documentation'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as ApiRouteImport } from './routes/api'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -48,9 +55,44 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PoliciesRoute = PoliciesRouteImport.update({
   id: '/policies',
   path: '/policies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MobileAppRoute = MobileAppRouteImport.update({
+  id: '/mobile-app',
+  path: '/mobile-app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentationRoute = DocumentationRouteImport.update({
+  id: '/documentation',
+  path: '/documentation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRoute = ApiRouteImport.update({
+  id: '/api',
+  path: '/api',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
@@ -219,7 +261,14 @@ const AuthenticatedSettingsAccountRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/api': typeof ApiRoute
+  '/blog': typeof BlogRoute
+  '/careers': typeof CareersRoute
+  '/documentation': typeof DocumentationRoute
+  '/mobile-app': typeof MobileAppRoute
   '/policies': typeof PoliciesRoute
+  '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/clerk/': typeof ClerkauthRouteRouteWithChildren
@@ -251,7 +300,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/api': typeof ApiRoute
+  '/blog': typeof BlogRoute
+  '/careers': typeof CareersRoute
+  '/documentation': typeof DocumentationRoute
+  '/mobile-app': typeof MobileAppRoute
   '/policies': typeof PoliciesRoute
+  '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
@@ -285,7 +341,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/api': typeof ApiRoute
+  '/blog': typeof BlogRoute
+  '/careers': typeof CareersRoute
+  '/documentation': typeof DocumentationRoute
+  '/mobile-app': typeof MobileAppRoute
   '/policies': typeof PoliciesRoute
+  '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/clerk/(auth)': typeof ClerkauthRouteRouteWithChildren
@@ -321,7 +384,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/clerk'
+    | '/about'
+    | '/api'
+    | '/blog'
+    | '/careers'
+    | '/documentation'
+    | '/mobile-app'
     | '/policies'
+    | '/support'
     | '/terms'
     | '/settings'
     | '/clerk/'
@@ -353,7 +423,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/api'
+    | '/blog'
+    | '/careers'
+    | '/documentation'
+    | '/mobile-app'
     | '/policies'
+    | '/support'
     | '/terms'
     | '/clerk'
     | '/forgot-password'
@@ -386,7 +463,14 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/clerk'
+    | '/about'
+    | '/api'
+    | '/blog'
+    | '/careers'
+    | '/documentation'
+    | '/mobile-app'
     | '/policies'
+    | '/support'
     | '/terms'
     | '/_authenticated/settings'
     | '/clerk/(auth)'
@@ -422,7 +506,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ClerkRouteRoute: typeof ClerkRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  ApiRoute: typeof ApiRoute
+  BlogRoute: typeof BlogRoute
+  CareersRoute: typeof CareersRoute
+  DocumentationRoute: typeof DocumentationRoute
+  MobileAppRoute: typeof MobileAppRoute
   PoliciesRoute: typeof PoliciesRoute
+  SupportRoute: typeof SupportRoute
   TermsRoute: typeof TermsRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
@@ -445,11 +536,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/policies': {
       id: '/policies'
       path: '/policies'
       fullPath: '/policies'
       preLoaderRoute: typeof PoliciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mobile-app': {
+      id: '/mobile-app'
+      path: '/mobile-app'
+      fullPath: '/mobile-app'
+      preLoaderRoute: typeof MobileAppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documentation': {
+      id: '/documentation'
+      path: '/documentation'
+      fullPath: '/documentation'
+      preLoaderRoute: typeof DocumentationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api': {
+      id: '/api'
+      path: '/api'
+      fullPath: '/api'
+      preLoaderRoute: typeof ApiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clerk': {
@@ -767,7 +907,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ClerkRouteRoute: ClerkRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  ApiRoute: ApiRoute,
+  BlogRoute: BlogRoute,
+  CareersRoute: CareersRoute,
+  DocumentationRoute: DocumentationRoute,
+  MobileAppRoute: MobileAppRoute,
   PoliciesRoute: PoliciesRoute,
+  SupportRoute: SupportRoute,
   TermsRoute: TermsRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,
