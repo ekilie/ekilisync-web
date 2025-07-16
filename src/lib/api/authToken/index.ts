@@ -23,6 +23,7 @@ const storage = {
 };
 
 export const authToken = async (tokenType: string) => {
+  //TODO:Will add custom token prefixing mechanism
   const _key = `ekili-sync:${tokenType}-token`;
   return await storage.getItem(_key) || null;
 };

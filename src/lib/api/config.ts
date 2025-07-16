@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { authToken, setAuthToken } from './authToken';
-import { BASE_URL } from '../constants';
+import { authToken } from './authToken';
+import { BASE_URL } from '@/lib/constants';
 
 const api = (authenticate: any) => {
   const config = axios.create({ baseURL: BASE_URL });
