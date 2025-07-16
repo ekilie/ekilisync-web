@@ -127,7 +127,7 @@ export default function LandingPage() {
             </a>
           </nav>
           <div className="hidden md:flex gap-4 items-center">
-            {/* <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full">
+            {/* <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-md">
               {mounted && theme === "dark" ? <Sun className="size-[18px]" /> : <Moon className="size-[18px]" />}
               <span className="sr-only">Toggle theme</span>
             </Button> */}
@@ -137,13 +137,13 @@ export default function LandingPage() {
             >
               Log in
             </a>
-            <Button className="rounded-full">
+            <Button className="rounded-md">
               Get Started
               <ChevronRight className="ml-1 size-4" />
             </Button>
           </div>
           <div className="flex items-center gap-4 md:hidden">
-            {/* <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full">
+            {/* <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-md">
               {mounted && theme === "dark" ? <Sun className="size-[18px]" /> : <Moon className="size-[18px]" />}
             </Button> */}
             <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -177,7 +177,7 @@ export default function LandingPage() {
                 <a href="#" className="py-2 text-sm font-medium" onClick={() => setMobileMenuOpen(false)}>
                   Log in
                 </a>
-                <Button className="rounded-full">
+                <Button className="rounded-md">
                   Get Started
                   <ChevronRight className="ml-1 size-4" />
                 </Button>
@@ -198,7 +198,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="text-center max-w-3xl mx-auto mb-12"
             >
-              <Badge className="mb-4 rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
+              <Badge className="mb-4 rounded-md px-4 py-1.5 text-sm font-medium" variant="secondary">
                 Smart Attendance Tracking
               </Badge>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
@@ -209,11 +209,11 @@ export default function LandingPage() {
                 punching, no card swiping - just seamless, accurate attendance management.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="rounded-full h-12 px-8 text-base">
+                <Button size="lg" className="rounded-md h-12 px-8 text-base">
                   Start Free Trial
                   <ArrowRight className="ml-2 size-4" />
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full h-12 px-8 text-base bg-transparent">
+                <Button size="lg" variant="outline" className="rounded-md h-12 px-8 text-base bg-transparent">
                   Watch Demo
                 </Button>
               </div>
@@ -250,8 +250,8 @@ export default function LandingPage() {
                 />
                 <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10 dark:ring-white/10"></div>
               </div>
-              <div className="absolute -bottom-6 -right-6 -z-10 h-[300px] w-[300px] rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 blur-3xl opacity-70"></div>
-              <div className="absolute -top-6 -left-6 -z-10 h-[300px] w-[300px] rounded-full bg-gradient-to-br from-secondary/30 to-primary/30 blur-3xl opacity-70"></div>
+              <div className="absolute -bottom-6 -right-6 -z-10 h-[300px] w-[300px] rounded-md bg-gradient-to-br from-primary/30 to-secondary/30 blur-3xl opacity-70"></div>
+              <div className="absolute -top-6 -left-6 -z-10 h-[300px] w-[300px] rounded-md bg-gradient-to-br from-secondary/30 to-primary/30 blur-3xl opacity-70"></div>
             </motion.div>
           </div>
         </section>
@@ -287,7 +287,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
             >
-              <Badge className="rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
+              <Badge className="rounded-md px-4 py-1.5 text-sm font-medium" variant="secondary">
                 Features
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
@@ -310,7 +310,7 @@ export default function LandingPage() {
                 <motion.div key={i} variants={item}>
                   <Card className="h-full overflow-hidden border-border/40 bg-gradient-to-b from-background to-muted/10 backdrop-blur transition-all hover:shadow-md">
                     <CardContent className="p-6 flex flex-col h-full">
-                      <div className="size-10 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary mb-4">
+                      <div className="size-10 rounded-md bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary mb-4">
                         {feature.icon}
                       </div>
                       <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
@@ -335,7 +335,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center justify-center space-y-4 text-center mb-16"
             >
-              <Badge className="rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
+              <Badge className="rounded-md px-4 py-1.5 text-sm font-medium" variant="secondary">
                 How It Works
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Simple Setup, Automatic Tracking</h2>
@@ -374,7 +374,7 @@ export default function LandingPage() {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   className="relative z-10 flex flex-col items-center text-center space-y-4"
                 >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/70 text-primary-foreground text-xl font-bold shadow-lg">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-md bg-gradient-to-br from-primary to-primary/70 text-primary-foreground text-xl font-bold shadow-lg">
                     {step.step}
                   </div>
                   <h3 className="text-xl font-bold">{step.title}</h3>
@@ -395,7 +395,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
             >
-              <Badge className="rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
+              <Badge className="rounded-md px-4 py-1.5 text-sm font-medium" variant="secondary">
                 Testimonials
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Loved by HR Teams Everywhere</h2>
@@ -467,7 +467,7 @@ export default function LandingPage() {
                       </div>
                       <p className="text-lg mb-6 flex-grow">{testimonial.quote}</p>
                       <div className="flex items-center gap-4 mt-auto pt-4 border-t border-border/40">
-                        <div className="size-10 rounded-full bg-muted flex items-center justify-center text-foreground font-medium">
+                        <div className="size-10 rounded-md bg-muted flex items-center justify-center text-foreground font-medium">
                           {testimonial.author.charAt(0)}
                         </div>
                         <div>
@@ -495,7 +495,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
             >
-              <Badge className="rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
+              <Badge className="rounded-md px-4 py-1.5 text-sm font-medium" variant="secondary">
                 Pricing
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Simple, Transparent Pricing</h2>
@@ -507,11 +507,11 @@ export default function LandingPage() {
             <div className="mx-auto max-w-5xl">
               <Tabs defaultValue="monthly" className="w-full">
                 <div className="flex justify-center mb-8">
-                  <TabsList className="rounded-full p-1">
-                    <TabsTrigger value="monthly" className="rounded-full px-6">
+                  <TabsList className="rounded-md p-1">
+                    <TabsTrigger value="monthly" className="rounded-md px-6">
                       Monthly
                     </TabsTrigger>
-                    <TabsTrigger value="annually" className="rounded-full px-6">
+                    <TabsTrigger value="annually" className="rounded-md px-6">
                       Annually (Save 20%)
                     </TabsTrigger>
                   </TabsList>
@@ -595,7 +595,7 @@ export default function LandingPage() {
                               ))}
                             </ul>
                             <Button
-                              className={`w-full mt-auto rounded-full ${plan.popular ? "bg-primary hover:bg-primary/90" : "bg-muted hover:bg-muted/80"}`}
+                              className={`w-full mt-auto rounded-md ${plan.popular ? "bg-primary hover:bg-primary/90" : "bg-muted hover:bg-muted/80"}`}
                               variant={plan.popular ? "default" : "outline"}
                             >
                               {plan.cta}
@@ -685,7 +685,7 @@ export default function LandingPage() {
                               ))}
                             </ul>
                             <Button
-                              className={`w-full mt-auto rounded-full ${plan.popular ? "bg-primary hover:bg-primary/90" : "bg-muted hover:bg-muted/80"}`}
+                              className={`w-full mt-auto rounded-md ${plan.popular ? "bg-primary hover:bg-primary/90" : "bg-muted hover:bg-muted/80"}`}
                               variant={plan.popular ? "default" : "outline"}
                             >
                               {plan.cta}
@@ -711,7 +711,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
             >
-              <Badge className="rounded-full px-4 py-1.5 text-sm font-medium" variant="secondary">
+              <Badge className="rounded-md px-4 py-1.5 text-sm font-medium" variant="secondary">
                 FAQ
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Frequently Asked Questions</h2>
@@ -777,8 +777,8 @@ export default function LandingPage() {
         {/* CTA Section */}
         <section className="w-full py-20 md:py-32 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
-          <div className="absolute -top-24 -left-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute -top-24 -left-24 w-64 h-64 bg-white/10 rounded-md blur-3xl"></div>
+          <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-white/10 rounded-md blur-3xl"></div>
 
           <div className="container px-4 md:px-6 relative">
             <motion.div
@@ -796,14 +796,14 @@ export default function LandingPage() {
                 location-based tracking system.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                <Button size="lg" variant="secondary" className="rounded-full h-12 px-8 text-base">
+                <Button size="lg" variant="secondary" className="rounded-md h-12 px-8 text-base">
                   Start Free Trial
                   <ArrowRight className="ml-2 size-4" />
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
-                  className="rounded-full h-12 px-8 text-base bg-transparent border-white text-white hover:bg-white/10"
+                  className="rounded-md h-12 px-8 text-base bg-transparent border-white text-white hover:bg-white/10"
                 >
                   Schedule a Demo
                 </Button>
