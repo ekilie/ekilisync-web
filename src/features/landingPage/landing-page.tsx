@@ -788,12 +788,12 @@ export default function LandingPage() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/policies" className="text-muted-foreground hover:text-foreground transition-colors">
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="/terms" className="text-muted-foreground hover:text-foreground transition-colors">
                     Terms of Service
                   </a>
                 </li>
@@ -805,13 +805,13 @@ export default function LandingPage() {
               &copy; {new Date().getFullYear()} ekilie. All rights reserved.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/policies" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                 Privacy Policy
               </a>
-              <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                 Terms of Service
               </a>
-              <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/policies#cookies" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                 Cookie Policy
               </a>
             </div>
