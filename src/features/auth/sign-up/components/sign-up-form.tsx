@@ -3,7 +3,6 @@ import { HTMLAttributes, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { IconBrandFacebook, IconBrandGithub } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -108,7 +107,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder='Your name' {...field} />
+                <Input placeholder='Office Name' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,7 +120,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder='name@example.com' {...field} />
+                <Input placeholder='admin@office.com' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -148,26 +147,6 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
                 <PasswordInput placeholder='********' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='officeId'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Office</FormLabel>
-              <FormControl>
-                <select {...field} className='input'>
-                  <option value=''>Select an office</option>
-                  {offices.map((office) => (
-                    <option key={office.id} value={office.id}>
-                      {office.name}
-                    </option>
-                  ))}
-                </select>
               </FormControl>
               <FormMessage />
             </FormItem>
