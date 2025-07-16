@@ -23,36 +23,36 @@ const storage = {
 };
 
 export const authToken = async (tokenType: string) => {
-  const _key = `sense:${tokenType}-token`;
+  const _key = `ekili-sync:${tokenType}-token`;
   return await storage.getItem(_key) || null;
 };
 
 export const setAuthToken = async (tokens: { [x: string]: string }) => {
   Object.keys(tokens).forEach(
-    async (key) => await storage.setItem(`sense:${key}-token`, tokens[key])
+    async (key) => await storage.setItem(`ekili-sync:${key}-token`, tokens[key])
   );
 };
 
 export const saveUser = async (user: any) => {
-  await storage.setItem('sense:user', JSON.stringify(user));
+  await storage.setItem('ekili-sync:user', JSON.stringify(user));
 };
 
 export const saveUserData = async (user: any) => {
-  await storage.setItem('sense:user-data', JSON.stringify(user));
+  await storage.setItem('ekili-sync:user-data', JSON.stringify(user));
 };
 
 export const currentUser = async () => {
-  const user = await storage.getItem('sense:user');
+  const user = await storage.getItem('ekili-sync:user');
   return user ? JSON.parse(user) : null;
 };
 
 export const userData = async () => {
-  const user = await storage.getItem('sense:user-data');
+  const user = await storage.getItem('ekili-sync:user-data');
   return user ? JSON.parse(user) : null;
 };
 
 export const userLocation = async () => {
-  const user = await storage.getItem('sense:user-data');
+  const user = await storage.getItem('ekili-sync:user-data');
   return user ? JSON.parse(user).userInfo.location : null;
 };
 
