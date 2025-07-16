@@ -15,7 +15,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 export default function InviteEmployeesPage() {
-  const { officeId } = useParams('/_authenticated/offices/$officeId/invite')
+  const { officeId } = useParams();
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
