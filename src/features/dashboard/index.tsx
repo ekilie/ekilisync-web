@@ -45,13 +45,13 @@ export default function Dashboard() {
           <div className='w-full overflow-x-auto pb-2'>
             <TabsList>
               <TabsTrigger value='overview'>Overview</TabsTrigger>
-              <TabsTrigger value='analytics' disabled>
+              <TabsTrigger value='analytics' disabled title='comming soon'>
                 Analytics
               </TabsTrigger>
-              <TabsTrigger value='reports' disabled>
+              <TabsTrigger value='reports' disabled title='comming soon'>
                 Reports
               </TabsTrigger>
-              <TabsTrigger value='notifications' disabled>
+              <TabsTrigger value='notifications' disabled title='comming soon'>
                 Notifications
               </TabsTrigger>
             </TabsList>
@@ -160,7 +160,7 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
             </div>
-            <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
+            {/* <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-1 lg:col-span-4'>
                 <CardHeader>
                   <CardTitle>Overview</CardTitle>
@@ -180,7 +180,7 @@ export default function Dashboard() {
                   <RecentSales />
                 </CardContent>
               </Card>
-            </div>
+            </div> */}
           </TabsContent>
         </Tabs>
       </Main>
