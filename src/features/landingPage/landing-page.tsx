@@ -7,26 +7,21 @@ import {
   X,
   ArrowRight,
   Star,
-  MapPin,
-  Clock,
-  Users,
-  BarChart,
-  Smartphone,
-  Shield,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { redirect } from "@tanstack/react-router"
+import FeaturesSection from "./FeaturesSection"
+import HeroSection from "@/features/landingPage/HeroSection"
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const handleScroll = () => {
       if (window.scrollY > 10) {
         setIsScrolled(true)
@@ -39,54 +34,6 @@ export default function LandingPage() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
-  }
-
-  const features = [
-    {
-      title: "Location-Based Check-In",
-      description: "Automatic attendance tracking when employees are near the office - no manual punching required.",
-      icon: <MapPin className="size-5" />,
-    },
-    {
-      title: "Real-Time Data",
-      description: "Get instant attendance updates and monitor staff presence in real-time.",
-      icon: <Clock className="size-5" />,
-    },
-    {
-      title: "Easy Staff Management",
-      description: "Manage your team effortlessly with intuitive admin controls and employee profiles.",
-      icon: <Users className="size-5" />,
-    },
-    {
-      title: "Accurate Reports",
-      description: "Generate detailed working hours reports and attendance analytics for better insights.",
-      icon: <BarChart className="size-5" />,
-    },
-    {
-      title: "Mobile-First Design",
-      description: "Optimized mobile experience for both administrators and employees on the go.",
-      icon: <Smartphone className="size-5" />,
-    },
-    {
-      title: "Secure & Reliable",
-      description: "Enterprise-grade security with reliable attendance tracking you can trust.",
-      icon: <Shield className="size-5" />,
-    },
-  ]
 
   return (
     <div className="flex min-h-[100dvh] flex-col">
@@ -178,7 +125,9 @@ export default function LandingPage() {
                   Log in
                 </a>
                 <Button className="rounded-md" onClick={()=>{
-                  
+                  redirect({
+                    to: '/sign-up',
+                  })
                 }}>
                   Get Started
                   <ChevronRight className="ml-1 size-4" />
@@ -190,74 +139,7 @@ export default function LandingPage() {
       </header>
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-20 md:py-32 lg:py-40 overflow-hidden">
-          <div className="container px-4 md:px-6 relative">
-            <div className="absolute inset-0 -z-10 h-full w-full bg-white dark:bg-black bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center max-w-3xl mx-auto mb-12"
-            >
-              <Badge className="mb-4 rounded-md px-4 py-1.5 text-sm font-medium" variant="secondary">
-                Smart Attendance Tracking
-              </Badge>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-                Effortless Attendance with EkiliSync
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Smart location-based attendance tracking that automatically checks employees in and out. No manual
-                punching, no card swiping - just seamless, accurate attendance management.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="rounded-md h-12 px-8 text-base">
-                  Start Free Trial
-                  <ArrowRight className="ml-2 size-4" />
-                </Button>
-                <Button size="lg" variant="outline" className="rounded-md h-12 px-8 text-base bg-transparent">
-                  Watch Demo
-                </Button>
-              </div>
-              <div className="flex items-center justify-center gap-4 mt-6 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Check className="size-4 text-primary" />
-                  <span>No setup fees</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Check className="size-4 text-primary" />
-                  <span>30-day trial</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Check className="size-4 text-primary" />
-                  <span>Cancel anytime</span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="relative mx-auto max-w-5xl"
-            >
-              <div className="rounded-xl overflow-hidden shadow-2xl border border-border/40 bg-gradient-to-b from-background to-muted/20">
-                <img
-                  src="/images/ekiliSync.jpeg"
-                  width={1280}
-                  height={720}
-                  alt="EkiliSync dashboard showing real-time attendance tracking"
-                  className="w-full h-auto"
-                //   priority
-                />
-                <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10 dark:ring-white/10"></div>
-              </div>
-              <div className="absolute -bottom-6 -right-6 -z-10 h-[300px] w-[300px] rounded-md bg-gradient-to-br from-primary/30 to-secondary/30 blur-3xl opacity-70"></div>
-              <div className="absolute -top-6 -left-6 -z-10 h-[300px] w-[300px] rounded-md bg-gradient-to-br from-secondary/30 to-primary/30 blur-3xl opacity-70"></div>
-            </motion.div>
-          </div>
-        </section>
-
+        <HeroSection />
         {/* Logos Section */}
         <section className="w-full py-12 border-y bg-muted/30">
           <div className="container px-4 md:px-6">
@@ -278,53 +160,8 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-
         {/* Features Section */}
-        <section id="features" className="w-full py-20 md:py-32">
-          <div className="container px-4 md:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
-            >
-              <Badge className="rounded-md px-4 py-1.5 text-sm font-medium" variant="secondary">
-                Features
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-                Everything You Need for Smart Attendance
-              </h2>
-              <p className="max-w-[800px] text-muted-foreground md:text-lg">
-                EkiliSync provides comprehensive attendance management tools designed for modern workplaces, from small
-                teams to large organizations.
-              </p>
-            </motion.div>
-
-            <motion.div
-              variants={container}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {features.map((feature, i) => (
-                <motion.div key={i} variants={item}>
-                  <Card className="h-full overflow-hidden border-border/40 bg-gradient-to-b from-background to-muted/10 backdrop-blur transition-all hover:shadow-md">
-                    <CardContent className="p-6 flex flex-col h-full">
-                      <div className="size-10 rounded-md bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary mb-4">
-                        {feature.icon}
-                      </div>
-                      <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                      <p className="text-muted-foreground">{feature.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
+        <FeaturesSection />
         {/* How It Works Section */}
         <section className="w-full py-20 md:py-32 bg-muted/30 relative overflow-hidden">
           <div className="absolute inset-0 -z-10 h-full w-full bg-white dark:bg-black bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_40%,transparent_100%)]"></div>
