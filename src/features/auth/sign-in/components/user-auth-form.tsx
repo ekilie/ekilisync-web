@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
+import Api, { LoginDto } from '@/lib/api'
 
 type UserAuthFormProps = HTMLAttributes<HTMLFormElement>
 
@@ -49,24 +50,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     setIsLoading(true)
     setError(null)
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      if (!response.ok) {
-        const errorData = await response.json()
-        if (errorData.message === 'Email not verified') {
-          setError('Please verify your email before logging in.')
-        } else {
-          setError(errorData.message || 'Login failed')
-        }
-        return
-      }
-      const result = await response.json()
-      localStorage.setItem('token', result.access_token)
-      localStorage.setItem('user', JSON.stringify(result.user))
-      // redirect to dashboard
+      // Use the Api.login utility
+      const result = await Api.login({
+        email: data.email,
+        password: data.password,
+      } as LoginDto)
+      // Optionally handle result, e.g., redirect or store user info
+      // localStorage.setItem('token', result.token)
+      // localStorage.setItem('user', JSON.stringify(result.user))
     } catch (err: any) {
       setError(err.message)
     } finally {

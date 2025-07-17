@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
+import Api, { SignupDto } from '@/lib/api'
 
 type SignUpFormProps = HTMLAttributes<HTMLFormElement>
 
@@ -62,19 +63,14 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
     setError(null)
     setSuccess(null)
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-        }),
-      })
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || 'Registration failed')
+      // Use the Api.signup utility
+      const payload: SignupDto = {
+        officeName: data.name,
+        adminEmail: data.email,
+        adminPassword: data.password,
+        phoneNumber: data.officeId, // You may want to adjust this if officeId is not phoneNumber
       }
+      await Api.signup(payload)
       setSuccess('Registration successful! Please check your email to verify your account.')
     } catch (err: any) {
       setError(err.message)
