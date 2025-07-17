@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -5,6 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+
+export const Route = createFileRoute('/(auth)/employee-verify')({
+  component: EmployeeVerifyPage,
+})
 
 const formSchema = z.object({
   token: z.string().min(1, 'Verification token is required'),
@@ -42,8 +47,12 @@ export default function EmployeeVerifyPage() {
       }
       setSuccess('Account verified! You can now log in.')
       form.reset()
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError('An unexpected error occurred')
+      }
     } finally {
       setIsLoading(false)
     }

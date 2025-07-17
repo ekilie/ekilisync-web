@@ -31,6 +31,7 @@ import { Route as authSignIn2RouteImport } from './routes/(auth)/sign-in-2'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authOtpRouteImport } from './routes/(auth)/otp'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
+import { Route as authEmployeeVerifyRouteImport } from './routes/(auth)/employee-verify'
 import { Route as ClerkAuthenticatedRouteRouteImport } from './routes/clerk/_authenticated/route'
 import { Route as ClerkauthRouteRouteImport } from './routes/clerk/(auth)/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
@@ -159,6 +160,11 @@ const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authEmployeeVerifyRoute = authEmployeeVerifyRouteImport.update({
+  id: '/(auth)/employee-verify',
+  path: '/employee-verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClerkAuthenticatedRouteRoute = ClerkAuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => ClerkRouteRoute,
@@ -272,6 +278,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/clerk/': typeof ClerkauthRouteRouteWithChildren
+  '/employee-verify': typeof authEmployeeVerifyRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -310,6 +317,7 @@ export interface FileRoutesByTo {
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/employee-verify': typeof authEmployeeVerifyRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -353,6 +361,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/clerk/(auth)': typeof ClerkauthRouteRouteWithChildren
   '/clerk/_authenticated': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/(auth)/employee-verify': typeof authEmployeeVerifyRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/otp': typeof authOtpRoute
   '/(auth)/sign-in': typeof authSignInRoute
@@ -395,6 +404,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/settings'
     | '/clerk/'
+    | '/employee-verify'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -433,6 +443,7 @@ export interface FileRouteTypes {
     | '/support'
     | '/terms'
     | '/clerk'
+    | '/employee-verify'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -475,6 +486,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/clerk/(auth)'
     | '/clerk/_authenticated'
+    | '/(auth)/employee-verify'
     | '/(auth)/forgot-password'
     | '/(auth)/otp'
     | '/(auth)/sign-in'
@@ -515,6 +527,7 @@ export interface RootRouteChildren {
   PoliciesRoute: typeof PoliciesRoute
   SupportRoute: typeof SupportRoute
   TermsRoute: typeof TermsRoute
+  authEmployeeVerifyRoute: typeof authEmployeeVerifyRoute
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
   authSignInRoute: typeof authSignInRoute
@@ -681,6 +694,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof authForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/employee-verify': {
+      id: '/(auth)/employee-verify'
+      path: '/employee-verify'
+      fullPath: '/employee-verify'
+      preLoaderRoute: typeof authEmployeeVerifyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clerk/_authenticated': {
@@ -916,6 +936,7 @@ const rootRouteChildren: RootRouteChildren = {
   PoliciesRoute: PoliciesRoute,
   SupportRoute: SupportRoute,
   TermsRoute: TermsRoute,
+  authEmployeeVerifyRoute: authEmployeeVerifyRoute,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,
   authSignInRoute: authSignInRoute,
