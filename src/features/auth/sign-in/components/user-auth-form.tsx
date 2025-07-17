@@ -29,7 +29,7 @@ const formSchema = z.object({
     .min(1, {
       message: 'Please enter your password',
     })
-    .min(7, {
+    .min(3, {
       message: 'Password must be at least 7 characters long',
     }),
 })
@@ -55,10 +55,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         email: data.email,
         password: data.password,
       } as LoginDto)
+      console.log("LOGIN RESULT",result)
       // Optionally handle result, e.g., redirect or store user info
       // localStorage.setItem('token', result.token)
       // localStorage.setItem('user', JSON.stringify(result.user))
     } catch (err: any) {
+      console.log(err)
       setError(err.message)
     } finally {
       setIsLoading(false)

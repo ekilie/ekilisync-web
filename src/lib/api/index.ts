@@ -1,5 +1,5 @@
 // import { logger } from '../logger';
-import { setAuthToken } from './authToken';
+import { saveUser, setAuthToken } from './authToken';
 import api from './config';
 
 
@@ -19,7 +19,6 @@ class Api {
   static async signup(payload: SignupDto) {
     try {
       const res = await api(false).post('/auth/signup', payload);
-      setAuthToken({ access: res.data.token });
       return res.data;
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };
@@ -35,7 +34,10 @@ class Api {
       //   userId: res.data.user?.id,
       //   role: res.data.user?.role 
       // });
-      setAuthToken({ access: res.data.token });
+      setAuthToken({ access: res.data.data.access_token });
+      setAuthToken({ refresh: res.data.data.refresh_token });
+      saveUser(res.data.data.user)
+      window.location.href = '/dashboard'
       return res.data;
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };

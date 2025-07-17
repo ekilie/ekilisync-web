@@ -13,12 +13,12 @@ interface Props {
 
 export function AuthenticatedLayout({ children }: Props) {
   const defaultOpen = Cookies.get('sidebar_state') !== 'false'
-  const isAuthenticated = false
-  useEffect(()=>{
-    if (!isAuthenticated) {
-      window.location.href = '/sign-in'
-    }
-  })
+  // const isAuthenticated = false
+  // useEffect(()=>{
+  //   if (!isAuthenticated) {
+  //     window.location.href = '/sign-in'
+  //   }
+  // })
   return (
     <SearchProvider>
       <SidebarProvider defaultOpen={defaultOpen}>
