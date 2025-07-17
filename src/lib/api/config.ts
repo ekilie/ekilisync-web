@@ -6,6 +6,7 @@ const api = (authenticate: any) => {
   const config = axios.create({ baseURL: BASE_URL });
   config.defaults.headers.post['Content-Type'] = 'application/json';
   if (authenticate) {
+    //TODO:Will first check if the token is valid
     config.interceptors.request.use(
       async (c) => {
         const token = await authToken('access');

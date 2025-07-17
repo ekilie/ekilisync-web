@@ -2,22 +2,33 @@
 import { setAuthToken } from './authToken';
 import api from './config';
 
-export interface AssignClassTeacherDto {
-  className: string;
-  teacherEmail: string;
-  schoolUid: string;
+
+export interface SignupDto {
+  officeName: string;
+  adminEmail: string;
+  adminPassword: string;
+  phoneNumber: string;
 }
 
-export interface CreateSubjectDto {
-  name: string;
-  code: string;
-  description?: string;
-  schoolUid: string;
+export interface LoginDto {
+  email: string;
+  password: string;
 }
 
 class Api {
-  static async login(credentials: object) {
-    // logger.info('login', 'Attempting login', { email: (credentials as any).email });
+  static async signup(payload: SignupDto) {
+    try {
+      const res = await api(false).post('/auth/signup', payload);
+      setAuthToken({ access: res.data.token });
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Signup failed');
+    }
+  }
+
+  static async login(credentials: LoginDto) {
+    // logger.info('login', 'Attempting login', { email: credentials.email });
     try {
       const res = await api(false).post('/auth/login', credentials);
       // logger.success('login', 'Login successful', { 
@@ -26,9 +37,10 @@ class Api {
       // });
       setAuthToken({ access: res.data.token });
       return res.data;
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
       // logger.error('login', 'Login failed', error);
-      throw new Error(error.response?.data?.message || 'Authentication failed');
+      throw new Error(err.response?.data?.message || 'Authentication failed');
     }
   }
 
@@ -39,9 +51,10 @@ class Api {
       // logger.success('logout', 'Logout successful');
       setAuthToken({ access: '' });
       return res.data;
-    } catch (error: any) {
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
       // logger.error('logout', 'Logout failed', error);
-      throw new Error(error.response?.data?.message || 'Logout failed');
+      throw new Error(err.response?.data?.message || 'Logout failed');
     }
   }
 
