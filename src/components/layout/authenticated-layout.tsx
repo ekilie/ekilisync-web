@@ -5,6 +5,7 @@ import { SearchProvider } from '@/context/search-context'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/layout/app-sidebar'
 import SkipToMain from '@/components/skip-to-main'
+import { useEffect } from 'react'
 
 interface Props {
   children?: React.ReactNode
@@ -12,6 +13,12 @@ interface Props {
 
 export function AuthenticatedLayout({ children }: Props) {
   const defaultOpen = Cookies.get('sidebar_state') !== 'false'
+  const isAuthenticated = false
+  useEffect(()=>{
+    if (!isAuthenticated) {
+      window.location.href = '/sign-in'
+    }
+  })
   return (
     <SearchProvider>
       <SidebarProvider defaultOpen={defaultOpen}>
