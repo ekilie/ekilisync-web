@@ -34,7 +34,6 @@ export const setAuthToken = async (tokens: { [x: string]: string }) => {
   );
 };
 
-
 export const saveUser = async (user: any) => {
   await storage.setItem('ekili-sync:user', JSON.stringify(user));
 };
