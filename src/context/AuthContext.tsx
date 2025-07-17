@@ -27,8 +27,8 @@ const login: LoginFunction = (userData) => {
     setUser(null)
   }
     const isAuthenticated = () => {
-    return user !== null
-  }
+      return user !== null
+    }
   return (
     <AuthContext.Provider
       value={{
