@@ -20,13 +20,12 @@ type JwtPayload = {
 export function isJwtExpired(token: string): boolean {
   try {
     const decoded = jwtDecode<JwtPayload>(token);
-    console.log("DECODED",decoded)
 
     if (!decoded.exp) return true; // if no exp, i assume expired
 
     const now = Math.floor(Date.now() / 1000); // current time in seconds
     return decoded.exp < now;
-  } catch (e) {
+  } catch (_e) {
     return true; // if decoding fails, i treat it as expired
   }
 }
