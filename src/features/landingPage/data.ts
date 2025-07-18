@@ -25,37 +25,23 @@ export const testimonials = [
   {
     quote:
       'ekiliSync eliminated our attendance headaches completely. No more manual tracking or disputes about working hours. It just works!',
-    author: 'Sarah Johnson',
-    role: 'HR Manager, TechCorp',
+    author: 'Tachera W',
+    role: 'Founder, ekilie',
     rating: 5,
   },
   {
     quote:
       'The location-based tracking is incredibly accurate. Our employees love not having to remember to punch in and out every day.',
-    author: 'Michael Chen',
-    role: 'Operations Director, StartupHub',
-    rating: 5,
+    author: 'Grayson Julis',
+    role: 'Business Director, iPFSoftwares',
+    rating: 4,
   },
   {
     quote:
       'Implementation was seamless and the real-time reports have given us insights we never had before. Highly recommended!',
-    author: 'Emily Rodriguez',
-    role: 'People Operations, GrowthLabs',
-    rating: 5,
-  },
-  {
-    quote:
-      "We've tried several attendance systems, but ekiliSync's mobile-first approach is exactly what our remote-hybrid team needed.",
-    author: 'David Kim',
-    role: 'CEO, FlexiWork',
-    rating: 5,
-  },
-  {
-    quote:
-      'The accuracy of working hours calculation has improved our payroll process significantly. No more manual corrections needed.',
-    author: 'Lisa Patel',
-    role: 'Finance Director, ScaleUp Inc',
-    rating: 5,
+    author: 'Nelson Malekela',
+    role: 'Stratergy director, iPFSoftwares',
+    rating: 4,
   },
 ];
 
