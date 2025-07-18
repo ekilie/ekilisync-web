@@ -11,6 +11,12 @@ type JwtPayload = {
   [key: string]: any;
 };
 
+
+/**
+ * 
+ * @param token string
+ * @returns True if the token has expired
+ */
 export function isJwtExpired(token: string): boolean {
   try {
     const decoded = jwtDecode<JwtPayload>(token);
