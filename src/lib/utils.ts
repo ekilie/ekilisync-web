@@ -14,6 +14,7 @@ type JwtPayload = {
 export function isJwtExpired(token: string): boolean {
   try {
     const decoded = jwtDecode<JwtPayload>(token);
+    console.log("DECODED",decoded)
 
     if (!decoded.exp) return true; // if no exp, i assume expired
 
