@@ -1,50 +1,69 @@
-import React, { createContext } from 'react'
-
-const AuthContext = createContext(null)
-
-interface AuthProviderProps {
-  children: React.ReactNode;
-}
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState(null)
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { isJwtExpired } from '@/lib/utils';
+import { authToken, setAuthToken, saveUser, currentUser, clearCache } from '@/lib/api/authToken/index';
 
 interface User {
-    id: string;
-    name: string;
-    email: string;
+  id: string;
+  name: string;
+  email: string;
+  [key: string]: any;
 }
 
-interface LoginFunction {
-    (userData: User): void;
+interface AuthContextType {
+  user: User | null;
+  login: (userData: User, token: string) => Promise<void>;
+  logout: () => Promise<void>;
+  isAuthenticated: boolean;
 }
 
-const login: LoginFunction = (userData) => {
-    setUser(userData)
-}
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-  const logout = () => {
-    setUser(null)
-  }
-    const isAuthenticated = () => {
-      return user !== null
-    }
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = await authToken('access');
+      const storedUser = await currentUser();
+      if (token && !isJwtExpired(token) && storedUser) {
+        setUser(storedUser);
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuth();
+  }, []);
+
+  const login = async (userData: User, token: string) => {
+    await setAuthToken({ access: token });
+    await saveUser(userData);
+    setUser(userData);
+    setIsAuthenticated(true);
+  };
+
+  const logout = async () => {
+    await clearCache();
+    setUser(null);
+    setIsAuthenticated(false);
+  };
+
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        login,
-        logout,
-        isAuthenticated,
-      }}
-    >
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export default AuthContext
-function useState(_arg0: null): [any, any] {
-    throw new Error('Function not implemented.');
-}
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+
+export default AuthContext;
 
