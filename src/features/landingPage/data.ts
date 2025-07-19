@@ -28,7 +28,7 @@ export const testimonials = [
     author: 'Tachera W',
     role: 'Founder, ekilie',
     rating: 5,
-  },
+  }, 
   {
     quote:
       'The location-based tracking is incredibly accurate. Our employees love not having to remember to punch in and out every day.',
