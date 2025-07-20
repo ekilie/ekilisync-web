@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { isJwtExpired } from '@/lib/utils';
 import { authToken, setAuthToken, saveUser, currentUser, clearCache } from '@/lib/api/authToken/index';
 

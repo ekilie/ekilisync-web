@@ -1,10 +1,11 @@
 {
-  "name": "shadcn-admin",
+  "name": "ekilisync",
   "private": false,
   "version": "1.4.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "tauri:dev":"tauri dev",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
