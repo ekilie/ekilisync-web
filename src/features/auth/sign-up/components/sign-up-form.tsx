@@ -26,6 +26,7 @@ const formSchema = z
       .string()
       .min(1, { message: 'Please enter your email' })
       .email({ message: 'Invalid email address' }),
+    phone: z.string().optional(),
     password: z
       .string()
       .min(1, {
@@ -35,7 +36,6 @@ const formSchema = z
         message: 'Password must be at least 7 characters long',
       }),
     confirmPassword: z.string(),
-    officeId: z.string().min(1, { message: 'Please select an office' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match.",
@@ -68,7 +68,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
         officeName: data.name,
         adminEmail: data.email,
         adminPassword: data.password,
-        phoneNumber: data.phone, 
+        phoneNumber: data.phone ?? '',
       }
       const res = await Api.signup(payload)
       console.log(res)

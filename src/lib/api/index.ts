@@ -18,7 +18,8 @@ export interface LoginDto {
 class Api {
   static async signup(payload: SignupDto) {
     try {
-      const res = await api(false).post('/auth/signup', payload);
+      const res = await api(false).post('/auth/register', payload);
+      window.location.href = '/sign-in'
       return res.data;
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };
