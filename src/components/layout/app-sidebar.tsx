@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 import {
   Sidebar,
   SidebarContent,
@@ -9,8 +10,13 @@ import { NavGroup } from '@/components/layout/nav-group'
 import { NavUser } from '@/components/layout/nav-user'
 import { TeamSwitcher } from '@/components/layout/team-switcher'
 import { sidebarData } from './data/sidebar-data'
+import { currentUser } from '@/lib/api/authToken'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user, setUser] = useState(null)
+  useEffect(() => {
+    currentUser().then(setUser)
+  }, [])
   return (
     <Sidebar collapsible='icon' variant='floating' {...props}>
       <SidebarHeader>
@@ -22,7 +28,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={sidebarData.user} />
+        {user ? <NavUser user={user} /> : null}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

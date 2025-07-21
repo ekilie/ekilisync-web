@@ -11,24 +11,37 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useEffect, useState } from 'react'
+import { currentUser } from '@/lib/api/authToken'
+
+// Explicit user type
+interface User {
+  name: string
+  email: string
+  avatar: string
+}
 
 export function ProfileDropdown() {
+  const [user, setUser] = useState<User | null>(null)
+  useEffect(() => {
+    currentUser().then(setUser)
+  }, [])
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
           <Avatar className='h-8 w-8'>
-            <AvatarImage src='/avatars/01.png' alt='@shadcn' />
-            <AvatarFallback>SN</AvatarFallback>
+            <AvatarImage src={user?.avatar} alt={user?.name || '@user'} />
+            <AvatarFallback>{user?.name ? user.name[0].toLocaleUpperCase() : '?'}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56' align='end' forceMount>
         <DropdownMenuLabel className='font-normal'>
           <div className='flex flex-col space-y-1'>
-            <p className='text-sm leading-none font-medium'>satnaing</p>
+            <p className='text-sm leading-none font-medium'>{user?.name || '...'}</p>
             <p className='text-muted-foreground text-xs leading-none'>
-              satnaingdev@gmail.com
+              {user?.email || ''}
             </p>
           </div>
         </DropdownMenuLabel>
