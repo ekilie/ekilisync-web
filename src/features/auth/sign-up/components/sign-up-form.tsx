@@ -54,7 +54,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
       email: '',
       password: '',
       confirmPassword: '',
-      officeId: '',
+      phone: '',
     },
   })
 
@@ -68,7 +68,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
         officeName: data.name,
         adminEmail: data.email,
         adminPassword: data.password,
-        phoneNumber: data.officeId, // You may want to adjust this if officeId is not phoneNumber
+        phoneNumber: data.phone, 
       }
       await Api.signup(payload)
       setSuccess('Registration successful! Please check your email to verify your account.')
@@ -107,6 +107,19 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input placeholder='admin@office.com' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='phone'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone</FormLabel>
+              <FormControl>
+                <Input placeholder='+255xxx' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
