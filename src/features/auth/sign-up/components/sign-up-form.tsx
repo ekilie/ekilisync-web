@@ -70,7 +70,8 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
         adminPassword: data.password,
         phoneNumber: data.phone, 
       }
-      await Api.signup(payload)
+      const res = await Api.signup(payload)
+      console.log(res)
       setSuccess('Registration successful! Please check your email to verify your account.')
     } catch (err: any) {
       setError(err.message)
