@@ -11,7 +11,7 @@ import UsersProvider from './context/users-context'
 import { userListSchema } from './data/schema'
 import { users } from './data/users'
 
-export default function Users() {
+export default function Employees() {
   // Parse user list
   const userList = userListSchema.parse(users)
 
@@ -30,7 +30,7 @@ export default function Users() {
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>Employee List</h2>
             <p className='text-muted-foreground'>
-              Manage your users and their roles here.
+              Manage your employees and their roles here.
             </p>
           </div>
           <UsersPrimaryButtons />
