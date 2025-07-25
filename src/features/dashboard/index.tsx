@@ -12,8 +12,35 @@ import { TopNav } from '@/components/layout/top-nav'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { useEffect, useState } from 'react'
+import Api from '@/lib/api'
+import { currentUser } from '@/lib/api/authToken'
+
+type CountData = {
+  employee:number
+  checkedIn: number
+  lateCheckedIn: number
+}
 
 export default function Dashboard() {
+  const user = currentUser()
+  const officeId = user?.office?.Id;
+  const [count, setCount] = useState<CountData | null>({
+    employee: 0,
+    checkedIn: 0,
+    lateCheckedIn: 0
+  });
+  useEffect(()=>{
+    const fetchCount = async () => {
+      try {
+        const response = await Api.getCount(officeId);
+        setCount(response.count);
+      } catch (error) {
+        console.error('Failed to fetch count:', error);
+      }
+    };
+    fetchCount();
+  })
   return (
     <>
       {/* ===== Top Heading ===== */}
@@ -75,7 +102,7 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>125</div>
+                  <div className='text-2xl font-bold'>{count?.employee}</div>
                   <p className='text-muted-foreground text-xs'>
                     +5 new this week
                   </p>
@@ -101,7 +128,7 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>93</div>
+                  <div className='text-2xl font-bold'>{count?.checkedIn}</div>
                   <p className='text-muted-foreground text-xs'>
                     74% attendance rate
                   </p>
@@ -127,7 +154,7 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>18</div>
+                  <div className='text-2xl font-bold'>{count?.lateCheckedIn}</div>
                   <p className='text-muted-foreground text-xs'>
                     +4 since yesterday
                   </p>

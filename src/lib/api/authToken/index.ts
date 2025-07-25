@@ -1,3 +1,14 @@
+export interface CurrentUser{
+  id:string,
+  name:string,
+  email:string,
+  role:string,
+  office:Office,
+}
+export interface Office{
+
+}
+
 const storage = {
   getItem: async (key: string): Promise<string | null> => {
     if (typeof window !== 'undefined') {
