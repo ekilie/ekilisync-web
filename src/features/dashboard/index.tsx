@@ -153,9 +153,9 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>3</div>
+                  <div className='text-2xl font-bold'>1</div>
                   <p className='text-muted-foreground text-xs'>
-                    Main Office, HQ, Remote Hub
+                    Main Office{/* , HQ, Remote Hub */}
                   </p>
                 </CardContent>
               </Card>
