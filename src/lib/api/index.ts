@@ -63,9 +63,9 @@ class Api {
 
   static async getCount(officeId: string) {
     try {
-      const res = await api(true).post('/offices/count/'+officeId);
-      console.log('getCount', res.data);
-      return res.data;
+      const res = await api(true).get('/offices/count/'+officeId);
+      console.log('getCount', res.data.data);
+      return res.data.data;
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };
       throw new Error(err.response?.data?.message || 'failed');

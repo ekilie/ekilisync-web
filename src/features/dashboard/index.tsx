@@ -14,33 +14,46 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { useEffect, useState } from 'react'
 import Api from '@/lib/api'
-import { currentUser } from '@/lib/api/authToken'
+import { CurrentUser } from '@/lib/api/authToken'
 
-type CountData = {
-  employee:number
+interface CountData{
+  employees:number
   checkedIn: number
   lateCheckedIn: number
 }
 
 export default function Dashboard() {
-  const user = currentUser()
-  const officeId = user?.office?.Id;
+  // const [currentUserData, setCurrentUserData] = useState<CurrentUser | null>({});
+  const currentUserData = localStorage.getItem('ekili-sync:user');
+  const parsedUserData = currentUserData ? JSON.parse(currentUserData) : null;
+  const [currentUser, _setCurrentUserData] = useState<CurrentUser | null>(parsedUserData);
+  const office = currentUser?.office;
+  const officeId = office ? office.id : '';
   const [count, setCount] = useState<CountData | null>({
-    employee: 0,
+    employees: 0,
     checkedIn: 0,
     lateCheckedIn: 0
   });
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const user = await currentUser();
+  //     setCurrentUserData(user);
+  //   };
+  //   fetchUser();
+  // }, []);
+
   useEffect(()=>{
     const fetchCount = async () => {
       try {
         const response = await Api.getCount(officeId);
-        setCount(response.count);
+        console.log('Count data:', response);
+        setCount(response);
       } catch (error) {
         console.error('Failed to fetch count:', error);
       }
     };
     fetchCount();
-  })
+  },[currentUserData,officeId])
   return (
     <>
       {/* ===== Top Heading ===== */}
@@ -102,7 +115,7 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>{count?.employee}</div>
+                  <div className='text-2xl font-bold'>{count?.employees}</div>
                   <p className='text-muted-foreground text-xs'>
                     +5 new this week
                   </p>

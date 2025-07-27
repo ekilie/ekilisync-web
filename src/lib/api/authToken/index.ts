@@ -1,4 +1,4 @@
-export interface CurrentUser{
+export interface CurrentUser {
   id:string,
   name:string,
   email:string,
@@ -6,7 +6,16 @@ export interface CurrentUser{
   office:Office,
 }
 export interface Office{
-
+  id:any //for now
+  name:string,
+  latitude:any,
+  longitude:any,
+  address:string,
+  phoneNumber:string,
+  email:string,
+  logoUrl:string,
+  createdAt:string,
+  updatedAt:string
 }
 
 const storage = {
@@ -45,7 +54,7 @@ export const setAuthToken = async (tokens: { [x: string]: string }) => {
   );
 };
 
-export const saveUser = async (user: any) => {
+export const saveUser = async (user: CurrentUser) => {
   await storage.setItem('ekili-sync:user', JSON.stringify(user));
 };
 
@@ -53,7 +62,7 @@ export const saveUserData = async (user: any) => {
   await storage.setItem('ekili-sync:user-data', JSON.stringify(user));
 };
 
-export const currentUser = async () => {
+export const currentUser = async ():Promise<CurrentUser | null> => {
   const user = await storage.getItem('ekili-sync:user');
   return user ? JSON.parse(user) : null;
 };
