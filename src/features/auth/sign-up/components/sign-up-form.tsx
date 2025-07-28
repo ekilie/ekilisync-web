@@ -63,7 +63,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
     setError(null)
     setSuccess(null)
     try {
-      // Use the Api.signup utility
+      // Using the Api.signup utility
       const payload: SignupDto = {
         officeName: data.name,
         adminEmail: data.email,

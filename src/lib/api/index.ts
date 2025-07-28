@@ -26,7 +26,6 @@ class Api {
   }
 
   static async login(credentials: LoginDto) {
-    // logger.info('login', 'Attempting login', { email: credentials.email });
     try {
       const res = await api(false).post('/auth/login', credentials);
       setAuthToken({ access: res.data.data.access_token });
@@ -41,7 +40,6 @@ class Api {
   }
 
   static async logout() {
-    // logger.info('logout', 'Attempting logout');
     try {
       const res = await api(true).post('/auth/logout');
       setAuthToken({ access: '' });
