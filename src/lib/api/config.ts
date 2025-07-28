@@ -13,6 +13,7 @@ const api = (authenticate: any) => {
         if (token) {
           checkTokenValidity(token)
           c.headers.Authorization = 'Bearer ' + token;
+          //
         }
         return c;
       },

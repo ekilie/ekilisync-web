@@ -1,4 +1,3 @@
-// import { logger } from '../logger';
 import { saveUser, setAuthToken } from './authToken';
 import api from './config';
 
@@ -31,10 +30,6 @@ class Api {
     // logger.info('login', 'Attempting login', { email: credentials.email });
     try {
       const res = await api(false).post('/auth/login', credentials);
-      // logger.success('login', 'Login successful', { 
-      //   userId: res.data.user?.id,
-      //   role: res.data.user?.role 
-      // });
       setAuthToken({ access: res.data.data.access_token });
       setAuthToken({ refresh: res.data.data.refresh_token });
       saveUser(res.data.data.user)
@@ -42,7 +37,6 @@ class Api {
       return res.data;
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };
-      // logger.error('login', 'Login failed', error);
       throw new Error(err.response?.data?.message || 'Authentication failed');
     }
   }
@@ -51,12 +45,10 @@ class Api {
     // logger.info('logout', 'Attempting logout');
     try {
       const res = await api(true).post('/auth/logout');
-      // logger.success('logout', 'Logout successful');
       setAuthToken({ access: '' });
       return res.data;
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };
-      // logger.error('logout', 'Logout failed', error);
       throw new Error(err.response?.data?.message || 'Logout failed');
     }
   }
