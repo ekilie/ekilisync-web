@@ -34,7 +34,7 @@ export default function SignIn() {
             </a>{' '}
             and{' '}
             <a
-              href='/privacy'
+              href='/policies'
               className='hover:text-primary underline underline-offset-4'
             >
               Privacy Policy
