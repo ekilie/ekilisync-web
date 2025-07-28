@@ -1,7 +1,6 @@
 import { saveUser, setAuthToken } from './authToken';
 import api from './config';
 
-
 export interface SignupDto {
   officeName: string;
   adminEmail: string;
@@ -63,6 +62,18 @@ class Api {
       throw new Error(err.response?.data?.message || 'failed');
     }
   }
+
+  static async getEmployees(officeId: string) {
+    try {
+      const res = await api(true).get('/employees/office/'+officeId);
+      console.log('getEmployees', res.data.data);
+      return res.data.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'failed');
+    }
+  }
+  
 
 }
 
