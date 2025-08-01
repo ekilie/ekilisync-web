@@ -71,6 +71,10 @@ class Api {
       throw new Error(err.response?.data?.message || 'failed');
     }
   }
+
+  static async getUsers(){
+    
+  }
   
 
 }

@@ -179,7 +179,10 @@ export default function LandingPage() {
       <main className='flex-1'>
         {/* Hero Section */}
         <HeroSection />
+
+        {/* Trusted By Section */}
         <TrustedBy />
+
         {/* Features Section */}
         <FeaturesSection />
         {/* How It Works Section */}

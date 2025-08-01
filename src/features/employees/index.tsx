@@ -10,10 +10,24 @@ import { UsersTable } from './components/users-table'
 import UsersProvider from './context/users-context'
 import { userListSchema } from './data/schema'
 import { users } from './data/users'
+import { use, useEffect, useState } from 'react'
+import Api from '@/lib/api'
+import { currentUser, officeData } from '@/lib/api/authToken'
 
 export default function Employees() {
+  const [employees, setEmployees] = useState([])
   // Parse user list
-  const userList = userListSchema.parse(users)
+  const userList = userListSchema.parse(employees)
+  const office = officeData()
+
+  useEffect(()=>{
+    const fetchEmployees = async () => {
+      const response = await Api.getEmployees(office?.id || '')
+      console.log('Fetching employees data...', response)
+      setEmployees(response)
+    }
+    fetchEmployees()
+  }, [])
 
   return (
     <UsersProvider>

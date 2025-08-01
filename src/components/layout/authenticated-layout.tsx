@@ -7,7 +7,6 @@ import { AppSidebar } from '@/components/layout/app-sidebar'
 import SkipToMain from '@/components/skip-to-main'
 import { useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import { currentUser } from '@/lib/api/authToken'
 
 interface Props {
   children?: React.ReactNode

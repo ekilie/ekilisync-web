@@ -67,6 +67,15 @@ export const currentUser = async ():Promise<CurrentUser | null> => {
   return user ? JSON.parse(user) : null;
 };
 
+export const officeData = ()=> {
+  const data = localStorage.getItem('ekili-sync:user');
+  if (data) {
+    const user: CurrentUser = JSON.parse(data);
+    return user.office;
+  }
+  return null;
+}
+
 export const userData = async () => {
   const user = await storage.getItem('ekili-sync:user-data');
   return user ? JSON.parse(user) : null;
