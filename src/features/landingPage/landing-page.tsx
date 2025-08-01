@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import HeroSection from '@/features/landingPage/HeroSection'
 import FeaturesSection from './FeaturesSection'
 import { howItWorksSteps, testimonials, pricingPlans, faqs } from './data'
+import TrustedBy from '@/features/landingPage/TrustedBy'
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -178,7 +179,7 @@ export default function LandingPage() {
       <main className='flex-1'>
         {/* Hero Section */}
         <HeroSection />
-        
+        <TrustedBy />
         {/* Features Section */}
         <FeaturesSection />
         {/* How It Works Section */}
