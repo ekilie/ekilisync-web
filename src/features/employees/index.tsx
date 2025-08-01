@@ -9,10 +9,9 @@ import { UsersPrimaryButtons } from './components/users-primary-buttons'
 import { UsersTable } from './components/users-table'
 import UsersProvider from './context/users-context'
 import { userListSchema } from './data/schema'
-import { users } from './data/users'
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Api from '@/lib/api'
-import { currentUser, officeData } from '@/lib/api/authToken'
+import { officeData } from '@/lib/api/authToken'
 
 export default function Employees() {
   const [employees, setEmployees] = useState([])
