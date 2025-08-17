@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,6 +17,7 @@ import {
 } from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Switch } from '@/components/ui/switch'
+import { ComingSoonDialog } from '@/components/coming-soon-dialog'
 
 const notificationsFormSchema = z.object({
   type: z.enum(['all', 'mentions', 'none'], {
@@ -43,11 +45,14 @@ export function NotificationsForm() {
     resolver: zodResolver(notificationsFormSchema),
     defaultValues,
   })
+  const [open, setOpen] = useState(false)
 
   return (
     <Form {...form}>
+      <ComingSoonDialog open={open} onOpenChange={setOpen} />
+
       <form
-        onSubmit={form.handleSubmit((data) => showSubmittedData(data))}
+        onSubmit={form.handleSubmit(() => setOpen(true))}
         className='space-y-8'
       >
         <FormField
