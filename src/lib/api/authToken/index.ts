@@ -74,15 +74,16 @@ export const officeData = ()=> {
     return user.office;
   }
   return null;
-}
+};
 
-export const userData = async () => {
-  const user = await storage.getItem('ekili-sync:user-data');
+//The synchronous way
+export const userData = () => {
+  const user = localStorage.getItem('ekili-sync:user');
   return user ? JSON.parse(user) : null;
 };
 
 export const userLocation = async () => {
-  const user = await storage.getItem('ekili-sync:user-data');
+  const user = await storage.getItem('ekili-sync:user');
   return user ? JSON.parse(user).userInfo.location : null;
 };
 

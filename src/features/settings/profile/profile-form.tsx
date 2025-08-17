@@ -15,14 +15,9 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { CurrentUser, userData } from '@/lib/api/authToken'
+import { useEffect, useState } from 'react'
 
 const profileFormSchema = z.object({
   username: z
@@ -65,6 +60,11 @@ export default function ProfileForm() {
     defaultValues,
     mode: 'onChange',
   })
+  const [ user, setUser ] = useState<CurrentUser | null>(null)
+  
+  useEffect(() => {
+    setUser(userData())
+  },[])
 
   const { fields, append } = useFieldArray({
     name: 'urls',
@@ -84,7 +84,7 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder='shadcn' {...field} />
+                <Input placeholder='ekilie' {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a
@@ -100,22 +100,9 @@ export default function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder='Select a verified email to display' />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value='m@example.com'>m@example.com</SelectItem>
-                  <SelectItem value='m@google.com'>m@google.com</SelectItem>
-                  <SelectItem value='m@support.com'>m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                You can manage verified email addresses in your{' '}
-                <Link to='/'>email settings</Link>.
-              </FormDescription>
+              <FormControl>
+                <Input placeholder='you@ekilie.com' {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
