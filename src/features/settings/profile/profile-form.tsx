@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@tanstack/react-router'
-import { CurrentUser, userData } from '@/lib/api/authToken'
 import { cn } from '@/lib/utils'
 import { showSubmittedData } from '@/utils/show-submitted-data'
 import { Button } from '@/components/ui/button'
@@ -18,6 +16,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { CurrentUser, userData } from '@/lib/api/authToken'
+import { useEffect, useState } from 'react'
 
 const profileFormSchema = z.object({
   username: z
@@ -45,25 +45,25 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
+const defaultValues: Partial<ProfileFormValues> = {
+  bio: 'I love ekiliSync.',
+  urls: [
+    { value: 'https://ekilie.com' },
+    { value: 'http://sync.ekilie.com' },
+  ],
+}
+
 export default function ProfileForm() {
-  const [user, setUser] = useState<CurrentUser | null>(null)
-  const defaultValues: Partial<ProfileFormValues> = {
-    bio: 'I own a computer.',
-    username: user?.name || '',
-    urls: [
-      { value: 'https://shadcn.com' },
-      { value: 'http://twitter.com/shadcn' },
-    ],
-  }
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
     mode: 'onChange',
   })
-
+  const [ user, setUser ] = useState<CurrentUser | null>(null)
+  
   useEffect(() => {
     setUser(userData())
-  }, [])
+  },[])
 
   const { fields, append } = useFieldArray({
     name: 'urls',
@@ -83,11 +83,10 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder='ekilie' {...field} />
+                <Input placeholder={user?.name ?? 'ekilie'} {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                This is your public user profile name
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -100,7 +99,7 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder='you@ekilie.com' {...field} />
+                <Input placeholder={user?.email ?? 'you@ekilie.com'} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
