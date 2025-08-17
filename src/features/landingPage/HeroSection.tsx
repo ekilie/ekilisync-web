@@ -27,11 +27,11 @@ export default function HeroSection() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="rounded-md h-12 px-8 text-base">
-              Start Free Trial
+              Get started for free
               <ArrowRight className="ml-2 size-4" />
             </Button>
             <Button size="lg" variant="outline" className="rounded-md h-12 px-8 text-base bg-transparent">
-              Watch Demo
+              Dive In
             </Button>
           </div>
           <div className="flex items-center justify-center gap-4 mt-6 text-sm text-muted-foreground">

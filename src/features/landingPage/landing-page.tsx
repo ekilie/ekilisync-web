@@ -181,7 +181,7 @@ export default function LandingPage() {
         <HeroSection />
 
         {/* Trusted By Section */}
-        <TrustedBy />
+        {/* <TrustedBy /> */}
 
         {/* Features Section */}
         <FeaturesSection />
