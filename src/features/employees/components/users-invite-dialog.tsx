@@ -64,16 +64,16 @@ export function UsersInviteDialog({ open, onOpenChange }: Props) {
       <DialogContent className='sm:max-w-md'>
         <DialogHeader className='text-left'>
           <DialogTitle className='flex items-center gap-2'>
-            <IconMailPlus /> Invite User
+            <IconMailPlus /> Invite employee
           </DialogTitle>
           <DialogDescription>
-            Invite new user to join your team by sending them an email
+            Invite new employee to join your team by sending them an email
             invitation. Assign a role to define their access level.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
-            id='user-invite-form'
+            id='employee-invite-form'
             onSubmit={form.handleSubmit(onSubmit)}
             className='space-y-4'
           >
