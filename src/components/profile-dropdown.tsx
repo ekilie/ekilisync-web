@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from 'react'
 import { currentUser } from '@/lib/api/authToken'
 
-// Explicit user type
+// Explicit user type with avatar fallback
 interface User {
   name: string
   email: string
@@ -24,7 +24,15 @@ interface User {
 export function ProfileDropdown() {
   const [user, setUser] = useState<User | null>(null)
   useEffect(() => {
-    currentUser().then(setUser)
+    currentUser().then((currentUserData) => {
+      if (currentUserData) {
+        setUser({
+          name: currentUserData.name,
+          email: currentUserData.email,
+          avatar: currentUserData.office?.logoUrl || '' // Use office logo as avatar
+        })
+      }
+    })
   }, [])
   return (
     <DropdownMenu modal={false}>

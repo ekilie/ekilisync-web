@@ -47,12 +47,19 @@ export default function Dashboard() {
       try {
         const response = await Api.getCount(officeId);
         console.log('Count data:', response);
-        setCount(response);
+        // Map the response to match CountData interface
+        setCount({
+          employees: response.totalEmployees,
+          checkedIn: response.checkedIn,
+          lateCheckedIn: 0 // This field doesn't exist in OfficeCountResponse, so defaulting to 0
+        });
       } catch (error) {
         console.error('Failed to fetch count:', error);
       }
     };
-    fetchCount();
+    if (officeId) {
+      fetchCount();
+    }
   },[currentUserData,officeId])
   return (
     <>

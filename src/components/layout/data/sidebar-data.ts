@@ -1,14 +1,13 @@
 import {
-  IconBrowserCheck,
   IconHelp,
   IconLayoutDashboard,
   IconNotification,
   IconPackages,
   IconPalette,
   IconSettings,
-  IconTool,
   IconUserCog,
   IconUsers,
+  IconClockCheck,
 } from '@tabler/icons-react'
 import {  Command } from 'lucide-react'
 import { type SidebarData } from '../types'
@@ -34,6 +33,11 @@ export const sidebarData: SidebarData = {
           title: 'Dashboard',
           url: '/dashboard',
           icon: IconLayoutDashboard,
+        },
+        {
+          title: 'Attendance',
+          url: '/attendance',
+          icon: IconClockCheck,
         },
         // {
         //   title: 'Tasks',

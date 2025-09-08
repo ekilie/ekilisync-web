@@ -15,7 +15,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import HeroSection from '@/features/landingPage/HeroSection'
 import FeaturesSection from './FeaturesSection'
 import { howItWorksSteps, testimonials, pricingPlans, faqs } from './data'
-import TrustedBy from '@/features/landingPage/TrustedBy'
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false)
