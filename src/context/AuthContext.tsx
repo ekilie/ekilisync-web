@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { isJwtExpired } from '@/lib/utils';
-import { authToken, setAuthToken, saveUser, currentUser, clearCache } from '@/lib/api/authToken/index';
+import { authToken, setAuthToken, saveUser, currentUser, clearCache, CurrentUser } from '@/lib/api/authToken/index';
 
 interface User {
   id: string;
@@ -27,7 +27,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const token = await authToken('access');
       const storedUser = await currentUser();
       if (token && !isJwtExpired(token) && storedUser) {
-        setUser(storedUser);
+        // Convert CurrentUser to User interface
+        const userForState: User = {
+          id: storedUser.id,
+          name: storedUser.name,
+          email: storedUser.email,
+          role: storedUser.role,
+          office: storedUser.office
+        };
+        setUser(userForState);
         setIsAuthenticated(true);
       } else {
         setUser(null);
@@ -39,7 +47,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (userData: User, token: string) => {
     await setAuthToken({ access: token });
-    await saveUser(userData);
+    // Convert User to CurrentUser for storage
+    const currentUserData: CurrentUser = {
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
+      role: userData.role || 'employee',
+      office: userData.office || {
+        id: '',
+        name: '',
+        latitude: null,
+        longitude: null,
+        address: '',
+        phoneNumber: '',
+        email: '',
+        logoUrl: '',
+        createdAt: '',
+        updatedAt: ''
+      }
+    };
+    await saveUser(currentUserData);
     setUser(userData);
     setIsAuthenticated(true);
   };

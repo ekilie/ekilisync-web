@@ -1,9 +1,7 @@
 import { z } from 'zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
-import { showSubmittedData } from '@/utils/show-submitted-data'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -73,7 +71,7 @@ export default function ProfileForm() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((data) => showSubmittedData(data))}
+        onSubmit={form.handleSubmit((data) => console.log('Profile updated:', data))}
         className='space-y-8'
       >
         <FormField

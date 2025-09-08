@@ -1,12 +1,10 @@
 import {
-  IconBrowserCheck,
   IconHelp,
   IconLayoutDashboard,
   IconNotification,
   IconPackages,
   IconPalette,
   IconSettings,
-  IconTool,
   IconUserCog,
   IconUsers,
 } from '@tabler/icons-react'
