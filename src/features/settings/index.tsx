@@ -1,5 +1,6 @@
 import { Outlet } from '@tanstack/react-router'
 import {
+  IconCreditCard,
   IconNotification,
   IconPalette,
   IconUser,
@@ -58,6 +59,11 @@ const sidebarNavItems = [
   //   icon: <IconTool size={18} />,
   //   href: '/settings/account',
   // },
+  {
+    title: 'Billing',
+    icon: <IconCreditCard size={18} />,
+    href: '/settings/billing',
+  },
   {
     title: 'Appearance',
     icon: <IconPalette size={18} />,
