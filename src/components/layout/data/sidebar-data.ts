@@ -7,7 +7,6 @@ import {
   IconSettings,
   IconUserCog,
   IconUsers,
-  IconClockCheck,
 } from '@tabler/icons-react'
 import {  Command } from 'lucide-react'
 import { type SidebarData } from '../types'
@@ -34,11 +33,12 @@ export const sidebarData: SidebarData = {
           url: '/dashboard',
           icon: IconLayoutDashboard,
         },
-        {
-          title: 'Attendance',
-          url: '/attendance',
-          icon: IconClockCheck,
-        },
+        // Removed attendance - functionality now merged into dashboard
+        // {
+        //   title: 'Attendance',
+        //   url: '/attendance',
+        //   icon: IconClockCheck,
+        // },
         // {
         //   title: 'Tasks',
         //   url: '/tasks',
