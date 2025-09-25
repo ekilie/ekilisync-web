@@ -50,11 +50,11 @@ export const sidebarData: SidebarData = {
           url: '/employees',
           icon: IconUsers,
         },
-        {
-          title: 'Users',
-          url: '/users',
-          icon: IconUsers,
-        },
+        // {
+        //   title: 'Users',
+        //   url: '/users',
+        //   icon: IconUsers,
+        // },
         
       ],
     },
