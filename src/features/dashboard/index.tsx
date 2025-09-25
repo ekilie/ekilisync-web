@@ -15,7 +15,7 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { useEffect, useState } from 'react'
 import Api, { OfficeCountResponse } from '@/lib/api'
-import { CurrentUser, officeData } from '@/lib/api/authToken'
+import { officeData } from '@/lib/api/authToken'
 import { IconClockCheck, IconUsers, IconTrendingUp, IconCalendar } from '@tabler/icons-react'
 import { toast } from 'sonner'
 
@@ -40,7 +40,6 @@ export default function Dashboard() {
         const data = await Api.getOfficeCount(office.id);
         setAttendanceData(data);
       } catch (error) {
-        console.error('Failed to fetch attendance data:', error);
         toast.error('Failed to load attendance data');
       } finally {
         setLoading(false);
@@ -91,7 +90,7 @@ export default function Dashboard() {
               <IconUsers className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{attendanceData?.totalEmployees || 0}</div>
+              <div className="text-2xl font-bold">{attendanceData?.employees || 0}</div>
               <p className='text-muted-foreground text-xs'>
                 <span className="text-green-600">+{Math.floor(Math.random() * 10 + 1)}</span> new this week
               </p>
@@ -100,26 +99,29 @@ export default function Dashboard() {
 
           <Card className="hover:shadow-md transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Present Today</CardTitle>
+              <CardTitle className="text-sm font-medium">Checked In</CardTitle>
               <IconClockCheck className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{attendanceData?.presentToday || 0}</div>
+              <div className="text-2xl font-bold text-green-600">{attendanceData?.checkedIn || 0}</div>
               <Badge variant="secondary" className="mt-1">
-                {attendanceData?.attendanceRate?.toFixed(1) || 0}% attendance
+                {attendanceData && attendanceData.employees > 0 
+                  ? ((attendanceData.checkedIn / attendanceData.employees) * 100).toFixed(1)
+                  : '0'
+                }% attendance
               </Badge>
             </CardContent>
           </Card>
 
           <Card className="hover:shadow-md transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Checked In Now</CardTitle>
+              <CardTitle className="text-sm font-medium">Late Check-ins</CardTitle>
               <IconTrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{attendanceData?.checkedIn || 0}</div>
+              <div className="text-2xl font-bold text-orange-600">{attendanceData?.lateCheckedIn || 0}</div>
               <p className='text-muted-foreground text-xs'>
-                Currently in office
+                Late arrivals today
               </p>
             </CardContent>
           </Card>
@@ -131,23 +133,30 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {attendanceData?.attendanceRate?.toFixed(1) || 0}%
+                {attendanceData && attendanceData.employees > 0 
+                  ? ((attendanceData.checkedIn / attendanceData.employees) * 100).toFixed(1)
+                  : '0'
+                }%
               </div>
               <Badge 
                 variant={
-                  (attendanceData?.attendanceRate || 0) >= 90 
-                    ? "default" 
-                    : (attendanceData?.attendanceRate || 0) >= 75 
-                    ? "secondary" 
-                    : "destructive"
+                  attendanceData && attendanceData.employees > 0
+                    ? ((attendanceData.checkedIn / attendanceData.employees) * 100) >= 90 
+                      ? "default" 
+                      : ((attendanceData.checkedIn / attendanceData.employees) * 100) >= 75 
+                      ? "secondary" 
+                      : "destructive"
+                    : "secondary"
                 }
                 className="mt-1"
               >
-                {(attendanceData?.attendanceRate || 0) >= 90 
-                  ? "Excellent" 
-                  : (attendanceData?.attendanceRate || 0) >= 75 
-                  ? "Good" 
-                  : "Needs Improvement"}
+                {attendanceData && attendanceData.employees > 0
+                  ? ((attendanceData.checkedIn / attendanceData.employees) * 100) >= 90 
+                    ? "Excellent" 
+                    : ((attendanceData.checkedIn / attendanceData.employees) * 100) >= 75 
+                    ? "Good" 
+                    : "Needs Improvement"
+                  : "No Data"}
               </Badge>
             </CardContent>
           </Card>
@@ -200,27 +209,27 @@ export default function Dashboard() {
                 <CardContent>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">Early Arrivals</p>
+                      <p className="text-sm text-muted-foreground">On Time</p>
                       <p className="text-2xl font-bold text-green-600">
-                        {Math.floor((attendanceData?.presentToday || 0) * 0.3)}
+                        {(attendanceData?.checkedIn || 0) - (attendanceData?.lateCheckedIn || 0)}
                       </p>
                     </div>
                     <div className="space-y-2">
                       <p className="text-sm text-muted-foreground">Late Arrivals</p>
                       <p className="text-2xl font-bold text-yellow-600">
-                        {Math.floor((attendanceData?.presentToday || 0) * 0.1)}
+                        {attendanceData?.lateCheckedIn || 0}
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">On Break</p>
-                      <p className="text-2xl font-bold text-blue-600">
-                        {Math.floor(((attendanceData?.checkedIn || 0) - (attendanceData?.presentToday || 0)) / 2)}
+                      <p className="text-sm text-muted-foreground">Absent</p>
+                      <p className="text-2xl font-bold text-red-600">
+                        {(attendanceData?.employees || 0) - (attendanceData?.checkedIn || 0)}
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">Remote Workers</p>
+                      <p className="text-sm text-muted-foreground">Total Staff</p>
                       <p className="text-2xl font-bold text-purple-600">
-                        {Math.floor((attendanceData?.totalEmployees || 0) * 0.15)}
+                        {attendanceData?.employees || 0}
                       </p>
                     </div>
                   </div>
@@ -239,13 +248,19 @@ export default function Dashboard() {
                     <div className="flex justify-between text-sm">
                       <span>Week Average</span>
                       <span className="font-medium">
-                        {((attendanceData?.attendanceRate || 0) - Math.random() * 5).toFixed(1)}%
+                        {attendanceData && attendanceData.employees > 0 
+                          ? (((attendanceData.checkedIn / attendanceData.employees) * 100) - Math.random() * 5).toFixed(1)
+                          : '0'
+                        }%
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Month Average</span>
                       <span className="font-medium">
-                        {((attendanceData?.attendanceRate || 0) + Math.random() * 3).toFixed(1)}%
+                        {attendanceData && attendanceData.employees > 0 
+                          ? (((attendanceData.checkedIn / attendanceData.employees) * 100) + Math.random() * 3).toFixed(1)
+                          : '0'
+                        }%
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">

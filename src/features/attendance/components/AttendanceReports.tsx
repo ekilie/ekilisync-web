@@ -35,6 +35,7 @@ interface DepartmentStats {
   present: number;
   absent: number;
   rate: number;
+  [key: string]: any; // Add index signature for chart compatibility
 }
 
 export function AttendanceReports() {
@@ -471,7 +472,7 @@ export function AttendanceReports() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({ department, rate }) => `${department}: ${rate.toFixed(1)}%`}
+                    label={({ department, rate }) => `${department}: ${(rate as number).toFixed(1)}%`}
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="present"

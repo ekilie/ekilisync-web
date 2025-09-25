@@ -51,10 +51,10 @@ export function AttendanceOverview({ attendanceData }: AttendanceOverviewProps) 
     fetchRecentAttendances();
   }, [office?.id, selectedDate]);
 
-  const attendanceRate = attendanceData?.attendanceRate || 0;
-  const totalEmployees = attendanceData?.totalEmployees || 0;
-  const presentToday = attendanceData?.presentToday || 0;
+  const totalEmployees = attendanceData?.employees || 0;
+  const presentToday = attendanceData?.checkedIn || 0;
   const absentToday = totalEmployees - presentToday;
+  const attendanceRate = totalEmployees > 0 ? (presentToday / totalEmployees) * 100 : 0;
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

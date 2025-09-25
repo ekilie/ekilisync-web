@@ -1,4 +1,5 @@
 import {
+  IconCreditCard,
   IconHelp,
   IconLayoutDashboard,
   IconNotification,
@@ -8,7 +9,7 @@ import {
   IconUserCog,
   IconUsers,
 } from '@tabler/icons-react'
-import {  Command } from 'lucide-react'
+import { CardSim, Command, CreditCard } from 'lucide-react'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
@@ -44,7 +45,7 @@ export const sidebarData: SidebarData = {
         //   url: '/tasks',
         //   icon: IconChecklist,
         // },
-       
+
         {
           title: 'Employees',
           url: '/employees',
@@ -55,7 +56,6 @@ export const sidebarData: SidebarData = {
         //   url: '/users',
         //   icon: IconUsers,
         // },
-        
       ],
     },
     {
@@ -75,6 +75,12 @@ export const sidebarData: SidebarData = {
             //   url: '/settings/account',
             //   icon: IconTool,
             // },
+
+            {
+              title: 'Billing',
+              url: '/settings/billing',
+              icon: IconCreditCard,
+            },
             {
               title: 'Appearance',
               url: '/settings/appearance',
@@ -97,7 +103,7 @@ export const sidebarData: SidebarData = {
           url: '/help-center',
           icon: IconHelp,
         },
-         {
+        {
           title: 'Apps',
           url: '/apps',
           icon: IconPackages,

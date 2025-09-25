@@ -23,6 +23,11 @@ export default function AttendanceFeature() {
   const [activeTab, setActiveTab] = useState('overview');
   const office = officeData();
 
+  // Calculate attendance rate from the data
+  const attendanceRate = attendanceData?.employees && attendanceData.employees > 0 
+    ? (attendanceData.checkedIn / attendanceData.employees) * 100 
+    : 0;
+
   useEffect(() => {
     const fetchAttendanceData = async () => {
       if (!office?.id) return;
@@ -79,7 +84,7 @@ export default function AttendanceFeature() {
               <IconUsers className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{attendanceData?.totalEmployees || 0}</div>
+              <div className="text-2xl font-bold">{attendanceData?.employees || 0}</div>
             </CardContent>
           </Card>
 
@@ -89,9 +94,9 @@ export default function AttendanceFeature() {
               <IconClockCheck className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{attendanceData?.presentToday || 0}</div>
+              <div className="text-2xl font-bold">{attendanceData?.checkedIn || 0}</div>
               <Badge variant="secondary" className="mt-1">
-                {attendanceData?.attendanceRate?.toFixed(1) || 0}% rate
+                {attendanceRate?.toFixed(1) || 0}% rate
               </Badge>
             </CardContent>
           </Card>
@@ -113,21 +118,21 @@ export default function AttendanceFeature() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {attendanceData?.attendanceRate?.toFixed(1) || 0}%
+                {attendanceRate?.toFixed(1) || 0}%
               </div>
               <Badge 
                 variant={
-                  (attendanceData?.attendanceRate || 0) >= 90 
+                  (attendanceRate || 0) >= 90 
                     ? "default" 
-                    : (attendanceData?.attendanceRate || 0) >= 75 
+                    : (attendanceRate || 0) >= 75 
                     ? "secondary" 
                     : "destructive"
                 }
                 className="mt-1"
               >
-                {(attendanceData?.attendanceRate || 0) >= 90 
+                {(attendanceRate || 0) >= 90 
                   ? "Excellent" 
-                  : (attendanceData?.attendanceRate || 0) >= 75 
+                  : (attendanceRate || 0) >= 75 
                   ? "Good" 
                   : "Needs Improvement"}
               </Badge>

@@ -153,10 +153,9 @@ export interface UpdateOfficeDto {
 }
 
 export interface OfficeCountResponse {
-  totalEmployees: number;
-  presentToday: number;
+  employees: number;
   checkedIn: number;
-  attendanceRate: number;
+  lateCheckedIn: number;
 }
 
 // Attendance Types
