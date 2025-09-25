@@ -3,42 +3,34 @@ export * from './types';
 import { saveUser, setAuthToken } from './authToken';
 import api from './config';
 import type {
-  // Auth types
   SignupDto,
   LoginDto,
   AuthResponse,
   VerifyEmailDto,
   RefreshTokenDto,
-  // User types
   User,
   CreateUserDto,
   UpdateUserDto,
   UserFilters,
-  // Employee types
   Employee,
   InviteEmployeeDto,
   VerifyEmployeeOtpDto,
   UpdateEmployeeDto,
   EmployeeFilters,
-  // Office types
   Office,
   CreateOfficeDto,
   UpdateOfficeDto,
   OfficeCountResponse,
-  // Attendance types
   Attendance,
   CreateAttendanceDto,
   UpdateAttendanceDto,
   AttendanceFilters,
   AttendanceReport,
-  // Role types
   Role,
   UpdateRoleDto,
-  // Notification types
   SendSmsDto,
   SendEmailDto,
   NotificationResponse,
-  // Common types
   ApiResponse,
   PaginatedResponse,
   PaginationParams
