@@ -23,6 +23,7 @@ import { AttendanceHistory } from '@/features/attendance/components/AttendanceHi
 // Import attendance components
 import { AttendanceOverview } from '@/features/attendance/components/AttendanceOverview'
 import { AttendanceReports } from '@/features/attendance/components/AttendanceReports'
+import Loader from '@/components/Loader'
 
 export default function Dashboard() {
   const [attendanceData, setAttendanceData] =
@@ -51,9 +52,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className='flex h-screen items-center justify-center'>
-        <div className='border-primary h-32 w-32 animate-spin rounded-full border-b-2'></div>
-      </div>
+      <Loader />
     )
   }
   return (
