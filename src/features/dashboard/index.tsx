@@ -109,7 +109,7 @@ export default function Dashboard() {
               <IconClockCheck className='text-muted-foreground h-4 w-4' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold text-green-600'>
+              <div className='text-2xl font-bold text-primary-600'>
                 {attendanceData?.checkedIn || 0}
               </div>
               <Badge variant='secondary' className='mt-1'>
@@ -132,7 +132,7 @@ export default function Dashboard() {
               <IconTrendingUp className='text-muted-foreground h-4 w-4' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold text-orange-600'>
+              <div className='text-2xl font-bold text-primary-600'>
                 {attendanceData?.lateCheckedIn || 0}
               </div>
               <p className='text-muted-foreground text-xs'>
@@ -191,7 +191,7 @@ export default function Dashboard() {
         </div>
 
         {/* Quick Actions Bar */}
-        <div className='bg-muted/50 flex flex-wrap gap-2 rounded-lg p-4'>
+        {/* <div className='bg-muted/50 flex flex-wrap gap-2 rounded-lg p-4'>
           <Button variant='outline' size='sm' className='gap-2'>
             <IconClockCheck className='h-4 w-4' />
             Quick Check-in
@@ -208,7 +208,7 @@ export default function Dashboard() {
             <IconCalendar className='h-4 w-4' />
             Set Schedule
           </Button>
-        </div>
+        </div> */}
 
         {/* Enhanced Tabs with Attendance Management */}
         <Tabs
@@ -242,7 +242,7 @@ export default function Dashboard() {
                   <div className='grid gap-4 sm:grid-cols-2'>
                     <div className='space-y-2'>
                       <p className='text-muted-foreground text-sm'>On Time</p>
-                      <p className='text-2xl font-bold text-green-600'>
+                      <p className='text-2xl font-bold text-primary-600'>
                         {(attendanceData?.checkedIn || 0) -
                           (attendanceData?.lateCheckedIn || 0)}
                       </p>
@@ -251,13 +251,13 @@ export default function Dashboard() {
                       <p className='text-muted-foreground text-sm'>
                         Late Arrivals
                       </p>
-                      <p className='text-2xl font-bold text-yellow-600'>
+                      <p className='text-2xl font-bold text-primary-600'>
                         {attendanceData?.lateCheckedIn || 0}
                       </p>
                     </div>
                     <div className='space-y-2'>
                       <p className='text-muted-foreground text-sm'>Absent</p>
-                      <p className='text-2xl font-bold text-red-600'>
+                      <p className='text-2xl font-bold text-primary-600'>
                         {(attendanceData?.employees || 0) -
                           (attendanceData?.checkedIn || 0)}
                       </p>
@@ -266,7 +266,7 @@ export default function Dashboard() {
                       <p className='text-muted-foreground text-sm'>
                         Total Staff
                       </p>
-                      <p className='text-2xl font-bold text-purple-600'>
+                      <p className='text-2xl font-bold text-primary-600'>
                         {attendanceData?.employees || 0}
                       </p>
                     </div>
@@ -313,7 +313,7 @@ export default function Dashboard() {
                     </div>
                     <div className='flex justify-between text-sm'>
                       <span>Best Day</span>
-                      <span className='font-medium text-green-600'>Monday</span>
+                      <span className='font-medium text-primary-600'>Monday</span>
                     </div>
                     <div className='flex justify-between text-sm'>
                       <span>Peak Hours</span>
