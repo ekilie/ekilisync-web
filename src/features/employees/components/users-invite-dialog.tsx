@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IconMailPlus, IconSend } from '@tabler/icons-react'
-import { showSubmittedData } from '@/utils/show-submitted-data'
+import Api from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -22,17 +24,14 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { SelectDropdown } from '@/components/select-dropdown'
-import { userTypes } from '../data/data'
 
 const formSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required.' }),
   email: z
     .string()
     .min(1, { message: 'Email is required.' })
     .email({ message: 'Email is invalid.' }),
-  role: z.string().min(1, { message: 'Role is required.' }),
-  desc: z.string().optional(),
+  phoneNumber: z.string().min(1, { message: 'Phone number is required.' }),
 })
 type UserInviteForm = z.infer<typeof formSchema>
 
@@ -42,15 +41,42 @@ interface Props {
 }
 
 export function UsersInviteDialog({ open, onOpenChange }: Props) {
+  const { user } = useAuth()
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
   const form = useForm<UserInviteForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: '', role: '', desc: '' },
+    defaultValues: { name: '', email: '', phoneNumber: '' },
   })
 
-  const onSubmit = (values: UserInviteForm) => {
-    form.reset()
-    showSubmittedData(values)
-    onOpenChange(false)
+  const onSubmit = async (values: UserInviteForm) => {
+    if (!user?.office?.id) {
+      setErrorMessage('No office ID found for current user')
+      return
+    }
+
+    setIsLoading(true)
+    setErrorMessage(null)
+
+    try {
+      const payload = {
+        ...values,
+        officeId: user.office.id.toString(),
+      }
+
+      await Api.inviteEmployee(payload)
+
+      // Success - reset form and close dialog
+      form.reset()
+      onOpenChange(false)
+    } catch (error) {
+      const errorMsg =
+        error instanceof Error ? error.message : 'Failed to invite employee'
+      setErrorMessage(errorMsg)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -58,6 +84,7 @@ export function UsersInviteDialog({ open, onOpenChange }: Props) {
       open={open}
       onOpenChange={(state) => {
         form.reset()
+        setErrorMessage(null)
         onOpenChange(state)
       }}
     >
@@ -68,15 +95,34 @@ export function UsersInviteDialog({ open, onOpenChange }: Props) {
           </DialogTitle>
           <DialogDescription>
             Invite new employee to join your team by sending them an email
-            invitation. Assign a role to define their access level.
+            invitation with OTP for verification.
           </DialogDescription>
         </DialogHeader>
+
+        {errorMessage && (
+          <div className='rounded bg-red-50 p-2 text-sm text-red-600'>
+            {errorMessage}
+          </div>
+        )}
         <Form {...form}>
           <form
             id='employee-invite-form'
             onSubmit={form.handleSubmit(onSubmit)}
             className='space-y-4'
           >
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input type='text' placeholder='eg: John Doe' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name='email'
@@ -96,33 +142,14 @@ export function UsersInviteDialog({ open, onOpenChange }: Props) {
             />
             <FormField
               control={form.control}
-              name='role'
+              name='phoneNumber'
               render={({ field }) => (
-                <FormItem className='space-y-1'>
-                  <FormLabel>Role</FormLabel>
-                  <SelectDropdown
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                    placeholder='Select a role'
-                    items={userTypes.map(({ label, value }) => ({
-                      label,
-                      value,
-                    }))}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='desc'
-              render={({ field }) => (
-                <FormItem className=''>
-                  <FormLabel>Description (optional)</FormLabel>
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Textarea
-                      className='resize-none'
-                      placeholder='Add a personal note to your invitation (optional)'
+                    <Input
+                      type='tel'
+                      placeholder='eg: +1234567890'
                       {...field}
                     />
                   </FormControl>
@@ -136,8 +163,12 @@ export function UsersInviteDialog({ open, onOpenChange }: Props) {
           <DialogClose asChild>
             <Button variant='outline'>Cancel</Button>
           </DialogClose>
-          <Button type='submit' form='user-invite-form'>
-            Invite <IconSend />
+          <Button
+            type='submit'
+            form='employee-invite-form'
+            disabled={isLoading}
+          >
+            {isLoading ? 'Inviting...' : 'Invite'} <IconSend />
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -93,12 +93,9 @@ export interface Employee {
 }
 
 export interface InviteEmployeeDto {
-  firstName: string
-  lastName: string
+  name: string
   email: string
-  phone: string
-  position: string
-  department: string
+  phoneNumber: string
   officeId: string
 }
 
