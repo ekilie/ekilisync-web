@@ -1,22 +1,4 @@
-export interface CurrentUser {
-  id:string,
-  name:string,
-  email:string,
-  role:string,
-  office:Office,
-}
-export interface Office{
-  id:any //for now
-  name:string,
-  latitude:any,
-  longitude:any,
-  address:string,
-  phoneNumber:string,
-  email:string,
-  logoUrl:string,
-  createdAt:string,
-  updatedAt:string
-}
+import type { CurrentUser, Office } from '../types'
 
 const storage = {
   getItem: async (key: string): Promise<string | null> => {
@@ -103,7 +85,7 @@ export const storeNotificationPayload = async (
   try {
     await storage.setItem(`notification_${callUUID}`, JSON.stringify(payload));
   } catch (error) {
-    console.error('Error storing notification payload:', error);
+    // Error storing notification payload
   }
 };
 
@@ -116,7 +98,7 @@ export const retrieveStoredNotificationPayload = async (callUUID: string) => {
     }
     return null;
   } catch (error) {
-    console.error('Error retrieving stored notification payload:', error);
+    // Error retrieving stored notification payload
     return null;
   }
 };

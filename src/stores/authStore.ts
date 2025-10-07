@@ -1,55 +1,68 @@
-import Cookies from 'js-cookie'
 import { create } from 'zustand'
-
-const ACCESS_TOKEN = 'thisisjustarandomstring'
-
-interface AuthUser {
-  accountNo: string
-  email: string
-  role: string[]
-  exp: number
-}
+import { persist } from 'zustand/middleware'
+import { currentUser, clearCache } from '@/lib/api/authToken'
+import type { CurrentUser } from '@/lib/api/types'
 
 interface AuthState {
-  auth: {
-    user: AuthUser | null
-    setUser: (user: AuthUser | null) => void
-    accessToken: string
-    setAccessToken: (accessToken: string) => void
-    resetAccessToken: () => void
-    reset: () => void
-  }
+  user: CurrentUser | null
+  isAuthenticated: boolean
+  isLoading: boolean
+  setUser: (user: CurrentUser | null) => void
+  setLoading: (loading: boolean) => void
+  logout: () => void
+  checkAuth: () => Promise<void>
 }
 
-export const useAuthStore = create<AuthState>()((set) => {
-  const cookieState = Cookies.get(ACCESS_TOKEN)
-  const initToken = cookieState ? JSON.parse(cookieState) : ''
-  return {
-    auth: {
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
       user: null,
-      setUser: (user) =>
-        set((state) => ({ ...state, auth: { ...state.auth, user } })),
-      accessToken: initToken,
-      setAccessToken: (accessToken) =>
-        set((state) => {
-          Cookies.set(ACCESS_TOKEN, JSON.stringify(accessToken))
-          return { ...state, auth: { ...state.auth, accessToken } }
-        }),
-      resetAccessToken: () =>
-        set((state) => {
-          Cookies.remove(ACCESS_TOKEN)
-          return { ...state, auth: { ...state.auth, accessToken: '' } }
-        }),
-      reset: () =>
-        set((state) => {
-          Cookies.remove(ACCESS_TOKEN)
-          return {
-            ...state,
-            auth: { ...state.auth, user: null, accessToken: '' },
-          }
-        }),
-    },
-  }
-})
-
-// export const useAuth = () => useAuthStore((state) => state.auth)
+      isAuthenticated: false,
+      isLoading: true,
+      
+      setUser: (user) => {
+        set({
+          user,
+          isAuthenticated: !!user,
+        })
+      },
+      
+      setLoading: (isLoading) => {
+        set({ isLoading })
+      },
+      
+      logout: async () => {
+        await clearCache()
+        set({
+          user: null,
+          isAuthenticated: false,
+        })
+      },
+      
+      checkAuth: async () => {
+        try {
+          set({ isLoading: true })
+          const user = await currentUser()
+          set({
+            user,
+            isAuthenticated: !!user,
+            isLoading: false,
+          })
+        } catch (error) {
+          set({
+            user: null,
+            isAuthenticated: false,
+            isLoading: false,
+          })
+        }
+      },
+    }),
+    {
+      name: 'auth-storage',
+      partialize: (state) => ({ 
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+      }),
+    }
+  )
+)

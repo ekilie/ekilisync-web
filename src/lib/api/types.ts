@@ -227,7 +227,7 @@ export interface AttendanceReport {
 
 // Role Types
 export interface Role {
-  id: string
+  id: number
   name: UserRole
   permissions: string[]
   createdAt: string

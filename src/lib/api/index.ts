@@ -184,7 +184,6 @@ class Api {
   static async getOfficeCount(officeId: string): Promise<OfficeCountResponse> {
     try {
       const res = await api(true).get(`/offices/count/${officeId}`)
-      console.log('getCount', res.data.data)
       return res.data.data
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }
@@ -531,7 +530,6 @@ class Api {
       const res = await api(true).get(`/employees/office/${officeId}`, {
         params,
       })
-      console.log('getEmployees', res.data.data)
       return res.data.data
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }
@@ -719,32 +717,18 @@ class Api {
     }
   }
 
+  // Check-in and Check-out are handled through regular attendance creation and update
   static async checkIn(
     payload: CreateAttendanceDto
   ): Promise<ApiResponse<Attendance>> {
-    try {
-      const res = await api(true).post('/attendances/check-in', payload)
-      return res.data
-    } catch (error) {
-      const err = error as { response?: { data?: { message?: string } } }
-      throw new Error(err.response?.data?.message || 'Check-in failed')
-    }
+    return this.createAttendance(payload)
   }
 
   static async checkOut(
     attendanceId: string,
     payload: UpdateAttendanceDto
   ): Promise<ApiResponse<Attendance>> {
-    try {
-      const res = await api(true).put(
-        `/attendances/${attendanceId}/check-out`,
-        payload
-      )
-      return res.data
-    } catch (error) {
-      const err = error as { response?: { data?: { message?: string } } }
-      throw new Error(err.response?.data?.message || 'Check-out failed')
-    }
+    return this.updateAttendance(attendanceId, payload)
   }
 
   // ==========================================
@@ -761,7 +745,7 @@ class Api {
     }
   }
 
-  static async getRole(id: string): Promise<ApiResponse<Role>> {
+  static async getRole(id: number): Promise<ApiResponse<Role>> {
     try {
       const res = await api(true).get(`/roles/${id}`)
       return res.data
@@ -772,11 +756,11 @@ class Api {
   }
 
   static async updateRole(
-    id: string,
+    id: number,
     payload: UpdateRoleDto
   ): Promise<ApiResponse<Role>> {
     try {
-      const res = await api(true).put(`/roles/${id}`, payload)
+      const res = await api(true).patch(`/roles/${id}`, payload)
       return res.data
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }
