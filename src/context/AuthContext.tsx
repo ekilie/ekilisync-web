@@ -5,13 +5,8 @@ import {
   useEffect,
   ReactNode,
 } from 'react'
-import {
-  authToken,
-  setAuthToken,
-  saveUser,
-  currentUser,
-  clearCache,
-} from '@/lib/api/authToken/index'
+import Api from '@/lib/api'
+import { authToken, currentUser, clearCache } from '@/lib/api/authToken/index'
 import type {
   CurrentUser,
   LoginDto,
@@ -19,7 +14,6 @@ import type {
   VerifyEmailDto,
 } from '@/lib/api/types'
 import { isJwtExpired } from '@/lib/utils'
-import { useAuth as useAuthHook } from '@/hooks/use-api'
 
 interface AuthContextType {
   user: CurrentUser | null
@@ -65,31 +59,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (credentials: LoginDto) => {
     try {
       setIsLoading(true)
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/login`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(credentials),
-        }
-      )
+      const response = await Api.login(credentials)
 
-      if (!response.ok) {
-        throw new Error('Login failed')
-      }
-
-      const data = await response.json()
-      const { access_token, refresh_token, user: userData } = data.data
-
-      await setAuthToken({ access: access_token, refresh: refresh_token })
-      await saveUser(userData)
-
-      setUser(userData)
+      setUser(response.data.user)
       setIsAuthenticated(true)
-    } catch (error) {
-      throw error
     } finally {
       setIsLoading(false)
     }
@@ -98,24 +71,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = async (registerData: RegisterDto) => {
     try {
       setIsLoading(true)
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/register`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(registerData),
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error('Registration failed')
-      }
-
+      await Api.register(registerData)
       // Registration successful, user needs to verify email
-    } catch (error) {
-      throw error
     } finally {
       setIsLoading(false)
     }
@@ -124,58 +81,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const verifyEmail = async (verifyData: VerifyEmailDto) => {
     try {
       setIsLoading(true)
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/verify-email`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(verifyData),
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error('Email verification failed')
-      }
-    } catch (error) {
-      throw error
+      await Api.verifyEmail(verifyData)
     } finally {
       setIsLoading(false)
     }
   }
 
   const refreshToken = async (refreshTokenValue: string) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/refresh-token`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ refresh_token: refreshTokenValue }),
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error('Token refresh failed')
-      }
-
-      const data = await response.json()
-      await setAuthToken({ access: data.data.access_token })
-    } catch (error) {
-      throw error
-    }
+    await Api.refreshToken({ refresh_token: refreshTokenValue })
   }
 
   const logout = async () => {
     try {
-      await clearCache()
+      await Api.logout()
       setUser(null)
       setIsAuthenticated(false)
     } catch (error) {
-      // Still clear local state even if server call fails
+      // Still clear local state even if API call fails
+      await clearCache()
       setUser(null)
       setIsAuthenticated(false)
     }
