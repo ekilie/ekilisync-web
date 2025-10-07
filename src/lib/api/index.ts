@@ -4,6 +4,7 @@ import { saveUser, setAuthToken } from './authToken';
 import api from './config';
 import type {
   SignupDto,
+  RegisterDto,
   LoginDto,
   AuthResponse,
   VerifyEmailDto,
@@ -11,10 +12,13 @@ import type {
   User,
   CreateUserDto,
   UpdateUserDto,
+  SetPasswordDto,
   UserFilters,
   Employee,
+  CreateEmployeeDto,
   InviteEmployeeDto,
   VerifyEmployeeOtpDto,
+  VerifyOtpDto,
   UpdateEmployeeDto,
   EmployeeFilters,
   Office,
@@ -49,6 +53,16 @@ class Api {
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };
       throw new Error(err.response?.data?.message || 'Signup failed');
+    }
+  }
+
+  static async register(payload: RegisterDto): Promise<ApiResponse> {
+    try {
+      const res = await api(false).post('/auth/register', payload);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Registration failed');
     }
   }
 
@@ -89,10 +103,11 @@ class Api {
 
   static async logout(): Promise<ApiResponse> {
     try {
-      const res = await api(true).post('/auth/logout');
+      // Backend doesn't have logout endpoint, just clear tokens locally
       setAuthToken({ access: '' });
       setAuthToken({ refresh: '' });
-      return res.data;
+      window.location.href = '/sign-in';
+      return { success: true, message: 'Logged out successfully', data: null };
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };
       throw new Error(err.response?.data?.message || 'Logout failed');
@@ -233,6 +248,56 @@ class Api {
     }
   }
 
+  static async setUserPassword(id: string, payload: SetPasswordDto): Promise<ApiResponse> {
+    try {
+      const res = await api(true).post(`/users/${id}/set-password`, payload);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to set password');
+    }
+  }
+
+  static async createUserForOffice(officeId: string, payload: CreateUserDto): Promise<ApiResponse<User>> {
+    try {
+      const res = await api(true).post(`/users/office/${officeId}`, payload);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to create user for office');
+    }
+  }
+
+  static async getUserByOffice(officeId: string, id: string): Promise<ApiResponse<User>> {
+    try {
+      const res = await api(true).get(`/users/office/${officeId}/${id}`);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to fetch user');
+    }
+  }
+
+  static async updateUserForOffice(officeId: string, id: string, payload: UpdateUserDto): Promise<ApiResponse<User>> {
+    try {
+      const res = await api(true).patch(`/users/office/${officeId}/${id}`, payload);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to update user');
+    }
+  }
+
+  static async deleteUserForOffice(officeId: string, id: string): Promise<ApiResponse> {
+    try {
+      const res = await api(true).delete(`/users/office/${officeId}/${id}`);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to delete user');
+    }
+  }
+
   // ==========================================
   // Employee Management Endpoints
   // ==========================================
@@ -257,13 +322,63 @@ class Api {
     }
   }
 
-  static async createEmployee(payload: CreateUserDto): Promise<ApiResponse<Employee>> {
+  static async verifyOtp(payload: VerifyOtpDto): Promise<ApiResponse> {
+    try {
+      const res = await api(false).post('/employees/verify-otp', payload);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'OTP verification failed');
+    }
+  }
+
+  static async createEmployee(payload: CreateEmployeeDto): Promise<ApiResponse<Employee>> {
     try {
       const res = await api(true).post('/employees', payload);
       return res.data;
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };
       throw new Error(err.response?.data?.message || 'Failed to create employee');
+    }
+  }
+
+  static async createEmployeeForOffice(officeId: string, payload: CreateEmployeeDto): Promise<ApiResponse<Employee>> {
+    try {
+      const res = await api(true).post(`/employees/office/${officeId}`, payload);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to create employee for office');
+    }
+  }
+
+  static async getEmployeeByOffice(officeId: string, id: string): Promise<ApiResponse<Employee>> {
+    try {
+      const res = await api(true).get(`/employees/office/${officeId}/${id}`);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to fetch employee');
+    }
+  }
+
+  static async updateEmployeeForOffice(officeId: string, id: string, payload: UpdateEmployeeDto): Promise<ApiResponse<Employee>> {
+    try {
+      const res = await api(true).patch(`/employees/office/${officeId}/${id}`, payload);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to update employee');
+    }
+  }
+
+  static async deleteEmployeeForOffice(officeId: string, id: string): Promise<ApiResponse> {
+    try {
+      const res = await api(true).delete(`/employees/office/${officeId}/${id}`);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to delete employee');
     }
   }
 
@@ -387,6 +502,46 @@ class Api {
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } };
       throw new Error(err.response?.data?.message || 'Failed to fetch office attendances');
+    }
+  }
+
+  static async createAttendanceForOffice(officeId: string, payload: CreateAttendanceDto): Promise<ApiResponse<Attendance>> {
+    try {
+      const res = await api(true).post(`/attendances/office/${officeId}`, payload);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to create attendance for office');
+    }
+  }
+
+  static async getAttendanceByOffice(officeId: string, id: string): Promise<ApiResponse<Attendance>> {
+    try {
+      const res = await api(true).get(`/attendances/office/${officeId}/${id}`);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to fetch attendance');
+    }
+  }
+
+  static async updateAttendanceForOffice(officeId: string, id: string, payload: UpdateAttendanceDto): Promise<ApiResponse<Attendance>> {
+    try {
+      const res = await api(true).patch(`/attendances/office/${officeId}/${id}`, payload);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to update attendance');
+    }
+  }
+
+  static async deleteAttendanceForOffice(officeId: string, id: string): Promise<ApiResponse> {
+    try {
+      const res = await api(true).delete(`/attendances/office/${officeId}/${id}`);
+      return res.data;
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      throw new Error(err.response?.data?.message || 'Failed to delete attendance');
     }
   }
 

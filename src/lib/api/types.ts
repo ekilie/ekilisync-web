@@ -21,6 +21,13 @@ export interface SignupDto {
   phoneNumber: string
 }
 
+export interface RegisterDto {
+  officeName: string
+  adminEmail: string
+  adminPassword: string
+  phoneNumber: string
+}
+
 export interface LoginDto {
   email: string
   password: string
@@ -33,8 +40,7 @@ export interface AuthResponse {
 }
 
 export interface VerifyEmailDto {
-  email: string
-  otp: string
+  token: string
 }
 
 export interface RefreshTokenDto {
@@ -76,6 +82,11 @@ export interface UpdateUserDto {
   officeId?: string
 }
 
+export interface SetPasswordDto {
+  password: string
+  confirmPassword: string
+}
+
 // Employee Types
 export interface Employee {
   id: string
@@ -92,6 +103,13 @@ export interface Employee {
   updatedAt: string
 }
 
+export interface CreateEmployeeDto {
+  name: string
+  email: string
+  phoneNumber: string
+  officeId: string
+}
+
 export interface InviteEmployeeDto {
   name: string
   email: string
@@ -102,7 +120,11 @@ export interface InviteEmployeeDto {
 export interface VerifyEmployeeOtpDto {
   email: string
   otp: string
-  password: string
+}
+
+export interface VerifyOtpDto {
+  email: string
+  otp: string
 }
 
 export interface UpdateEmployeeDto {
@@ -223,16 +245,17 @@ export interface SendSmsDto {
 }
 
 export interface SendEmailDto {
-  email: string
+  to: string
   subject: string
   message: string
-  template?: string
+  from?: string
 }
 
 export interface NotificationResponse {
   success: boolean
-  messageId: string
-  provider: string
+  messageId?: string
+  provider?: string
+  message: string
 }
 
 // Enum Types

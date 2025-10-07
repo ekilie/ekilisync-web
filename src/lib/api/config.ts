@@ -3,7 +3,7 @@ import { authToken } from './authToken';
 import { BASE_URL } from '@/lib/constants';
 import { isJwtExpired } from '@/lib/utils';
 
-const api = (authenticate: any) => {
+const api = (authenticate: boolean) => {
   const config = axios.create({ baseURL: BASE_URL });
   config.defaults.headers.post['Content-Type'] = 'application/json';
   if (authenticate) {
@@ -11,7 +11,7 @@ const api = (authenticate: any) => {
       async (c) => {
         const token = await authToken('access');
         if (token) {
-          checkTokenValidity(token)
+          checkTokenValidity(token);
           c.headers.Authorization = 'Bearer ' + token;
           //
         }
