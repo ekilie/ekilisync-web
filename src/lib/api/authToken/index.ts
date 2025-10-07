@@ -1,4 +1,4 @@
-import type { CurrentUser, Office } from '../types'
+import type { CurrentUser } from '../types'
 
 const storage = {
   getItem: async (key: string): Promise<string | null> => {
