@@ -1,8 +1,25 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react'
+import {
+  authToken,
+  setAuthToken,
+  saveUser,
+  currentUser,
+  clearCache,
+} from '@/lib/api/authToken/index'
+import type {
+  CurrentUser,
+  LoginDto,
+  RegisterDto,
+  VerifyEmailDto,
+} from '@/lib/api/types'
 import { isJwtExpired } from '@/lib/utils'
-import { authToken, setAuthToken, saveUser, currentUser, clearCache } from '@/lib/api/authToken/index'
 import { useAuth as useAuthHook } from '@/hooks/use-api'
-import type { CurrentUser, LoginDto, RegisterDto, VerifyEmailDto } from '@/lib/api/types'
 
 interface AuthContextType {
   user: CurrentUser | null
@@ -48,13 +65,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (credentials: LoginDto) => {
     try {
       setIsLoading(true)
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/login`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(credentials),
+        }
+      )
 
       if (!response.ok) {
         throw new Error('Login failed')
@@ -65,7 +85,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       await setAuthToken({ access: access_token, refresh: refresh_token })
       await saveUser(userData)
-      
+
       setUser(userData)
       setIsAuthenticated(true)
     } catch (error) {
@@ -78,13 +98,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = async (registerData: RegisterDto) => {
     try {
       setIsLoading(true)
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(registerData),
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/register`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(registerData),
+        }
+      )
 
       if (!response.ok) {
         throw new Error('Registration failed')
@@ -101,13 +124,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const verifyEmail = async (verifyData: VerifyEmailDto) => {
     try {
       setIsLoading(true)
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/verify-email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(verifyData),
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/verify-email`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(verifyData),
+        }
+      )
 
       if (!response.ok) {
         throw new Error('Email verification failed')
@@ -121,13 +147,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const refreshToken = async (refreshTokenValue: string) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/refresh-token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refresh_token: refreshTokenValue }),
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/auth/refresh-token`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ refresh_token: refreshTokenValue }),
+        }
+      )
 
       if (!response.ok) {
         throw new Error('Token refresh failed')
@@ -153,16 +182,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider 
-      value={{ 
-        user, 
-        isAuthenticated, 
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
         isLoading,
-        login, 
+        login,
         register,
         verifyEmail,
         logout,
-        refreshToken
+        refreshToken,
       }}
     >
       {children}
@@ -171,12 +200,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 }
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useAuth must be used within an AuthProvider')
   }
-  return context;
-};
+  return context
+}
 
-export default AuthContext;
-
+export default AuthContext

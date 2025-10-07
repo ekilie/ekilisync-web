@@ -229,7 +229,10 @@ export const useUserActions = () => {
 }
 
 // Office-specific User Hooks
-export const useUsersByOffice = (officeId: string, params?: PaginationParams) => {
+export const useUsersByOffice = (
+  officeId: string,
+  params?: PaginationParams
+) => {
   return useQuery({
     queryKey: ['users', 'office', officeId, params],
     queryFn: () => Api.getUsersByOffice(officeId, params),
@@ -241,8 +244,13 @@ export const useOfficeUserActions = () => {
   const queryClient = useQueryClient()
 
   const createUser = useMutation({
-    mutationFn: ({ officeId, data }: { officeId: string; data: CreateUserDto }) =>
-      Api.createUserForOffice(officeId, data),
+    mutationFn: ({
+      officeId,
+      data,
+    }: {
+      officeId: string
+      data: CreateUserDto
+    }) => Api.createUserForOffice(officeId, data),
     onSuccess: (_, { officeId }) => {
       queryClient.invalidateQueries({ queryKey: ['users', 'office', officeId] })
       toast.success('User created successfully')
@@ -253,8 +261,15 @@ export const useOfficeUserActions = () => {
   })
 
   const updateUser = useMutation({
-    mutationFn: ({ officeId, id, data }: { officeId: string; id: string; data: UpdateUserDto }) =>
-      Api.updateUserForOffice(officeId, id, data),
+    mutationFn: ({
+      officeId,
+      id,
+      data,
+    }: {
+      officeId: string
+      id: string
+      data: UpdateUserDto
+    }) => Api.updateUserForOffice(officeId, id, data),
     onSuccess: (_, { officeId }) => {
       queryClient.invalidateQueries({ queryKey: ['users', 'office', officeId] })
       toast.success('User updated successfully')
@@ -367,7 +382,10 @@ export const useEmployeeActions = () => {
 }
 
 // Office-specific Employee Hooks
-export const useEmployeesByOffice = (officeId: string, params?: PaginationParams) => {
+export const useEmployeesByOffice = (
+  officeId: string,
+  params?: PaginationParams
+) => {
   return useQuery({
     queryKey: ['employees', 'office', officeId, params],
     queryFn: () => Api.getEmployeesByOffice(officeId, params),
@@ -379,10 +397,17 @@ export const useOfficeEmployeeActions = () => {
   const queryClient = useQueryClient()
 
   const createEmployee = useMutation({
-    mutationFn: ({ officeId, data }: { officeId: string; data: CreateEmployeeDto }) =>
-      Api.createEmployeeForOffice(officeId, data),
+    mutationFn: ({
+      officeId,
+      data,
+    }: {
+      officeId: string
+      data: CreateEmployeeDto
+    }) => Api.createEmployeeForOffice(officeId, data),
     onSuccess: (_, { officeId }) => {
-      queryClient.invalidateQueries({ queryKey: ['employees', 'office', officeId] })
+      queryClient.invalidateQueries({
+        queryKey: ['employees', 'office', officeId],
+      })
       toast.success('Employee created successfully')
     },
     onError: (error: Error) => {
@@ -391,10 +416,19 @@ export const useOfficeEmployeeActions = () => {
   })
 
   const updateEmployee = useMutation({
-    mutationFn: ({ officeId, id, data }: { officeId: string; id: string; data: UpdateEmployeeDto }) =>
-      Api.updateEmployeeForOffice(officeId, id, data),
+    mutationFn: ({
+      officeId,
+      id,
+      data,
+    }: {
+      officeId: string
+      id: string
+      data: UpdateEmployeeDto
+    }) => Api.updateEmployeeForOffice(officeId, id, data),
     onSuccess: (_, { officeId }) => {
-      queryClient.invalidateQueries({ queryKey: ['employees', 'office', officeId] })
+      queryClient.invalidateQueries({
+        queryKey: ['employees', 'office', officeId],
+      })
       toast.success('Employee updated successfully')
     },
     onError: (error: Error) => {
@@ -406,7 +440,9 @@ export const useOfficeEmployeeActions = () => {
     mutationFn: ({ officeId, id }: { officeId: string; id: string }) =>
       Api.deleteEmployeeForOffice(officeId, id),
     onSuccess: (_, { officeId }) => {
-      queryClient.invalidateQueries({ queryKey: ['employees', 'office', officeId] })
+      queryClient.invalidateQueries({
+        queryKey: ['employees', 'office', officeId],
+      })
       toast.success('Employee deleted successfully')
     },
     onError: (error: Error) => {
@@ -507,7 +543,10 @@ export const useAttendanceActions = () => {
 }
 
 // Office-specific Attendance Hooks
-export const useAttendancesByOffice = (officeId: string, filters?: AttendanceFilters) => {
+export const useAttendancesByOffice = (
+  officeId: string,
+  filters?: AttendanceFilters
+) => {
   return useQuery({
     queryKey: ['attendances', 'office', officeId, filters],
     queryFn: () => Api.getAttendancesByOffice(officeId, filters),
@@ -515,7 +554,11 @@ export const useAttendancesByOffice = (officeId: string, filters?: AttendanceFil
   })
 }
 
-export const useAttendanceReport = (officeId: string, startDate: string, endDate: string) => {
+export const useAttendanceReport = (
+  officeId: string,
+  startDate: string,
+  endDate: string
+) => {
   return useQuery({
     queryKey: ['attendance-report', officeId, startDate, endDate],
     queryFn: () => Api.getAttendanceReport(officeId, startDate, endDate),
@@ -527,10 +570,17 @@ export const useOfficeAttendanceActions = () => {
   const queryClient = useQueryClient()
 
   const createAttendance = useMutation({
-    mutationFn: ({ officeId, data }: { officeId: string; data: CreateAttendanceDto }) =>
-      Api.createAttendanceForOffice(officeId, data),
+    mutationFn: ({
+      officeId,
+      data,
+    }: {
+      officeId: string
+      data: CreateAttendanceDto
+    }) => Api.createAttendanceForOffice(officeId, data),
     onSuccess: (_, { officeId }) => {
-      queryClient.invalidateQueries({ queryKey: ['attendances', 'office', officeId] })
+      queryClient.invalidateQueries({
+        queryKey: ['attendances', 'office', officeId],
+      })
       toast.success('Attendance recorded successfully')
     },
     onError: (error: Error) => {
@@ -539,10 +589,19 @@ export const useOfficeAttendanceActions = () => {
   })
 
   const updateAttendance = useMutation({
-    mutationFn: ({ officeId, id, data }: { officeId: string; id: string; data: UpdateAttendanceDto }) =>
-      Api.updateAttendanceForOffice(officeId, id, data),
+    mutationFn: ({
+      officeId,
+      id,
+      data,
+    }: {
+      officeId: string
+      id: string
+      data: UpdateAttendanceDto
+    }) => Api.updateAttendanceForOffice(officeId, id, data),
     onSuccess: (_, { officeId }) => {
-      queryClient.invalidateQueries({ queryKey: ['attendances', 'office', officeId] })
+      queryClient.invalidateQueries({
+        queryKey: ['attendances', 'office', officeId],
+      })
       toast.success('Attendance updated successfully')
     },
     onError: (error: Error) => {
@@ -554,7 +613,9 @@ export const useOfficeAttendanceActions = () => {
     mutationFn: ({ officeId, id }: { officeId: string; id: string }) =>
       Api.deleteAttendanceForOffice(officeId, id),
     onSuccess: (_, { officeId }) => {
-      queryClient.invalidateQueries({ queryKey: ['attendances', 'office', officeId] })
+      queryClient.invalidateQueries({
+        queryKey: ['attendances', 'office', officeId],
+      })
       toast.success('Attendance deleted successfully')
     },
     onError: (error: Error) => {

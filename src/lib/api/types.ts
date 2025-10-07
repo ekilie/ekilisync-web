@@ -84,7 +84,7 @@ export interface UpdateUserDto {
 
 export interface SetPasswordDto {
   password: string
-  confirmPassword: string
+  confirmPassword?: string
 }
 
 // Employee Types
