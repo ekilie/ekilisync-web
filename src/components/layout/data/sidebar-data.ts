@@ -8,6 +8,7 @@ import {
   IconSettings,
   IconUserCog,
   IconUsers,
+  IconBuilding,
 } from '@tabler/icons-react'
 import { CardSim, Command, CreditCard } from 'lucide-react'
 import { type SidebarData } from '../types'
@@ -50,6 +51,11 @@ export const sidebarData: SidebarData = {
           title: 'Employees',
           url: '/employees',
           icon: IconUsers,
+        },
+        {
+          title: 'Offices',
+          url: '/offices',
+          icon: IconBuilding,
         },
         // {
         //   title: 'Users',
