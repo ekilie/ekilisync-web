@@ -1,18 +1,13 @@
-import { DotsHorizontalIcon } from '@radix-ui/react-icons'
-import { Row } from '@tanstack/react-table'
-import { IconEdit, IconTrash } from '@tabler/icons-react'
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { useUsers } from '../context/users-context'
-import { User } from '../data/schema'
-import Api from '@/lib/api'
+import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { Row } from '@tanstack/react-table';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
+import Api from '@/lib/api';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useUsers } from '../context/users-context';
+import { User } from '../data/schema';
+import { toast } from 'sonner';
+
 
 interface DataTableRowActionsProps {
   row: Row<User>
@@ -51,7 +46,12 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
               <DropdownMenuItem
                 onClick={async () => {
                   setCurrentRow(row.original)
-                  await Api.resendInvitation(row.original.id)
+                  try {
+                    await Api.resendInvitation(row.original.id)
+                  } catch (error) {
+                    console.log(error)
+                    toast.error("Failed to resend the Invite.")
+                  }
                 }}
               >
                 ReInvite
