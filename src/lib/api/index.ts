@@ -82,6 +82,25 @@ class Api {
     }
   }
 
+  static async inviteEmployee(payload: InviteEmployeeDto): Promise<ApiResponse> {
+    try {
+      const res = await api(true).post('/employees/invite', payload)
+      return res.data
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } }
+      throw new Error(err.response?.data?.message || 'Failed to invite employee')
+    }
+  }
+  static async resendInvitation(id: string): Promise<ApiResponse> {
+    try {
+      const res = await api(true).post(`/employees/re-invite/${id}`)
+      return res.data
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } }
+      throw new Error(err.response?.data?.message || 'Failed to resend invitation')
+    }
+  }
+
   static async verifyEmail(payload: VerifyEmailDto): Promise<ApiResponse> {
     try {
       const res = await api(false).post('/auth/verify-email', payload)

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useUsers } from '../context/users-context'
 import { User } from '../data/schema'
+import Api from '@/lib/api'
 
 interface DataTableRowActionsProps {
   row: Row<User>
@@ -44,6 +45,23 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
+
+          {row.original.status === 'invited' && (
+            <>
+              <DropdownMenuItem
+                onClick={async () => {
+                  setCurrentRow(row.original)
+                  await Api.resendInvitation(row.original.id)
+                }}
+              >
+                ReInvite
+                <DropdownMenuShortcut>
+                  <IconEdit size={16} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
           <DropdownMenuItem
             onClick={() => {
               setCurrentRow(row.original)
