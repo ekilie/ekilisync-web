@@ -9,7 +9,7 @@ import {
   IconUserCog,
   IconUsers,
 } from '@tabler/icons-react'
-import { CardSim, Command, CreditCard } from 'lucide-react'
+import { Command } from 'lucide-react'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
