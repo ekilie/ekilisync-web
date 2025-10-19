@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { currentUser } from '@/lib/api/authToken'
+import type { CurrentUser } from '@/lib/api/types'
 import {
   Sidebar,
   SidebarContent,
@@ -10,8 +12,6 @@ import { NavGroup } from '@/components/layout/nav-group'
 import { NavUser } from '@/components/layout/nav-user'
 import { TeamSwitcher } from '@/components/layout/team-switcher'
 import { sidebarData } from './data/sidebar-data'
-import { currentUser } from '@/lib/api/authToken'
-import type { CurrentUser } from '@/lib/api/types'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [user, setUser] = useState<CurrentUser | null>(null)
@@ -29,11 +29,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        {user ? <NavUser user={{
-          name: user.name,
-          email: user.email,
-          avatar: user.office?.logoUrl || ''
-        }} /> : null}
+        {user ? (
+          <NavUser
+            user={{
+              name: user.name,
+              email: user.email,
+              avatar: user.office?.logoUrl || '',
+            }}
+          />
+        ) : null}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

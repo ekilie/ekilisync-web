@@ -94,9 +94,10 @@ export default function ProfileForm() {
       const payload = {
         name: data.username,
         email: data.email,
-        bio: data.bio,
       }
 
+      // Update user on the server. Note: backend UpdateUserDto is a PartialType of CreateUserDto
+      // and does not accept a `bio` property, so we intentionally omit it here.
       await Api.updateUser(user.id, payload)
 
       // Update local cached user
