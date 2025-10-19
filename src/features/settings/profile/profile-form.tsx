@@ -1,6 +1,9 @@
+import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Api from '@/lib/api'
+import { CurrentUser, userData, saveUser } from '@/lib/api/authToken'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,8 +17,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { CurrentUser, userData } from '@/lib/api/authToken'
-import { useEffect, useState } from 'react'
 
 const profileFormSchema = z.object({
   username: z
@@ -45,10 +46,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 const defaultValues: Partial<ProfileFormValues> = {
   bio: 'I love ekiliSync.',
-  urls: [
-    { value: 'https://ekilie.com' },
-    { value: 'http://sync.ekilie.com' },
-  ],
+  urls: [{ value: 'https://ekilie.com' }, { value: 'http://sync.ekilie.com' }],
 }
 
 export default function ProfileForm() {
@@ -57,23 +55,75 @@ export default function ProfileForm() {
     defaultValues,
     mode: 'onChange',
   })
-  const [ user, setUser ] = useState<CurrentUser | null>(null)
-  
+  const [user, setUser] = useState<CurrentUser | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
   useEffect(() => {
-    setUser(userData())
-  },[])
+    try {
+      const u = userData()
+      setUser(u)
+      // Prefill form fields when user exists
+      if (u) {
+        form.reset({
+          username: u.name || '',
+          email: u.email || '',
+          bio: (u as any).bio || defaultValues.bio,
+          urls: defaultValues.urls,
+        })
+      }
+    } catch (err) {
+      // ignore
+    }
+  }, [form])
 
   const { fields, append } = useFieldArray({
     name: 'urls',
     control: form.control,
   })
 
+  async function onSubmit(data: ProfileFormValues) {
+    if (!user) return
+    setIsSubmitting(true)
+    setErrorMessage(null)
+    setSuccessMessage(null)
+    try {
+      // Call API to update user
+      const payload = {
+        name: data.username,
+        email: data.email,
+        bio: data.bio,
+      }
+
+      await Api.updateUser(user.id, payload)
+
+      // Update local cached user
+      const updatedUser: CurrentUser = {
+        id: user.id,
+        name: data.username,
+        email: data.email,
+        role: user.role,
+        office: user.office,
+      }
+      await saveUser(updatedUser)
+      setUser(updatedUser)
+      setSuccessMessage('Profile updated successfully')
+    } catch (err: any) {
+      // set user-visible error
+      setErrorMessage(
+        err?.response?.data?.message ||
+          err?.message ||
+          'Failed to update profile'
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((data) => console.log('Profile updated:', data))}
-        className='space-y-8'
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
         <FormField
           control={form.control}
           name='username'
@@ -97,7 +147,10 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder={user?.email ?? 'you@ekilie.com'} {...field} />
+                <Input
+                  placeholder={user?.email ?? 'you@ekilie.com'}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -156,7 +209,15 @@ export default function ProfileForm() {
             Add URL
           </Button>
         </div>
-        <Button type='submit'>Update profile</Button>
+        <div className='space-y-2'>
+          {errorMessage && <div className='text-red-600'>{errorMessage}</div>}
+          {successMessage && (
+            <div className='text-green-600'>{successMessage}</div>
+          )}
+          <Button type='submit' disabled={isSubmitting}>
+            {isSubmitting ? 'Updating...' : 'Update profile'}
+          </Button>
+        </div>
       </form>
     </Form>
   )
