@@ -13,9 +13,9 @@ export function UsersPrimaryButtons() {
       >
         <span>Invite Employee</span> <IconMailPlus size={18} />
       </Button>
-      <Button className='space-x-1' onClick={() => setOpen('add')}>
+      {/* <Button className='space-x-1' onClick={() => setOpen('add')}>
         <span>Add Employee</span> <IconUserPlus size={18} />
-      </Button>
+      </Button> */}
     </div>
   )
 }
