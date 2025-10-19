@@ -82,10 +82,10 @@ class Api {
     }
   }
 
-  // inviteEmployee already defined earlier
   static async resendInvitation(id: string): Promise<ApiResponse> {
     try {
       const res = await api(true).post(`/employees/re-invite/${id}`)
+      console.log('Resend invitation response:', res.data)
       return res.data
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }

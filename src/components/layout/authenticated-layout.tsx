@@ -1,12 +1,12 @@
+import { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { Outlet, useNavigate } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/context/AuthContext'
 import { SearchProvider } from '@/context/search-context'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/layout/app-sidebar'
 import SkipToMain from '@/components/skip-to-main'
-import { useEffect } from 'react'
-import { useAuth } from '@/context/AuthContext'
 
 interface Props {
   children?: React.ReactNode
@@ -14,15 +14,18 @@ interface Props {
 
 export function AuthenticatedLayout({ children }: Props) {
   const defaultOpen = Cookies.get('sidebar_state') !== 'false'
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, isLoading } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log("ISAUTH",isAuthenticated)
-    // if (!isAuthenticated) {
-    //   navigate({ to: '/sign-in' })
-    // }
-  }, [isAuthenticated, navigate])
+    // log only when loading finished to avoid conflicting true/false logs
+    if (!isLoading && !isAuthenticated) {
+      navigate({ to: '/sign-in' })
+    }
+  }, [isAuthenticated, isLoading, navigate])
+
+  // while auth is being checked, don't render the layout
+  if (isLoading) return null
 
   if (!isAuthenticated) return null
 
