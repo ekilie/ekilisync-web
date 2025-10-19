@@ -252,7 +252,7 @@ class Api {
     payload: UpdateUserDto
   ): Promise<ApiResponse<User>> {
     try {
-  const res = await api(true).patch(`/users/${id}`, payload)
+      const res = await api(true).patch(`/users/${id}`, payload)
       return res.data
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }
