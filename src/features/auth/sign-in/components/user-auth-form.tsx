@@ -2,7 +2,7 @@ import { HTMLAttributes, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,7 +15,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
-import Api, { LoginDto } from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
+import { LoginDto } from '@/lib/api'
 
 type UserAuthFormProps = HTMLAttributes<HTMLFormElement>
 
@@ -35,8 +36,9 @@ const formSchema = z.object({
 })
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const { login, isLoading } = useAuth()
+  const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,23 +49,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   })
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    setIsLoading(true)
     setError(null)
     try {
-      // Use the Api.login utility
-      const result = await Api.login({
+      await login({
         email: data.email,
         password: data.password,
       } as LoginDto)
-      console.log("LOGIN RESULT",result)
-      // Optionally handle result, e.g., redirect or store user info
-      // localStorage.setItem('token', result.token)
-      // localStorage.setItem('user', JSON.stringify(result.user))
+      // Navigate to dashboard after successful login
+      navigate({ to: '/dashboard' })
     } catch (err: any) {
-      console.log(err)
-      setError(err.message)
-    } finally {
-      setIsLoading(false)
+      setError(err.message || 'Authentication failed')
     }
   }
 

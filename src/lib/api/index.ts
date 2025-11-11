@@ -48,7 +48,6 @@ class Api {
   static async signup(payload: SignupDto): Promise<ApiResponse> {
     try {
       const res = await api(false).post('/auth/register', payload)
-      window.location.href = '/sign-in'
       return res.data
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }
@@ -74,7 +73,6 @@ class Api {
       setAuthToken({ access: res.data.data.access_token })
       setAuthToken({ refresh: res.data.data.refresh_token })
       saveUser(res.data.data.user)
-      window.location.href = '/dashboard'
       return res.data
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }

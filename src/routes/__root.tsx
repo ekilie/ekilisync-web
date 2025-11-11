@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Toaster } from '@/components/ui/sonner'
 import { NavigationProgress } from '@/components/navigation-progress'
+import { AuthProvider } from '@/context/AuthContext'
 import GeneralError from '@/features/errors/general-error'
 import NotFoundError from '@/features/errors/not-found-error'
 
@@ -12,7 +13,7 @@ export const Route = createRootRouteWithContext<{
 }>()({
   component: () => {
     return (
-      <>
+      <AuthProvider>
         <NavigationProgress />
         <Outlet />
         <Toaster duration={5000} />
@@ -22,7 +23,7 @@ export const Route = createRootRouteWithContext<{
             <TanStackRouterDevtools position='bottom-right' />
           </>
         )}
-      </>
+      </AuthProvider>
     )
   },
   notFoundComponent: NotFoundError,
