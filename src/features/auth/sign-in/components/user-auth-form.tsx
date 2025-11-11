@@ -2,7 +2,7 @@ import { HTMLAttributes, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -39,6 +39,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [error, setError] = useState<string | null>(null)
   const { login, isLoading } = useAuth()
   const navigate = useNavigate()
+  const search = useSearch({ strict: false }) as { redirect?: string }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,8 +56,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         email: data.email,
         password: data.password,
       } as LoginDto)
-      // Navigate to dashboard after successful login
-      navigate({ to: '/dashboard' })
+      // Navigate to the redirect URL if provided, otherwise go to dashboard
+      const redirectUrl = search.redirect || '/dashboard'
+      window.location.href = redirectUrl
     } catch (err: any) {
       setError(err.message || 'Authentication failed')
     }
