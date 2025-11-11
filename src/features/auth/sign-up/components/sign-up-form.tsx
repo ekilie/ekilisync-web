@@ -3,6 +3,7 @@ import { HTMLAttributes } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -46,6 +47,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,18 +65,20 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
     setError(null)
     setSuccess(null)
     try {
-      // Using the Api.signup utility
       const payload: SignupDto = {
         officeName: data.name,
         adminEmail: data.email,
         adminPassword: data.password,
         phoneNumber: data.phone ?? '',
       }
-      const res = await Api.signup(payload)
-      console.log(res)
-      setSuccess('Registration successful! Please check your email to verify your account.')
+      await Api.signup(payload)
+      setSuccess('Registration successful! Redirecting to sign in...')
+      // Redirect to sign-in after 1.5 seconds
+      setTimeout(() => {
+        navigate({ to: '/sign-in' })
+      }, 1500)
     } catch (err: any) {
-      setError(err.message)
+      setError(err.message || 'Registration failed')
     } finally {
       setIsLoading(false)
     }
