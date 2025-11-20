@@ -1,35 +1,42 @@
-import { useEffect, useState } from 'react'
-import {
-  IconClockCheck,
-  IconUsers,
-  IconTrendingUp,
-  IconCalendar,
-} from '@tabler/icons-react'
-import { toast } from 'sonner'
-import Api, { OfficeCountResponse } from '@/lib/api'
-import { officeData } from '@/lib/api/authToken'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { TopNav } from '@/components/layout/top-nav'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { AttendanceEmployees } from '@/features/attendance/components/AttendanceEmployees'
-import { AttendanceHistory } from '@/features/attendance/components/AttendanceHistory'
+import { useEffect, useState } from 'react';
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '@radix-ui/react-dialog';
+import { IconClockCheck, IconUsers, IconTrendingUp, IconCalendar, IconMapPin } from '@tabler/icons-react';
+// import { Label } from 'recharts';
+import { toast } from 'sonner';
+import Api, { OfficeCountResponse } from '@/lib/api';
+import { officeData } from '@/lib/api/authToken';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DialogHeader, DialogFooter } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Loader from '@/components/Loader';
+import { Header } from '@/components/layout/header';
+import { Main } from '@/components/layout/main';
+import { TopNav } from '@/components/layout/top-nav';
+import { ProfileDropdown } from '@/components/profile-dropdown';
+import { Search } from '@/components/search';
+import { ThemeSwitch } from '@/components/theme-switch';
+import { AttendanceEmployees } from '@/features/attendance/components/AttendanceEmployees';
+import { AttendanceHistory } from '@/features/attendance/components/AttendanceHistory';
 // Import attendance components
-import { AttendanceOverview } from '@/features/attendance/components/AttendanceOverview'
-import { AttendanceReports } from '@/features/attendance/components/AttendanceReports'
-import Loader from '@/components/Loader'
+import { AttendanceOverview } from '@/features/attendance/components/AttendanceOverview';
+import { AttendanceReports } from '@/features/attendance/components/AttendanceReports';
+
 
 export default function Dashboard() {
   const [attendanceData, setAttendanceData] =
     useState<OfficeCountResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
+  const [isLocationDialogOpen, setIsLocationDialogOpen] = useState(false)
+  const [userLocation, setUserLocation] = useState<{
+    latitude: number
+    longitude: number
+  } | null>(null)
+  const [isGettingLocation, setIsGettingLocation] = useState(false)
+  const [locationError, setLocationError] = useState<string | null>(null)
   const office = officeData()
 
   useEffect(() => {
@@ -50,10 +57,72 @@ export default function Dashboard() {
     fetchAttendanceData()
   }, [office?.id])
 
-  if (loading) {
-    return (
-      <Loader />
+  const getUserLocation = () => {
+    setIsGettingLocation(true)
+    setLocationError(null)
+
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by this browser.')
+      setIsGettingLocation(false)
+      return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        })
+        setIsGettingLocation(false)
+        toast.success('Location retrieved successfully!')
+      },
+      (error) => {
+        let errorMessage = 'Unknown error occurred while getting location'
+
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = 'Location access denied by user.'
+            break
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = 'Location information is unavailable.'
+            break
+          case error.TIMEOUT:
+            errorMessage = 'Location request timed out.'
+            break
+        }
+
+        setLocationError(errorMessage)
+        setIsGettingLocation(false)
+        toast.error('Failed to get location')
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000,
+      }
     )
+  }
+
+  const handleUpdateLocation = () => {
+    if (!userLocation) {
+      toast.error('Please get your location first')
+      return
+    }
+
+    // Here you would typically send the location to your backend
+    console.log('Updating office location:', userLocation)
+
+    // Simulate API call
+    toast.success('Office location updated successfully!')
+    setIsLocationDialogOpen(false)
+
+    // Reset states
+    setUserLocation(null)
+    setLocationError(null)
+  }
+
+  if (loading) {
+    return <Loader />
   }
   return (
     <>
@@ -77,7 +146,88 @@ export default function Dashboard() {
             </p>
           </div>
           <div className='flex items-center space-x-2'>
-            <Button>Export Report</Button>
+            <Dialog
+              open={isLocationDialogOpen}
+              onOpenChange={setIsLocationDialogOpen}
+            >
+              <DialogTrigger asChild>
+                <Button>Update Office Location</Button>
+              </DialogTrigger>
+              <DialogContent className='sm:max-w-[425px]'>
+                <DialogHeader>
+                  <DialogTitle>Update Office Location</DialogTitle>
+                  <DialogDescription>
+                    Get your current location to update the office coordinates
+                    for attendance tracking.
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className='grid gap-4 py-4'>
+                  <div className='grid grid-cols-4 items-center gap-4'>
+                    <label htmlFor='latitude' className='text-right'>
+                      Latitude
+                    </label>
+                    <Input
+                      id='latitude'
+                      value={userLocation?.latitude || ''}
+                      className='col-span-3'
+                      placeholder='Latitude will appear here'
+                      readOnly
+                    />
+                  </div>
+                  <div className='grid grid-cols-4 items-center gap-4'>
+                    <label htmlFor='longitude' className='text-right'>
+                      Longitude
+                    </label>
+                    <Input
+                      id='longitude'
+                      value={userLocation?.longitude || ''}
+                      className='col-span-3'
+                      placeholder='Longitude will appear here'
+                      readOnly
+                    />
+                  </div>
+
+                  {locationError && (
+                    <div className='col-span-4 rounded bg-red-50 p-2 text-sm text-red-500'>
+                      {locationError}
+                    </div>
+                  )}
+
+                  <div className='mt-4 flex justify-center'>
+                    <Button
+                      onClick={getUserLocation}
+                      disabled={isGettingLocation}
+                      className='flex items-center gap-2'
+                    >
+                      <IconMapPin className='h-4 w-4' />
+                      {isGettingLocation
+                        ? 'Getting Location...'
+                        : 'Get My Location'}
+                    </Button>
+                  </div>
+                </div>
+
+                <DialogFooter>
+                  <Button
+                    variant='outline'
+                    onClick={() => {
+                      setIsLocationDialogOpen(false)
+                      setUserLocation(null)
+                      setLocationError(null)
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleUpdateLocation}
+                    disabled={!userLocation || isGettingLocation}
+                  >
+                    Update Location
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 
@@ -109,7 +259,7 @@ export default function Dashboard() {
               <IconClockCheck className='text-muted-foreground h-4 w-4' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold text-primary-600'>
+              <div className='text-primary-600 text-2xl font-bold'>
                 {attendanceData?.checkedIn || 0}
               </div>
               <Badge variant='secondary' className='mt-1'>
@@ -132,7 +282,7 @@ export default function Dashboard() {
               <IconTrendingUp className='text-muted-foreground h-4 w-4' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold text-primary-600'>
+              <div className='text-primary-600 text-2xl font-bold'>
                 {attendanceData?.lateCheckedIn || 0}
               </div>
               <p className='text-muted-foreground text-xs'>
@@ -242,7 +392,7 @@ export default function Dashboard() {
                   <div className='grid gap-4 sm:grid-cols-2'>
                     <div className='space-y-2'>
                       <p className='text-muted-foreground text-sm'>On Time</p>
-                      <p className='text-2xl font-bold text-primary-600'>
+                      <p className='text-primary-600 text-2xl font-bold'>
                         {(attendanceData?.checkedIn || 0) -
                           (attendanceData?.lateCheckedIn || 0)}
                       </p>
@@ -251,13 +401,13 @@ export default function Dashboard() {
                       <p className='text-muted-foreground text-sm'>
                         Late Arrivals
                       </p>
-                      <p className='text-2xl font-bold text-primary-600'>
+                      <p className='text-primary-600 text-2xl font-bold'>
                         {attendanceData?.lateCheckedIn || 0}
                       </p>
                     </div>
                     <div className='space-y-2'>
                       <p className='text-muted-foreground text-sm'>Absent</p>
-                      <p className='text-2xl font-bold text-primary-600'>
+                      <p className='text-primary-600 text-2xl font-bold'>
                         {(attendanceData?.employees || 0) -
                           (attendanceData?.checkedIn || 0)}
                       </p>
@@ -266,7 +416,7 @@ export default function Dashboard() {
                       <p className='text-muted-foreground text-sm'>
                         Total Staff
                       </p>
-                      <p className='text-2xl font-bold text-primary-600'>
+                      <p className='text-primary-600 text-2xl font-bold'>
                         {attendanceData?.employees || 0}
                       </p>
                     </div>
@@ -313,7 +463,9 @@ export default function Dashboard() {
                     </div>
                     <div className='flex justify-between text-sm'>
                       <span>Best Day</span>
-                      <span className='font-medium text-primary-600'>Monday</span>
+                      <span className='text-primary-600 font-medium'>
+                        Monday
+                      </span>
                     </div>
                     <div className='flex justify-between text-sm'>
                       <span>Peak Hours</span>
