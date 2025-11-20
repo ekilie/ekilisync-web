@@ -171,6 +171,11 @@ export interface UpdateOfficeDto {
   logoUrl?: string
 }
 
+export interface UpdateOfficeLocationDto {
+  latitude: number
+  longitude: number
+}
+
 export interface OfficeCountResponse {
   employees: number
   checkedIn: number

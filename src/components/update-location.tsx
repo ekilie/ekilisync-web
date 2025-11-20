@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { IconMapPin } from '@tabler/icons-react'
+import { toast } from 'sonner'
+// ...existing code...
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogTrigger,
   DialogContent,
+  DialogHeader,
   DialogTitle,
   DialogDescription,
-} from '@radix-ui/react-dialog'
-import { IconMapPin } from '@tabler/icons-react'
-import { toast } from 'sonner'
-import Api, { OfficeCountResponse } from '@/lib/api'
-import { officeData } from '@/lib/api/authToken'
-import { Button } from '@/components/ui/button'
-import { DialogHeader, DialogFooter } from '@/components/ui/dialog'
+  DialogFooter,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 
 const UpdateLocationDialog = () => {
-  const [isLocationDialogOpen, setIsLocationDialogOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const [userLocation, setUserLocation] = useState<{
     latitude: number
     longitude: number
@@ -75,10 +75,8 @@ const UpdateLocationDialog = () => {
       return
     }
 
-    console.log('Updating office location:', userLocation)
-
     toast.success('Office location updated successfully!')
-    setIsLocationDialogOpen(false)
+    setOpen(false)
 
     // Reset states
     setUserLocation(null)
@@ -86,11 +84,11 @@ const UpdateLocationDialog = () => {
   }
 
   return (
-    <Dialog open={isLocationDialogOpen} onOpenChange={setIsLocationDialogOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Update Office Location</Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px] z-50'>
+      <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Update Office Location</DialogTitle>
           <DialogDescription>
@@ -147,7 +145,7 @@ const UpdateLocationDialog = () => {
           <Button
             variant='outline'
             onClick={() => {
-              setIsLocationDialogOpen(false)
+              setOpen(false)
               setUserLocation(null)
               setLocationError(null)
             }}
