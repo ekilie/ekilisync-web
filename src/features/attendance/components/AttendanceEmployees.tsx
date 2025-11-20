@@ -155,13 +155,10 @@ export function AttendanceEmployees() {
       }
 
       const checkInData = {
-        employeeId: employee.id,
+        userId: employee.id,
         officeId: office.id,
-        checkInTime: new Date().toISOString(),
-        checkInLocation: {
-          latitude: location.latitude,
-          longitude: location.longitude,
-        },
+        latitude: location.latitude,
+        longitude: location.longitude,
       }
 
       await Api.createAttendance(checkInData)

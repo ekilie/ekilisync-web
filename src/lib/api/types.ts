@@ -200,11 +200,10 @@ export interface Attendance {
 }
 
 export interface CreateAttendanceDto {
-  employeeId: string
+  userId: string
   officeId: string
-  checkInTime: string
-  checkInLocation?: Location
-  notes?: string
+  latitude: number
+  longitude: number
 }
 
 export interface UpdateAttendanceDto {
