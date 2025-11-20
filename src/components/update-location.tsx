@@ -79,17 +79,19 @@ const UpdateLocationDialog = () => {
     )
   }
 
-  const handleUpdateLocation = () => {
+const handleUpdateLocation = async () => {
     if (!userLocation) {
       toast.error('Please get your location first')
       return
     }
 
     try {
-      Api.updateOfficeLocation(office?.id || 'officeId', {
+      const response = await Api.updateOfficeLocation(office?.id || 'officeId', {
         latitude: userLocation.latitude,
         longitude: userLocation.longitude,
       })
+      console.log('Update Response:', response)
+
       toast.success('Office location updated successfully!')
       setOpen(false)
     } catch (error) {
@@ -104,59 +106,62 @@ const UpdateLocationDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className='gap-2'>
+        <Button className='gap-2' size='sm'>
           <IconMapPinFilled className='h-4 w-4' />
           Update Office Location
         </Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[500px]'>
+      <DialogContent className='sm:max-w-[450px]'>
         <DialogHeader>
           <div className='flex items-center gap-3'>
-            <div className='bg-primary/10 flex h-10 w-10 items-center justify-center rounded-full'>
-              <IconMapPin2 className='text-primary h-5 w-5' />
+            <div className='bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full'>
+              <IconMapPin2 className='text-primary h-4 w-4' />
             </div>
             <div>
-              <DialogTitle className='text-xl'>
+              <DialogTitle className='text-lg'>
                 Update Office Location
               </DialogTitle>
-              <DialogDescription className='text-base'>
-                Set your office coordinates for accurate attendance tracking
+              <DialogDescription className='text-sm'>
+                Set office coordinates for attendance tracking
               </DialogDescription>
             </div>
           </div>
         </DialogHeader>
 
-        <div className='space-y-6 py-4'>
+        <div className='space-y-4 py-2'>
           {/* Location Status Card */}
-          <Card className='border-muted-foreground/20 from-background to-muted/20 border-2 border-dashed bg-gradient-to-br'>
-            <CardContent className='p-6'>
+          <Card className='border-muted-foreground/20 from-background to-muted/20 border border-dashed bg-gradient-to-br'>
+            <CardContent className='p-4'>
               <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-2'>
                   <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-full ${
+                    className={`flex h-5 w-5 items-center justify-center rounded-full ${
                       userLocation
                         ? 'bg-green-100 text-green-600 dark:bg-green-900/20'
                         : 'bg-blue-100 text-blue-600 dark:bg-blue-900/20'
                     }`}
                   >
                     {userLocation ? (
-                      <IconCheck className='h-6 w-6' />
+                      <IconCheck className='h-3 w-3' />
                     ) : (
-                      <IconMapPin className='h-6 w-6' />
+                      <IconMapPin className='h-3 w-3' />
                     )}
                   </div>
                   <div>
-                    <h3 className='font-semibold'>
+                    <h3 className='text-sm font-semibold'>
                       {userLocation ? 'Location Captured' : 'Ready to Capture'}
                     </h3>
-                    <p className='text-muted-foreground text-sm'>
+                    <p className='text-muted-foreground text-xs'>
                       {userLocation
-                        ? 'Coordinates are ready to update'
-                        : 'Get your current location to proceed'}
+                        ? 'Coordinates ready to update'
+                        : 'Get current location to proceed'}
                     </p>
                   </div>
                 </div>
-                <Badge variant={userLocation ? 'default' : 'secondary'}>
+                <Badge
+                  variant={userLocation ? 'default' : 'secondary'}
+                  className='text-xs'
+                >
                   {userLocation ? 'Ready' : 'Pending'}
                 </Badge>
               </div>
@@ -164,46 +169,46 @@ const UpdateLocationDialog = () => {
           </Card>
 
           {/* Coordinates Display */}
-          <div className='grid gap-4'>
-            <div className='text-muted-foreground text-sm font-medium'>
+          <div className='grid gap-3'>
+            <div className='text-muted-foreground text-xs font-medium'>
               Coordinates
             </div>
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='grid grid-cols-2 gap-3'>
               <Card className='border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 dark:border-blue-800 dark:from-blue-950/20 dark:to-blue-900/10'>
-                <CardContent className='p-4'>
+                <CardContent className='p-3'>
                   <div className='flex items-center justify-between'>
                     <div>
-                      <p className='text-sm font-medium text-blue-700 dark:text-blue-300'>
+                      <p className='text-xs font-medium text-blue-700 dark:text-blue-300'>
                         Latitude
                       </p>
-                      <p className='text-2xl font-bold text-blue-900 dark:text-blue-100'>
+                      <p className='text-lg font-bold text-blue-900 dark:text-blue-100'>
                         {userLocation?.latitude
                           ? userLocation.latitude.toFixed(6)
                           : '--'}
                       </p>
                     </div>
                     <div className='text-blue-400'>
-                      <IconMapPin className='h-8 w-8' />
+                      <IconMapPin className='h-5 w-5' />
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
               <Card className='border-green-200 bg-gradient-to-br from-green-50 to-green-100 dark:border-green-800 dark:from-green-950/20 dark:to-green-900/10'>
-                <CardContent className='p-4'>
+                <CardContent className='p-3'>
                   <div className='flex items-center justify-between'>
                     <div>
-                      <p className='text-sm font-medium text-green-700 dark:text-green-300'>
+                      <p className='text-xs font-medium text-green-700 dark:text-green-300'>
                         Longitude
                       </p>
-                      <p className='text-2xl font-bold text-green-900 dark:text-green-100'>
+                      <p className='text-lg font-bold text-green-900 dark:text-green-100'>
                         {userLocation?.longitude
                           ? userLocation.longitude.toFixed(6)
                           : '--'}
                       </p>
                     </div>
                     <div className='text-green-400'>
-                      <IconMapPin className='h-8 w-8' />
+                      <IconMapPin className='h-5 w-5' />
                     </div>
                   </div>
                 </CardContent>
@@ -212,13 +217,13 @@ const UpdateLocationDialog = () => {
           </div>
 
           {/* Action Section */}
-          <div className='space-y-4'>
+          <div className='space-y-3'>
             {locationError && (
               <Card className='border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20'>
-                <CardContent className='p-4'>
+                <CardContent className='p-3'>
                   <div className='flex items-center gap-2 text-red-700 dark:text-red-300'>
-                    <IconMapPin className='h-4 w-4' />
-                    <p className='text-sm font-medium'>{locationError}</p>
+                    <IconMapPin className='h-3 w-3' />
+                    <p className='text-xs font-medium'>{locationError}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -228,33 +233,22 @@ const UpdateLocationDialog = () => {
               <Button
                 onClick={getUserLocation}
                 disabled={isGettingLocation}
-                className='flex items-center gap-3 px-8 py-6 text-lg font-semibold transition-all hover:scale-105'
-                size='lg'
+                className='flex items-center gap-2 px-6 py-3 text-base font-medium transition-all hover:scale-105'
+                size='default'
               >
                 {isGettingLocation ? (
                   <>
-                    <IconLoader2 className='h-5 w-5 animate-spin' />
-                    Detecting Location...
+                    <IconLoader2 className='h-4 w-4 animate-spin' />
+                    Detecting...
                   </>
                 ) : (
                   <>
-                    <IconCurrentLocation className='h-5 w-5' />
-                    {userLocation ? 'Refresh Location' : 'Detect My Location'}
+                    <IconCurrentLocation className='h-4 w-4' />
+                    {userLocation ? 'Refresh Location' : 'Detect Location'}
                   </>
                 )}
               </Button>
             </div>
-
-            {userLocation && (
-              <div className='rounded-lg bg-green-50 p-4 dark:bg-green-950/20'>
-                <div className='flex items-center gap-2 text-green-700 dark:text-green-300'>
-                  <IconCheck className='h-4 w-4' />
-                  <p className='text-sm font-medium'>
-                    Location verified! Ready to update office coordinates.
-                  </p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
@@ -266,16 +260,16 @@ const UpdateLocationDialog = () => {
               setUserLocation(null)
               setLocationError(null)
             }}
-            className='flex-1'
+            className='flex-1 text-sm mx-2'
           >
             Cancel
           </Button>
           <Button
             onClick={handleUpdateLocation}
             disabled={!userLocation || isGettingLocation}
-            className='flex-1 gap-2'
+            className='flex-1 gap-2 text-sm mx-2'
           >
-            <IconCheck className='h-4 w-4' />
+            <IconCheck className='h-3 w-3' />
             Update Location
           </Button>
         </DialogFooter>
@@ -285,4 +279,3 @@ const UpdateLocationDialog = () => {
 }
 
 export default UpdateLocationDialog
-
