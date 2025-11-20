@@ -1,27 +1,13 @@
-import { useState } from 'react'
-import {
-  IconMapPin,
-  IconMapPin2,
-  IconMapPinFilled,
-  IconCurrentLocation,
-  IconCheck,
-  IconLoader2,
-} from '@tabler/icons-react'
-import { toast } from 'sonner'
-import Api from '@/lib/api'
-import { officeData } from '@/lib/api/authToken'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog'
+import { useState } from 'react';
+import { IconMapPin, IconMapPin2, IconMapPinFilled, IconCurrentLocation, IconCheck, IconLoader2 } from '@tabler/icons-react';
+import { toast } from 'sonner';
+import Api from '@/lib/api';
+import { officeData, saveUser, userData } from '@/lib/api/authToken';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+
 
 const UpdateLocationDialog = () => {
   const [open, setOpen] = useState(false)
@@ -32,6 +18,7 @@ const UpdateLocationDialog = () => {
   const [isGettingLocation, setIsGettingLocation] = useState(false)
   const [locationError, setLocationError] = useState<string | null>(null)
   const office = officeData()
+  const user = userData()
 
   const getUserLocation = () => {
     setIsGettingLocation(true)
@@ -79,16 +66,27 @@ const UpdateLocationDialog = () => {
     )
   }
 
-const handleUpdateLocation = async () => {
+  const handleUpdateLocation = async () => {
     if (!userLocation) {
       toast.error('Please get your location first')
       return
     }
 
     try {
-      const response = await Api.updateOfficeLocation(office?.id || 'officeId', {
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude,
+      const response = await Api.updateOfficeLocation(
+        office?.id || 'officeId',
+        {
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
+        }
+      )
+      saveUser({
+        ...user,
+        office: {
+          ...office,
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
+        },
       })
       console.log('Update Response:', response)
 
@@ -260,14 +258,14 @@ const handleUpdateLocation = async () => {
               setUserLocation(null)
               setLocationError(null)
             }}
-            className='flex-1 text-sm mx-2'
+            className='mx-2 flex-1 text-sm'
           >
             Cancel
           </Button>
           <Button
             onClick={handleUpdateLocation}
             disabled={!userLocation || isGettingLocation}
-            className='flex-1 gap-2 text-sm mx-2'
+            className='mx-2 flex-1 gap-2 text-sm'
           >
             <IconCheck className='h-3 w-3' />
             Update Location
