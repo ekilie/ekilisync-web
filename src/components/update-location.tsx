@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { IconMapPin } from '@tabler/icons-react'
 import { toast } from 'sonner'
+import Api from '@/lib/api'
+import { officeData } from '@/lib/api/authToken'
 // ...existing code...
 import { Button } from '@/components/ui/button'
 import {
@@ -22,6 +24,7 @@ const UpdateLocationDialog = () => {
   } | null>(null)
   const [isGettingLocation, setIsGettingLocation] = useState(false)
   const [locationError, setLocationError] = useState<string | null>(null)
+  const office = officeData()
 
   const getUserLocation = () => {
     setIsGettingLocation(true)
@@ -75,8 +78,16 @@ const UpdateLocationDialog = () => {
       return
     }
 
-    toast.success('Office location updated successfully!')
-    setOpen(false)
+    try {
+      Api.updateOfficeLocation(office?.id || 'officeId', {
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+      })
+      toast.success('Office location updated successfully!')
+      setOpen(false)
+    } catch (error) {
+      toast.error('Failed to update office location')
+    }
 
     // Reset states
     setUserLocation(null)

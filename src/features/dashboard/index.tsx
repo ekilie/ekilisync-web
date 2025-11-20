@@ -31,13 +31,6 @@ export default function Dashboard() {
     useState<OfficeCountResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
-  const [isLocationDialogOpen, setIsLocationDialogOpen] = useState(false)
-  const [userLocation, setUserLocation] = useState<{
-    latitude: number
-    longitude: number
-  } | null>(null)
-  const [isGettingLocation, setIsGettingLocation] = useState(false)
-  const [locationError, setLocationError] = useState<string | null>(null)
   const office = officeData()
 
   useEffect(() => {
@@ -58,69 +51,7 @@ export default function Dashboard() {
     fetchAttendanceData()
   }, [office?.id])
 
-  const getUserLocation = () => {
-    setIsGettingLocation(true)
-    setLocationError(null)
 
-    if (!navigator.geolocation) {
-      setLocationError('Geolocation is not supported by this browser.')
-      setIsGettingLocation(false)
-      return
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        })
-        setIsGettingLocation(false)
-        toast.success('Location retrieved successfully!')
-      },
-      (error) => {
-        let errorMessage = 'Unknown error occurred while getting location'
-
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            errorMessage = 'Location access denied by user.'
-            break
-          case error.POSITION_UNAVAILABLE:
-            errorMessage = 'Location information is unavailable.'
-            break
-          case error.TIMEOUT:
-            errorMessage = 'Location request timed out.'
-            break
-        }
-
-        setLocationError(errorMessage)
-        setIsGettingLocation(false)
-        toast.error('Failed to get location')
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 60000,
-      }
-    )
-  }
-
-  const handleUpdateLocation = () => {
-    if (!userLocation) {
-      toast.error('Please get your location first')
-      return
-    }
-
-    // Here you would typically send the location to your backend
-    console.log('Updating office location:', userLocation)
-
-    // Simulate API call
-    toast.success('Office location updated successfully!')
-    setIsLocationDialogOpen(false)
-
-    // Reset states
-    setUserLocation(null)
-    setLocationError(null)
-  }
 
   if (loading) {
     return <Loader />
