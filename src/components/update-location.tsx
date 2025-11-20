@@ -90,7 +90,7 @@ const UpdateLocationDialog = () => {
       <DialogTrigger asChild>
         <Button>Update Office Location</Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='sm:max-w-[425px] z-50'>
         <DialogHeader>
           <DialogTitle>Update Office Location</DialogTitle>
           <DialogDescription>
