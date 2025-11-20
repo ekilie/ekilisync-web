@@ -23,6 +23,7 @@ import { AttendanceHistory } from '@/features/attendance/components/AttendanceHi
 // Import attendance components
 import { AttendanceOverview } from '@/features/attendance/components/AttendanceOverview';
 import { AttendanceReports } from '@/features/attendance/components/AttendanceReports';
+import UpdateLocationDialog from '@/components/update-location';
 
 
 export default function Dashboard() {
@@ -146,88 +147,7 @@ export default function Dashboard() {
             </p>
           </div>
           <div className='flex items-center space-x-2'>
-            <Dialog
-              open={isLocationDialogOpen}
-              onOpenChange={setIsLocationDialogOpen}
-            >
-              <DialogTrigger asChild>
-                <Button>Update Office Location</Button>
-              </DialogTrigger>
-              <DialogContent className='sm:max-w-[425px]'>
-                <DialogHeader>
-                  <DialogTitle>Update Office Location</DialogTitle>
-                  <DialogDescription>
-                    Get your current location to update the office coordinates
-                    for attendance tracking.
-                  </DialogDescription>
-                </DialogHeader>
-
-                <div className='grid gap-4 py-4'>
-                  <div className='grid grid-cols-4 items-center gap-4'>
-                    <label htmlFor='latitude' className='text-right'>
-                      Latitude
-                    </label>
-                    <Input
-                      id='latitude'
-                      value={userLocation?.latitude || ''}
-                      className='col-span-3'
-                      placeholder='Latitude will appear here'
-                      readOnly
-                    />
-                  </div>
-                  <div className='grid grid-cols-4 items-center gap-4'>
-                    <label htmlFor='longitude' className='text-right'>
-                      Longitude
-                    </label>
-                    <Input
-                      id='longitude'
-                      value={userLocation?.longitude || ''}
-                      className='col-span-3'
-                      placeholder='Longitude will appear here'
-                      readOnly
-                    />
-                  </div>
-
-                  {locationError && (
-                    <div className='col-span-4 rounded bg-red-50 p-2 text-sm text-red-500'>
-                      {locationError}
-                    </div>
-                  )}
-
-                  <div className='mt-4 flex justify-center'>
-                    <Button
-                      onClick={getUserLocation}
-                      disabled={isGettingLocation}
-                      className='flex items-center gap-2'
-                    >
-                      <IconMapPin className='h-4 w-4' />
-                      {isGettingLocation
-                        ? 'Getting Location...'
-                        : 'Get My Location'}
-                    </Button>
-                  </div>
-                </div>
-
-                <DialogFooter>
-                  <Button
-                    variant='outline'
-                    onClick={() => {
-                      setIsLocationDialogOpen(false)
-                      setUserLocation(null)
-                      setLocationError(null)
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleUpdateLocation}
-                    disabled={!userLocation || isGettingLocation}
-                  >
-                    Update Location
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+            <UpdateLocationDialog />
           </div>
         </div>
 
