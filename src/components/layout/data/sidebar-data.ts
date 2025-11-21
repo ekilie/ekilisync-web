@@ -9,7 +9,7 @@ import {
   IconUserCog,
   IconUsers,
 } from '@tabler/icons-react'
-import { Command } from 'lucide-react'
+import { Egg } from 'lucide-react'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
@@ -21,7 +21,7 @@ export const sidebarData: SidebarData = {
   teams: [
     {
       name: 'ekiliSync',
-      logo: Command,
+      logo: Egg,
       plan: 'Free',
     },
   ],
@@ -34,28 +34,11 @@ export const sidebarData: SidebarData = {
           url: '/dashboard',
           icon: IconLayoutDashboard,
         },
-        // Removed attendance - functionality now merged into dashboard
-        // {
-        //   title: 'Attendance',
-        //   url: '/attendance',
-        //   icon: IconClockCheck,
-        // },
-        // {
-        //   title: 'Tasks',
-        //   url: '/tasks',
-        //   icon: IconChecklist,
-        // },
-
         {
           title: 'Employees',
           url: '/employees',
           icon: IconUsers,
         },
-        // {
-        //   title: 'Users',
-        //   url: '/users',
-        //   icon: IconUsers,
-        // },
       ],
     },
     {

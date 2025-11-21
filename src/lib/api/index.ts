@@ -1,42 +1,7 @@
-import { saveUser, setAuthToken } from './authToken'
-import api from './config'
-import type {
-  SignupDto,
-  RegisterDto,
-  LoginDto,
-  AuthResponse,
-  VerifyEmailDto,
-  RefreshTokenDto,
-  User,
-  CreateUserDto,
-  UpdateUserDto,
-  SetPasswordDto,
-  UserFilters,
-  Employee,
-  CreateEmployeeDto,
-  InviteEmployeeDto,
-  VerifyEmployeeOtpDto,
-  VerifyOtpDto,
-  UpdateEmployeeDto,
-  EmployeeFilters,
-  Office,
-  CreateOfficeDto,
-  UpdateOfficeDto,
-  OfficeCountResponse,
-  Attendance,
-  CreateAttendanceDto,
-  UpdateAttendanceDto,
-  AttendanceFilters,
-  AttendanceReport,
-  Role,
-  UpdateRoleDto,
-  SendSmsDto,
-  SendEmailDto,
-  NotificationResponse,
-  ApiResponse,
-  PaginatedResponse,
-  PaginationParams,
-} from './types'
+import { saveUser, setAuthToken } from './authToken';
+import api from './config';
+import type { SignupDto, RegisterDto, LoginDto, AuthResponse, VerifyEmailDto, RefreshTokenDto, User, CreateUserDto, UpdateUserDto, SetPasswordDto, UserFilters, Employee, CreateEmployeeDto, InviteEmployeeDto, VerifyEmployeeOtpDto, VerifyOtpDto, UpdateEmployeeDto, EmployeeFilters, Office, CreateOfficeDto, UpdateOfficeDto, OfficeCountResponse, Attendance, CreateAttendanceDto, UpdateAttendanceDto, AttendanceFilters, AttendanceReport, Role, UpdateRoleDto, SendSmsDto, SendEmailDto, NotificationResponse, ApiResponse, PaginatedResponse, PaginationParams, UpdateOfficeLocationDto } from './types';
+
 
 export * from './types'
 
@@ -179,6 +144,19 @@ class Api {
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }
       throw new Error(err.response?.data?.message || 'Failed to update office')
+    }
+  }
+
+  static async updateOfficeLocation(
+    id: string,
+    payload: UpdateOfficeLocationDto
+  ): Promise<ApiResponse<Office>> {
+    try {
+      const res = await api(true).patch(`/offices/update-location/${id}`, payload)
+      return res.data
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } }
+      throw new Error(err.response?.data?.message || 'Failed to update office location')
     }
   }
 

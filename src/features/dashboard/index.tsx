@@ -1,29 +1,30 @@
-import { useEffect, useState } from 'react'
-import {
-  IconClockCheck,
-  IconUsers,
-  IconTrendingUp,
-  IconCalendar,
-} from '@tabler/icons-react'
-import { toast } from 'sonner'
-import Api, { OfficeCountResponse } from '@/lib/api'
-import { officeData } from '@/lib/api/authToken'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { TopNav } from '@/components/layout/top-nav'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { AttendanceEmployees } from '@/features/attendance/components/AttendanceEmployees'
-import { AttendanceHistory } from '@/features/attendance/components/AttendanceHistory'
+import { useEffect, useState } from 'react';
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '@radix-ui/react-dialog';
+import { IconClockCheck, IconUsers, IconTrendingUp, IconCalendar, IconMapPin } from '@tabler/icons-react';
+// import { Label } from 'recharts';
+import { toast } from 'sonner';
+import Api, { OfficeCountResponse } from '@/lib/api';
+import { officeData } from '@/lib/api/authToken';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DialogHeader, DialogFooter } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Loader from '@/components/Loader';
+import { Header } from '@/components/layout/header';
+import { Main } from '@/components/layout/main';
+import { TopNav } from '@/components/layout/top-nav';
+import { ProfileDropdown } from '@/components/profile-dropdown';
+import { Search } from '@/components/search';
+import { ThemeSwitch } from '@/components/theme-switch';
+import { AttendanceEmployees } from '@/features/attendance/components/AttendanceEmployees';
+import { AttendanceHistory } from '@/features/attendance/components/AttendanceHistory';
 // Import attendance components
-import { AttendanceOverview } from '@/features/attendance/components/AttendanceOverview'
-import { AttendanceReports } from '@/features/attendance/components/AttendanceReports'
-import Loader from '@/components/Loader'
+import { AttendanceOverview } from '@/features/attendance/components/AttendanceOverview';
+import { AttendanceReports } from '@/features/attendance/components/AttendanceReports';
+import UpdateLocationDialog from '@/components/update-location';
+
 
 export default function Dashboard() {
   const [attendanceData, setAttendanceData] =
@@ -50,10 +51,10 @@ export default function Dashboard() {
     fetchAttendanceData()
   }, [office?.id])
 
+
+
   if (loading) {
-    return (
-      <Loader />
-    )
+    return <Loader />
   }
   return (
     <>
@@ -77,11 +78,10 @@ export default function Dashboard() {
             </p>
           </div>
           <div className='flex items-center space-x-2'>
-            <Button>Export Report</Button>
+            <UpdateLocationDialog />
           </div>
         </div>
 
-        {/* Enhanced Stats Cards with Advanced Metrics */}
         <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
           <Card className='transition-shadow hover:shadow-md'>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
@@ -109,7 +109,7 @@ export default function Dashboard() {
               <IconClockCheck className='text-muted-foreground h-4 w-4' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold text-primary-600'>
+              <div className='text-primary-600 text-2xl font-bold'>
                 {attendanceData?.checkedIn || 0}
               </div>
               <Badge variant='secondary' className='mt-1'>
@@ -132,7 +132,7 @@ export default function Dashboard() {
               <IconTrendingUp className='text-muted-foreground h-4 w-4' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold text-primary-600'>
+              <div className='text-primary-600 text-2xl font-bold'>
                 {attendanceData?.lateCheckedIn || 0}
               </div>
               <p className='text-muted-foreground text-xs'>
@@ -242,7 +242,7 @@ export default function Dashboard() {
                   <div className='grid gap-4 sm:grid-cols-2'>
                     <div className='space-y-2'>
                       <p className='text-muted-foreground text-sm'>On Time</p>
-                      <p className='text-2xl font-bold text-primary-600'>
+                      <p className='text-primary-600 text-2xl font-bold'>
                         {(attendanceData?.checkedIn || 0) -
                           (attendanceData?.lateCheckedIn || 0)}
                       </p>
@@ -251,13 +251,13 @@ export default function Dashboard() {
                       <p className='text-muted-foreground text-sm'>
                         Late Arrivals
                       </p>
-                      <p className='text-2xl font-bold text-primary-600'>
+                      <p className='text-primary-600 text-2xl font-bold'>
                         {attendanceData?.lateCheckedIn || 0}
                       </p>
                     </div>
                     <div className='space-y-2'>
                       <p className='text-muted-foreground text-sm'>Absent</p>
-                      <p className='text-2xl font-bold text-primary-600'>
+                      <p className='text-primary-600 text-2xl font-bold'>
                         {(attendanceData?.employees || 0) -
                           (attendanceData?.checkedIn || 0)}
                       </p>
@@ -266,7 +266,7 @@ export default function Dashboard() {
                       <p className='text-muted-foreground text-sm'>
                         Total Staff
                       </p>
-                      <p className='text-2xl font-bold text-primary-600'>
+                      <p className='text-primary-600 text-2xl font-bold'>
                         {attendanceData?.employees || 0}
                       </p>
                     </div>
@@ -313,7 +313,9 @@ export default function Dashboard() {
                     </div>
                     <div className='flex justify-between text-sm'>
                       <span>Best Day</span>
-                      <span className='font-medium text-primary-600'>Monday</span>
+                      <span className='text-primary-600 font-medium'>
+                        Monday
+                      </span>
                     </div>
                     <div className='flex justify-between text-sm'>
                       <span>Peak Hours</span>

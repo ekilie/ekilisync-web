@@ -58,7 +58,6 @@ export const officeData = () => {
   return null
 }
 
-//The synchronous way
 export const userData = () => {
   const user = localStorage.getItem('ekili-sync:user')
   return user ? JSON.parse(user) : null

@@ -171,6 +171,11 @@ export interface UpdateOfficeDto {
   logoUrl?: string
 }
 
+export interface UpdateOfficeLocationDto {
+  latitude: number
+  longitude: number
+}
+
 export interface OfficeCountResponse {
   employees: number
   checkedIn: number
@@ -195,11 +200,10 @@ export interface Attendance {
 }
 
 export interface CreateAttendanceDto {
-  employeeId: string
+  userId: string
   officeId: string
-  checkInTime: string
-  checkInLocation?: Location
-  notes?: string
+  latitude: number
+  longitude: number
 }
 
 export interface UpdateAttendanceDto {
