@@ -84,7 +84,7 @@ export function AttendanceEmployees() {
       if (attendancesData.data?.data) {
         setAttendances(attendancesData.data.data)
 
-      console.log('Fetched attendances:', attendances)
+        console.log('Fetched attendances:', attendances)
       }
     } catch (error) {
       console.error('Failed to fetch data:', error)
@@ -116,7 +116,7 @@ export function AttendanceEmployees() {
     // Filter by attendance status
     if (statusFilter !== 'all') {
       filtered = filtered.filter((employee) => {
-          const attendance = attendances.find((a) => a.employeeId === employee.id)
+        const attendance = attendances.find((a) => a.employeeId === employee.id)
         if (statusFilter === 'present') return attendance
         if (statusFilter === 'absent') return !attendance
         if (statusFilter === 'checked-in')
@@ -130,8 +130,8 @@ export function AttendanceEmployees() {
     setFilteredEmployees(filtered)
   }, [employees, attendances, searchTerm, statusFilter])
 
-    const getEmployeeAttendance = (employeeId: string) => {
-      return attendances.find((a) => a.employeeId === employeeId)
+  const getEmployeeAttendance = (employeeId: string) => {
+    return attendances.find((a) => a.employeeId === employeeId)
   }
 
   const handleCheckIn = async (employee: Employee) => {
