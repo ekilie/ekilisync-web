@@ -20,16 +20,16 @@ function Calendar({
         month_caption: 'flex justify-center pt-1 relative items-center w-full',
         caption_label: 'text-sm font-medium',
         nav: 'flex items-center gap-1',
-        button_previous: cn(
-          buttonVariants({ variant: 'outline' }),
-          'size-7 bg-transparent p-0 opacity-50 hover:opacity-100 z-10',
-          'absolute left-4 top-3'
-        ),
-        button_next: cn(
-          buttonVariants({ variant: 'outline' }),
-          'size-7 bg-transparent p-0 opacity-50 hover:opacity-100 z-10',
-          'absolute right-4 top-3'
-        ),
+        // button_previous: cn(
+        //   buttonVariants({ variant: 'outline' }),
+        //   'size-7 bg-transparent p-0 opacity-50 hover:opacity-100 z-10',
+        //   'absolute left-4 top-3'
+        // ),
+        // button_next: cn(
+        //   buttonVariants({ variant: 'outline' }),
+        //   'size-7 bg-transparent p-0 opacity-50 hover:opacity-100 z-10',
+        //   'absolute right-4 top-3'
+        // ),
         month_grid: 'w-full border-collapse space-x-1',
         weekdays: 'flex',
         weekday:

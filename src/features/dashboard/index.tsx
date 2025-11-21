@@ -210,7 +210,6 @@ export default function Dashboard() {
           </Button>
         </div> */}
 
-        {/* Enhanced Tabs with Attendance Management */}
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
@@ -229,7 +228,6 @@ export default function Dashboard() {
           </div>
 
           <TabsContent value='overview' className='space-y-4'>
-            {/* Additional Overview Stats */}
             <div className='grid gap-4 md:grid-cols-3'>
               <Card className='md:col-span-2'>
                 <CardHeader>
@@ -349,7 +347,7 @@ export default function Dashboard() {
 const topNav = [
   {
     title: 'Overview',
-    href: 'dashboard/overview',
+    href: 'dashboard',
     isActive: true,
     disabled: false,
   },
