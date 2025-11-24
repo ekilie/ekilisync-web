@@ -1,7 +1,43 @@
-import { saveUser, setAuthToken } from './authToken';
-import api from './config';
-import type { SignupDto, RegisterDto, LoginDto, AuthResponse, VerifyEmailDto, RefreshTokenDto, User, CreateUserDto, UpdateUserDto, SetPasswordDto, UserFilters, Employee, CreateEmployeeDto, InviteEmployeeDto, VerifyEmployeeOtpDto, VerifyOtpDto, UpdateEmployeeDto, EmployeeFilters, Office, CreateOfficeDto, UpdateOfficeDto, OfficeCountResponse, Attendance, CreateAttendanceDto, UpdateAttendanceDto, AttendanceFilters, AttendanceReport, Role, UpdateRoleDto, SendSmsDto, SendEmailDto, NotificationResponse, ApiResponse, PaginatedResponse, PaginationParams, UpdateOfficeLocationDto } from './types';
-
+import { saveUser, setAuthToken } from './authToken'
+import api from './config'
+import type {
+  SignupDto,
+  RegisterDto,
+  LoginDto,
+  AuthResponse,
+  VerifyEmailDto,
+  RefreshTokenDto,
+  User,
+  CreateUserDto,
+  UpdateUserDto,
+  SetPasswordDto,
+  UserFilters,
+  Employee,
+  CreateEmployeeDto,
+  InviteEmployeeDto,
+  VerifyEmployeeOtpDto,
+  VerifyOtpDto,
+  UpdateEmployeeDto,
+  EmployeeFilters,
+  Office,
+  CreateOfficeDto,
+  UpdateOfficeDto,
+  OfficeCountResponse,
+  Attendance,
+  CreateAttendanceDto,
+  UpdateAttendanceDto,
+  AttendanceFilters,
+  AttendanceReport,
+  Role,
+  UpdateRoleDto,
+  SendSmsDto,
+  SendEmailDto,
+  NotificationResponse,
+  ApiResponse,
+  PaginatedResponse,
+  PaginationParams,
+  UpdateOfficeLocationDto,
+} from './types'
 
 export * from './types'
 
@@ -233,7 +269,7 @@ class Api {
       const res = await api(true).get(`/users/me`)
       return res.data
     } catch (error) {
-      console.log('Error fetching current user:', error);
+      console.log('Error fetching current user:', error)
       const err = error as { response?: { data?: { message?: string } } }
       throw new Error(err.response?.data?.message || 'Failed to fetch user')
     }
