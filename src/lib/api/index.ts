@@ -170,6 +170,16 @@ class Api {
     }
   }
 
+  static async getCurrentPlan(officeId: string): Promise<ApiResponse<any>> {
+    try {
+      const res = await api(true).get(`/subscriptions/current-plan/${officeId}`)
+      return res.data
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } }
+      throw new Error(err.response?.data?.message || 'Failed to fetch office')
+    }
+  }
+
   static async updateOffice(
     id: string,
     payload: UpdateOfficeDto
