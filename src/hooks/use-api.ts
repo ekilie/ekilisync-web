@@ -167,7 +167,7 @@ export const useUsers = (filters?: UserFilters) => {
 export const useUser = (id: string) => {
   return useQuery({
     queryKey: ['user', id],
-    queryFn: () => Api.getUser(id),
+    queryFn: () => Api.getCurrentUser(),
     enabled: !!id,
   })
 }

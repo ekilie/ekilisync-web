@@ -152,11 +152,16 @@ class Api {
     payload: UpdateOfficeLocationDto
   ): Promise<ApiResponse<Office>> {
     try {
-      const res = await api(true).patch(`/offices/update-location/${id}`, payload)
+      const res = await api(true).patch(
+        `/offices/update-location/${id}`,
+        payload
+      )
       return res.data
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }
-      throw new Error(err.response?.data?.message || 'Failed to update office location')
+      throw new Error(
+        err.response?.data?.message || 'Failed to update office location'
+      )
     }
   }
 
@@ -218,6 +223,17 @@ class Api {
       const res = await api(true).get(`/users/${id}`)
       return res.data
     } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } }
+      throw new Error(err.response?.data?.message || 'Failed to fetch user')
+    }
+  }
+
+  static async getCurrentUser(): Promise<ApiResponse<User>> {
+    try {
+      const res = await api(true).get(`/users/me`)
+      return res.data
+    } catch (error) {
+      console.log('Error fetching current user:', error);
       const err = error as { response?: { data?: { message?: string } } }
       throw new Error(err.response?.data?.message || 'Failed to fetch user')
     }
