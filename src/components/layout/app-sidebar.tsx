@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { currentUser } from '@/lib/api/authToken'
-import type { CurrentUser } from '@/lib/api/types'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from '@/components/ui/sidebar'
-import { NavGroup } from '@/components/layout/nav-group'
-import { NavUser } from '@/components/layout/nav-user'
-import { TeamSwitcher } from '@/components/layout/team-switcher'
-import { sidebarData } from './data/sidebar-data'
+import React, { useEffect, useState } from 'react';
+import { currentUser } from '@/lib/api/authToken';
+import type { CurrentUser } from '@/lib/api/types';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/components/ui/sidebar';
+import { NavGroup } from '@/components/layout/nav-group';
+import { NavUser } from '@/components/layout/nav-user';
+import { TeamSwitcher } from '@/components/layout/team-switcher';
+import { getSidebarData, sidebarData,  } from './data/sidebar-data';
+
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [user, setUser] = useState<CurrentUser | null>(null)
+  // const sidebarData = getSidebarData()
   useEffect(() => {
     currentUser().then(setUser)
   }, [])

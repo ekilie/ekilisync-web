@@ -1,3 +1,18 @@
+import {
+  IconCreditCard,
+  IconHelp,
+  IconLayoutDashboard,
+  IconNotification,
+  IconPackages,
+  IconPalette,
+  IconSettings,
+  IconUserCog,
+  IconUsers,
+} from '@tabler/icons-react'
+import { Egg } from 'lucide-react'
+import Api from '@/lib/api'
+import { officeData } from '@/lib/api/authToken'
+
 // Static fallback for compatibility with components expecting sidebarData
 export const sidebarData: SidebarData = {
   user: {
@@ -71,20 +86,6 @@ export const sidebarData: SidebarData = {
     },
   ],
 }
-import {
-  IconCreditCard,
-  IconHelp,
-  IconLayoutDashboard,
-  IconNotification,
-  IconPackages,
-  IconPalette,
-  IconSettings,
-  IconUserCog,
-  IconUsers,
-} from '@tabler/icons-react'
-import { Egg } from 'lucide-react'
-import Api from '@/lib/api'
-import { officeData } from '@/lib/api/authToken'
 
 export type SidebarTeam = {
   name: string
@@ -120,6 +121,7 @@ export const getSidebarData = async (): Promise<SidebarData> => {
   if (office?.id) {
     try {
       const response = await Api.getCurrentPlan(office.id)
+      console.log('Current plan response:', response)
       planName = response?.data?.name || planName
     } catch (e) {
       // fallback to Free
