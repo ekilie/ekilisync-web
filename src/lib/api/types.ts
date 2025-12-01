@@ -311,3 +311,26 @@ export interface UserFilters extends PaginationParams {
   role?: UserRole
   officeId?: string
 }
+
+// Subscription Types
+export interface SubscriptionPlan {
+  id: string
+  name: string
+  type: 'FREE' | 'BASIC' | 'PREMIUM' | 'ENTERPRISE'
+  description: string
+  price: number
+  maxEmployees: number
+  maxUsers: number
+  maxAdmins: number
+  hasAnalytics: boolean
+  hasCustomBranding: boolean
+  hasApiAccess: boolean
+  features: string
+  isDefault: boolean
+  isActive: boolean
+}
+
+export interface UpdateSubscriptionDto {
+  planId?: string
+  status?: 'ACTIVE' | 'CANCELLED' | 'EXPIRED' | 'PENDING'
+}

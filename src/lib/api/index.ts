@@ -37,6 +37,8 @@ import type {
   PaginatedResponse,
   PaginationParams,
   UpdateOfficeLocationDto,
+  SubscriptionPlan,
+  UpdateSubscriptionDto,
 } from './types'
 
 export * from './types'
@@ -177,6 +179,36 @@ class Api {
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }
       throw new Error(err.response?.data?.message || 'Failed to fetch office')
+    }
+  }
+
+  static async getAllPlans(): Promise<ApiResponse<SubscriptionPlan[]>> {
+    try {
+      const res = await api(true).get(`/subscriptions/plans`)
+      return res.data
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } }
+      throw new Error(
+        err.response?.data?.message || 'Failed to fetch subscription plans'
+      )
+    }
+  }
+
+  static async updateSubscription(
+    officeId: string,
+    payload: UpdateSubscriptionDto
+  ): Promise<ApiResponse<any>> {
+    try {
+      const res = await api(true).patch(
+        `/subscriptions/update-plan/${officeId}`,
+        payload
+      )
+      return res.data
+    } catch (error) {
+      const err = error as { response?: { data?: { message?: string } } }
+      throw new Error(
+        err.response?.data?.message || 'Failed to update subscription'
+      )
     }
   }
 
