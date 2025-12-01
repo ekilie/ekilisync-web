@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '@radix-ui/react-dialog';
-import { IconClockCheck, IconUsers, IconTrendingUp, IconCalendar, IconMapPin } from '@tabler/icons-react';
+import { IconClockCheck, IconUsers, IconTrendingUp, IconCalendar } from '@tabler/icons-react';
 // import { Label } from 'recharts';
 import { toast } from 'sonner';
 import Api, { OfficeCountResponse } from '@/lib/api';
 import { officeData } from '@/lib/api/authToken';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DialogHeader, DialogFooter } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Loader from '@/components/Loader';
 import { Header } from '@/components/layout/header';

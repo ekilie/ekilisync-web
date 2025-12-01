@@ -603,9 +603,10 @@ export function AttendanceReports() {
                     cx='50%'
                     cy='50%'
                     labelLine={false}
-                    label={({ department, rate }) =>
-                      `${department}: ${(rate as number).toFixed(1)}%`
-                    }
+                    label={(entry: any) => {
+                      const data = departmentStats[entry.index]
+                      return data ? `${data.department}: ${data.rate.toFixed(1)}%` : ''
+                    }}
                     outerRadius={80}
                     fill='#8884d8'
                     dataKey='present'

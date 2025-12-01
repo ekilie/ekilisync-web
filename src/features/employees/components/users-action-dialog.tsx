@@ -24,8 +24,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { SelectDropdown } from '@/components/select-dropdown'
-import { userTypes } from '../data/data'
 import { User } from '../data/schema'
 import { useState } from 'react'
 

@@ -3,9 +3,10 @@ import { currentUser } from '@/lib/api/authToken';
 import type { CurrentUser } from '@/lib/api/types';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/components/ui/sidebar';
 import { NavGroup } from '@/components/layout/nav-group';
+import type { NavGroup as NavGroupType } from '@/components/layout/types';
 import { NavUser } from '@/components/layout/nav-user';
 import { PlanSwitcher } from '@/components/layout/plan-switcher';
-import { getSidebarData, sidebarData,  } from './data/sidebar-data';
+import { sidebarData } from './data/sidebar-data';
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -20,8 +21,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <PlanSwitcher />
       </SidebarHeader>
       <SidebarContent>
-        {sidebarData.navGroups.map((props) => (
-          <NavGroup key={props.title} {...props} />
+        {(sidebarData.navGroups as unknown as NavGroupType[]).map((navGroup) => (
+          <NavGroup key={navGroup.title} {...navGroup} />
         ))}
       </SidebarContent>
       <SidebarFooter>

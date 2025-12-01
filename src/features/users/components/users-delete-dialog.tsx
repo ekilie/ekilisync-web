@@ -53,7 +53,6 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
       open={open}
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
-      disabled={value.trim() !== currentRow.username}
       title={
         <span className='text-destructive'>
           <IconAlertTriangle

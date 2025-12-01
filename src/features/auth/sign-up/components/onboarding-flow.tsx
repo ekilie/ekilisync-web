@@ -439,8 +439,9 @@ export function OnboardingFlow({ className, ...props }: OnboardingFlowProps) {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn('space-y-6', className)} {...props}>
+    <div className={cn('space-y-6', className)} {...props}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
         {/* Progress Bar */}
         <div className='space-y-2'>
           <div className='flex items-center justify-between text-sm'>
@@ -464,7 +465,7 @@ export function OnboardingFlow({ className, ...props }: OnboardingFlowProps) {
           />
 
           {/* Step Circles */}
-          {steps.map((step, index) => {
+          {steps.map((step) => {
             const StepIcon = step.icon
             const isActive = currentStep === step.id
             const isCompleted = currentStep > step.id
@@ -542,7 +543,8 @@ export function OnboardingFlow({ className, ...props }: OnboardingFlowProps) {
             )}
           </div>
         </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </div>
   )
 }

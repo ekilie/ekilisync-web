@@ -70,7 +70,7 @@ export function PlanSwitcher() {
         // Handle both array and wrapped array responses
         const plansData = Array.isArray(plansResponse.data) 
           ? plansResponse.data 
-          : plansResponse.data?.data || []
+          : []
         setPlans(plansData)
       }
     } catch (error) {
@@ -150,7 +150,6 @@ export function PlanSwitcher() {
 
   const sortedPlans = [...plans].sort((a, b) => a.price - b.price)
   const currentPlanIndex = sortedPlans.findIndex((p) => p.id === currentPlan?.id)
-  const canUpgrade = currentPlanIndex >= 0 && currentPlanIndex < sortedPlans.length - 1
 
   return (
     <SidebarMenu>

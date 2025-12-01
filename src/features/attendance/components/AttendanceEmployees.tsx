@@ -12,7 +12,6 @@ import { toast } from 'sonner'
 import Api, {
   Employee,
   Attendance,
-  CreateAttendanceDto,
   UpdateAttendanceDto,
 } from '@/lib/api'
 import { officeData } from '@/lib/api/authToken'
