@@ -185,7 +185,7 @@ class Api {
     payload: UpdateOfficeDto
   ): Promise<ApiResponse<Office>> {
     try {
-      const res = await api(true).put(`/offices/${id}`, payload)
+      const res = await api(true).patch(`/offices/${id}`, payload)
       return res.data
     } catch (error) {
       const err = error as { response?: { data?: { message?: string } } }

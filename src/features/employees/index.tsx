@@ -8,32 +8,75 @@ import { UsersDialogs } from './components/users-dialogs'
 import { UsersPrimaryButtons } from './components/users-primary-buttons'
 import { UsersTable } from './components/users-table'
 import UsersProvider from './context/users-context'
-import { userListSchema } from './data/schema'
+import { userListSchema, User } from './data/schema'
 import { useEffect, useState } from 'react'
 import Api, { Employee } from '@/lib/api'
 import { officeData } from '@/lib/api/authToken'
+import Loader from '@/components/Loader'
+
+// Map API Employee to local User schema
+function mapApiEmployeeToLocalUser(apiEmployee: Employee): User {
+  const firstName = apiEmployee.firstName || ''
+  const lastName = apiEmployee.lastName || ''
+  const username = apiEmployee.email.split('@')[0] || `${firstName}_${lastName}`.toLowerCase()
+  
+  return {
+    id: apiEmployee.id,
+    firstName,
+    lastName,
+    username,
+    email: apiEmployee.email,
+    phoneNumber: apiEmployee.phone || 'N/A',
+    status: apiEmployee.status as any,
+    role: 'employee' as any, // Employees don't have roles in the same way
+    createdAt: new Date(apiEmployee.createdAt),
+    updatedAt: new Date(apiEmployee.updatedAt),
+  }
+}
 
 export default function Employees() {
-  const [employees, setEmployees] = useState<Employee[]>([])
-  // Parse user list
-  const userList = userListSchema.parse(employees)
+  const [employees, setEmployees] = useState<User[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const office = officeData()
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await Api.getEmployeesByOffice(office?.id || '')
-        console.log('Fetching employees data...', response)
-        setEmployees(response)
+        setIsLoading(true)
+        if (office?.id) {
+          const response = await Api.getEmployeesByOffice(office.id)
+          const apiEmployees = Array.isArray(response) ? response : []
+          const mappedEmployees = apiEmployees.map(mapApiEmployeeToLocalUser)
+          setEmployees(mappedEmployees)
+        }
       } catch (error) {
         console.error('Failed to fetch employees:', error)
         setEmployees([])
+      } finally {
+        setIsLoading(false)
       }
     }
     if (office?.id) {
       fetchEmployees()
     }
   }, [office?.id])
+
+  if (isLoading) {
+    return (
+      <>
+        <Header fixed>
+          <Search />
+          <div className='ml-auto flex items-center space-x-4'>
+            <ThemeSwitch />
+            <ProfileDropdown />
+          </div>
+        </Header>
+        <Main>
+          <Loader />
+        </Main>
+      </>
+    )
+  }
 
   return (
     <UsersProvider>
@@ -56,7 +99,7 @@ export default function Employees() {
           <UsersPrimaryButtons />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          <UsersTable data={userList} columns={columns} />
+          <UsersTable data={employees} columns={columns} />
         </div>
       </Main>
 

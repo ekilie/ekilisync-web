@@ -3,7 +3,9 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { showSubmittedData } from '@/utils/show-submitted-data'
+import { toast } from 'sonner'
+import Api, { CreateUserDto, UpdateUserDto } from '@/lib/api'
+import { officeData } from '@/lib/api/authToken'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -26,6 +28,7 @@ import { PasswordInput } from '@/components/password-input'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { userTypes } from '../data/data'
 import { User } from '../data/schema'
+import { useState } from 'react'
 
 const formSchema = z
   .object({
@@ -95,6 +98,9 @@ interface Props {
 
 export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
   const isEdit = !!currentRow
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const office = officeData()
+
   const form = useForm<UserForm>({
     resolver: zodResolver(formSchema),
     defaultValues: isEdit
@@ -117,10 +123,62 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
         },
   })
 
-  const onSubmit = (values: UserForm) => {
-    form.reset()
-    showSubmittedData(values)
-    onOpenChange(false)
+  const onSubmit = async (values: UserForm) => {
+    if (!office?.id) {
+      toast.error('Office ID not found')
+      return
+    }
+
+    setIsSubmitting(true)
+    try {
+      const fullName = `${values.firstName} ${values.lastName}`.trim()
+
+      if (isEdit && currentRow) {
+        // Update user
+        const updatePayload: UpdateUserDto = {
+          name: fullName,
+          email: values.email,
+          role: values.role as any,
+        }
+
+        await Api.updateUserForOffice(office.id, currentRow.id, updatePayload)
+
+        // If password is provided, set it
+        if (values.password) {
+          await Api.setUserPassword(currentRow.id, {
+            password: values.password,
+          })
+        }
+
+        toast.success('User updated successfully')
+      } else {
+        // Create user
+        const createPayload: CreateUserDto = {
+          name: fullName,
+          email: values.email,
+          password: values.password,
+          role: values.role as any,
+          officeId: office.id,
+        }
+
+        await Api.createUserForOffice(office.id, createPayload)
+        toast.success('User created successfully')
+      }
+
+      form.reset()
+      onOpenChange(false)
+      // Refresh the page to show updated data
+      window.location.reload()
+    } catch (error: any) {
+      console.error('Failed to save user:', error)
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          'Failed to save user'
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const isPasswordTouched = !!form.formState.dirtyFields.password
@@ -310,8 +368,8 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
           </Form>
         </div>
         <DialogFooter>
-          <Button type='submit' form='user-form'>
-            Save changes
+          <Button type='submit' form='user-form' disabled={isSubmitting}>
+            {isSubmitting ? 'Saving...' : 'Save changes'}
           </Button>
         </DialogFooter>
       </DialogContent>
