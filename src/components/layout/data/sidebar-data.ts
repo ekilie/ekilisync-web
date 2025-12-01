@@ -1,4 +1,5 @@
 import {
+  IconBuilding,
   IconCreditCard,
   IconHelp,
   IconLayoutDashboard,
@@ -54,6 +55,11 @@ export const sidebarData: SidebarData = {
               title: 'Profile',
               url: '/settings',
               icon: IconUserCog,
+            },
+            {
+              title: 'Office',
+              url: '/settings/office',
+              icon: IconBuilding,
             },
             {
               title: 'Billing',

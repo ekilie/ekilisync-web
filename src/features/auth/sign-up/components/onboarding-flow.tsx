@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { HTMLAttributes } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
 import { Progress } from '@/components/ui/progress'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import Api, { SignupDto } from '@/lib/api'
 import {
   IconBuilding,

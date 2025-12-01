@@ -267,9 +267,9 @@ export default function OfficeForm() {
               <p className="text-sm text-muted-foreground">
                 Update the GPS coordinates of your office location
               </p>
-              {office?.latitude && office?.longitude && (
+              {office?.latitude != null && office?.longitude != null && (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Current: {office.latitude.toFixed(6)}, {office.longitude.toFixed(6)}
+                  Current: {Number(office.latitude).toFixed(6)}, {Number(office.longitude).toFixed(6)}
                 </p>
               )}
             </div>
