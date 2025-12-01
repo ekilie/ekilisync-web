@@ -2,7 +2,9 @@
 
 import { useState } from 'react'
 import { IconAlertTriangle } from '@tabler/icons-react'
-import { showSubmittedData } from '@/utils/show-submitted-data'
+import { toast } from 'sonner'
+import Api from '@/lib/api'
+import { officeData } from '@/lib/api/authToken'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -17,12 +19,33 @@ interface Props {
 
 export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
   const [value, setValue] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const office = officeData()
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (value.trim() !== currentRow.username) return
+    if (!office?.id) {
+      toast.error('Office ID not found')
+      return
+    }
 
-    onOpenChange(false)
-    showSubmittedData(currentRow, 'The following user has been deleted:')
+    setIsDeleting(true)
+    try {
+      await Api.deleteEmployeeForOffice(office.id, currentRow.id)
+      toast.success('Employee deleted successfully')
+      onOpenChange(false)
+      // Refresh the page to show updated data
+      window.location.reload()
+    } catch (error: any) {
+      console.error('Failed to delete employee:', error)
+      toast.error(
+        error?.response?.data?.message ||
+          error?.message ||
+          'Failed to delete employee'
+      )
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   return (
@@ -70,8 +93,9 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
           </Alert>
         </div>
       }
-      confirmText='Delete'
+      confirmText={isDeleting ? 'Deleting...' : 'Delete'}
       destructive
+      disabled={isDeleting || value.trim() !== currentRow.username}
     />
   )
 }
