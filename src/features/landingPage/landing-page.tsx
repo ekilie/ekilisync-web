@@ -498,15 +498,8 @@ export default function LandingPage() {
                     })
                   }}
                 >
-                  Start Free Trial
+                  Start Free 
                   <ArrowRight className='ml-2 size-4 transition-transform group-hover:translate-x-1' />
-                </Button>
-                <Button
-                  size='lg'
-                  variant='outline'
-                  className='h-12 rounded-md border-white/50 bg-white/5 backdrop-blur-sm px-8 text-base text-white hover:bg-white/20 transition-all duration-200 hover:scale-105'
-                >
-                  Schedule a Demo
                 </Button>
               </div>
               <p className='text-primary-foreground/80 mt-4 text-sm flex items-center justify-center gap-2'>
