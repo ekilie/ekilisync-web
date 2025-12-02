@@ -49,7 +49,7 @@ export const pricingPlans = {
   monthly: [
     {
       name: 'Starter',
-      price: '$3',
+      price: 'TZS 7,200',
       description: 'Perfect for small teams and startups.',
       features: [
         'Up to 10 employees',
@@ -62,7 +62,7 @@ export const pricingPlans = {
     },
     {
       name: 'Professional',
-      price: '$5',
+      price: 'TZS 12,000',
       description: 'Ideal for growing businesses.',
       features: [
         'Up to 100 employees',
@@ -94,7 +94,7 @@ export const pricingPlans = {
   annually: [
     {
       name: 'Starter',
-      price: '$2.40',
+      price: 'TZS 5,760',
       description: 'Perfect for small teams and startups.',
       features: [
         'Up to 10 employees',
@@ -107,7 +107,7 @@ export const pricingPlans = {
     },
     {
       name: 'Professional',
-      price: '$4',
+      price: 'TZS 9,600',
       description: 'Ideal for growing businesses.',
       features: [
         'Up to 100 employees',
