@@ -2,8 +2,11 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Check } from "lucide-react"
+import { useNavigate } from "@tanstack/react-router"
+import { ContainerTextFlip } from "@/components/ui/container-text-flip"
 
 export default function HeroSection() {
+  const navigate = useNavigate()
   return (
     <section className="w-full py-20 md:py-32 lg:py-40 overflow-hidden">
       <div className="container px-4 md:px-6 relative">
@@ -19,14 +22,21 @@ export default function HeroSection() {
             Smart Attendance Tracking
           </Badge>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-            Effortless Attendance with EkiliSync
+            Attendance with EkiliSync
+            <ContainerTextFlip
+              words={["Effortless", "Modern", "Smart"]}
+            />
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Smart location-based attendance tracking that automatically checks employees in and out. No manual
             punching, no card swiping - just seamless, accurate attendance management.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="rounded-md h-12 px-8 text-base">
+            <Button size="lg" className="rounded-md h-12 px-8 text-base" onClick={() => {
+              navigate({
+                to: '/sign-up',
+              })
+            }}>
               Get started for free
               <ArrowRight className="ml-2 size-4" />
             </Button>
