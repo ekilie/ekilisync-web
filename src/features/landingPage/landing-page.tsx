@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
-import { Check, ChevronRight, Menu, X, ArrowRight, Star } from 'lucide-react'
+import { Check, ChevronRight, Menu, X, ArrowRight } from 'lucide-react'
 import {
   Accordion,
   AccordionContent,
@@ -14,7 +14,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import HeroSection from '@/features/landingPage/HeroSection'
 import FeaturesSection from './FeaturesSection'
-import { howItWorksSteps, testimonials, pricingPlans, faqs } from './data'
+import { howItWorksSteps, pricingPlans, faqs } from './data'
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -37,39 +37,43 @@ export default function LandingPage() {
   return (
     <div className='flex min-h-[100dvh] flex-col'>
       <header
-        className={`sticky top-0 z-50 w-full backdrop-blur-lg transition-all duration-300 ${isScrolled ? 'bg-background/80 shadow-sm' : 'bg-transparent'}`}
+        className={`sticky top-0 z-50 w-full backdrop-blur-md transition-all duration-500 ${isScrolled ? 'bg-background/90 shadow-md border-b border-border/40' : 'bg-transparent'}`}
       >
         <div className='container flex h-16 items-center justify-between'>
-          <div className='flex items-center gap-2 font-bold'>
-            <div className='from-primary to-primary/70 text-primary-foreground flex size-8 items-center justify-center rounded-lg bg-gradient-to-br'>
+          <div className='flex items-center gap-2 font-bold transition-transform hover:scale-105'>
+            <div className='from-primary to-primary/70 text-primary-foreground flex size-8 items-center justify-center rounded-lg bg-gradient-to-br shadow-sm'>
               E
             </div>
-            <span>ekiliSync</span>
+            <span className='bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent'>ekiliSync</span>
           </div>
           <nav className='hidden gap-8 md:flex'>
             <a
               href='#features'
-              className='text-muted-foreground hover:text-foreground text-sm font-medium transition-colors'
+              className='text-muted-foreground hover:text-foreground text-sm font-medium transition-all duration-200 hover:scale-105 relative group'
             >
               Features
+              <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full'></span>
             </a>
             <a
               href='#testimonials'
-              className='text-muted-foreground hover:text-foreground text-sm font-medium transition-colors'
+              className='text-muted-foreground hover:text-foreground text-sm font-medium transition-all duration-200 hover:scale-105 relative group'
             >
               Testimonials
+              <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full'></span>
             </a>
             <a
               href='#pricing'
-              className='text-muted-foreground hover:text-foreground text-sm font-medium transition-colors'
+              className='text-muted-foreground hover:text-foreground text-sm font-medium transition-all duration-200 hover:scale-105 relative group'
             >
               Pricing
+              <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full'></span>
             </a>
             <a
               href='#faq'
-              className='text-muted-foreground hover:text-foreground text-sm font-medium transition-colors'
+              className='text-muted-foreground hover:text-foreground text-sm font-medium transition-all duration-200 hover:scale-105 relative group'
             >
               FAQ
+              <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full'></span>
             </a>
           </nav>
           <div className='hidden items-center gap-4 md:flex'>
@@ -85,7 +89,7 @@ export default function LandingPage() {
               Log in
             </a>
             <Button
-              className='rounded-md'
+              className='rounded-md shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105'
               onClick={() => {
                 navigate({
                   to: '/sign-up',
@@ -93,7 +97,7 @@ export default function LandingPage() {
               }}
             >
               Get Started
-              <ChevronRight className='ml-1 size-4' />
+              <ChevronRight className='ml-1 size-4 transition-transform group-hover:translate-x-1' />
             </Button>
           </div>
           <div className='flex items-center gap-4 md:hidden'>
@@ -104,11 +108,12 @@ export default function LandingPage() {
               variant='ghost'
               size='icon'
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className='transition-all duration-200 hover:scale-105'
             >
               {mobileMenuOpen ? (
-                <X className='size-5' />
+                <X className='size-5 transition-transform duration-200' />
               ) : (
-                <Menu className='size-5' />
+                <Menu className='size-5 transition-transform duration-200' />
               )}
               <span className='sr-only'>Toggle menu</span>
             </Button>
@@ -160,7 +165,7 @@ export default function LandingPage() {
                   Log in
                 </a>
                 <Button
-                  className='rounded-md'
+                  className='rounded-md shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105'
                   onClick={() => {
                     navigate({
                       to: '/sign-up',
@@ -168,7 +173,7 @@ export default function LandingPage() {
                   }}
                 >
                   Get Started
-                  <ChevronRight className='ml-1 size-4' />
+                  <ChevronRight className='ml-1 size-4 transition-transform group-hover:translate-x-1' />
                 </Button>
               </div>
             </div>
@@ -187,6 +192,7 @@ export default function LandingPage() {
         {/* How It Works Section */}
         <section className='bg-muted/30 relative w-full overflow-hidden py-20 md:py-32'>
           <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_40%,transparent_100%)] bg-[size:4rem_4rem] dark:bg-black dark:bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)]'></div>
+          <div className='absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 to-transparent'></div>
 
           <div className='relative container px-4 md:px-6'>
             <motion.div
@@ -197,12 +203,12 @@ export default function LandingPage() {
               className='mb-16 flex flex-col items-center justify-center space-y-4 text-center'
             >
               <Badge
-                className='rounded-md px-4 py-1.5 text-sm font-medium'
+                className='rounded-md px-4 py-1.5 text-sm font-medium shadow-sm'
                 variant='secondary'
               >
                 How It Works
               </Badge>
-              <h2 className='text-3xl font-bold tracking-tight md:text-4xl'>
+              <h2 className='text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent'>
                 Simple Setup, Automatic Tracking
               </h2>
               <p className='text-muted-foreground max-w-[800px] md:text-lg'>
@@ -212,7 +218,7 @@ export default function LandingPage() {
             </motion.div>
 
             <div className='relative grid gap-8 md:grid-cols-3 md:gap-12'>
-              <div className='via-border absolute top-1/2 right-0 left-0 z-0 hidden h-0.5 -translate-y-1/2 bg-gradient-to-r from-transparent to-transparent md:block'></div>
+              <div className='via-primary/20 absolute top-1/2 right-0 left-0 z-0 hidden h-0.5 -translate-y-1/2 bg-gradient-to-r from-transparent via-primary/30 to-transparent md:block'></div>
 
               {howItWorksSteps.map((step, i) => (
                 <motion.div
@@ -221,13 +227,17 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className='relative z-10 flex flex-col items-center space-y-4 text-center'
+                  className='relative z-10 flex flex-col items-center space-y-4 text-center group'
                 >
-                  <div className='from-primary to-primary/70 text-primary-foreground flex h-16 w-16 items-center justify-center rounded-md bg-gradient-to-br text-xl font-bold shadow-lg'>
+                  <motion.div 
+                    className='from-primary to-primary/70 text-primary-foreground flex h-16 w-16 items-center justify-center rounded-md bg-gradient-to-br text-xl font-bold shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl'
+                    whileHover={{ rotate: [0, -5, 5, -5, 0] }}
+                    transition={{ duration: 0.5 }}
+                  >
                     {step.step}
-                  </div>
-                  <h3 className='text-xl font-bold'>{step.title}</h3>
-                  <p className='text-muted-foreground'>{step.description}</p>
+                  </motion.div>
+                  <h3 className='text-xl font-bold group-hover:text-primary transition-colors duration-200'>{step.title}</h3>
+                  <p className='text-muted-foreground max-w-sm'>{step.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -241,6 +251,7 @@ export default function LandingPage() {
           className='bg-muted/30 relative w-full overflow-hidden py-20 md:py-32'
         >
           <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_40%,transparent_100%)] bg-[size:4rem_4rem] dark:bg-black dark:bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)]'></div>
+          <div className='absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 to-transparent'></div>
 
           <div className='relative container px-4 md:px-6'>
             <motion.div
@@ -251,12 +262,12 @@ export default function LandingPage() {
               className='mb-12 flex flex-col items-center justify-center space-y-4 text-center'
             >
               <Badge
-                className='rounded-md px-4 py-1.5 text-sm font-medium'
+                className='rounded-md px-4 py-1.5 text-sm font-medium shadow-sm'
                 variant='secondary'
               >
                 Pricing
               </Badge>
-              <h2 className='text-3xl font-bold tracking-tight md:text-4xl'>
+              <h2 className='text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent'>
                 Simple, Transparent Pricing
               </h2>
               <p className='text-muted-foreground max-w-[800px] md:text-lg'>
@@ -286,19 +297,21 @@ export default function LandingPage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: i * 0.1 }}
+                        whileHover={{ y: -8 }}
+                        className='h-full'
                       >
                         <Card
-                          className={`relative h-full overflow-hidden ${plan.popular ? 'border-primary shadow-lg' : 'border-border/40 shadow-md'} from-background to-muted/10 bg-gradient-to-b backdrop-blur`}
+                          className={`relative h-full overflow-hidden transition-all duration-300 group ${plan.popular ? 'border-primary shadow-xl ring-2 ring-primary/20' : 'border-border/40 shadow-md hover:shadow-lg'} from-background to-muted/10 bg-gradient-to-b backdrop-blur hover:border-primary/50`}
                         >
                           {plan.popular && (
-                            <div className='bg-primary text-primary-foreground absolute top-0 right-0 rounded-bl-lg px-3 py-1 text-xs font-medium'>
+                            <div className='bg-primary text-primary-foreground absolute top-0 right-0 rounded-bl-lg px-3 py-1 text-xs font-medium shadow-md'>
                               Most Popular
                             </div>
                           )}
                           <CardContent className='flex h-full flex-col p-6'>
-                            <h3 className='text-2xl font-bold'>{plan.name}</h3>
+                            <h3 className='text-2xl font-bold group-hover:text-primary transition-colors duration-200'>{plan.name}</h3>
                             <div className='mt-4 flex items-baseline'>
-                              <span className='text-4xl font-bold'>
+                              <span className='text-4xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent'>
                                 {plan.price}
                               </span>
                               {plan.price !== 'Custom' && (
@@ -315,17 +328,18 @@ export default function LandingPage() {
                             </p>
                             <ul className='my-6 flex-grow space-y-3'>
                               {plan.features.map((feature, j) => (
-                                <li key={j} className='flex items-center'>
-                                  <Check className='text-primary mr-2 size-4' />
-                                  <span>{feature}</span>
+                                <li key={j} className='flex items-center group/item'>
+                                  <Check className='text-primary mr-2 size-4 transition-transform group-hover/item:scale-110' />
+                                  <span className='group-hover/item:text-foreground transition-colors'>{feature}</span>
                                 </li>
                               ))}
                             </ul>
                             <Button
-                              className={`mt-auto w-full rounded-md ${plan.popular ? 'bg-primary hover:bg-primary/90' : 'bg-muted hover:bg-muted/80'}`}
+                              className={`mt-auto w-full rounded-md transition-all duration-200 ${plan.popular ? 'bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg hover:scale-105' : 'bg-muted hover:bg-muted/80 hover:border-primary'}`}
                               variant={plan.popular ? 'default' : 'outline'}
                             >
                               {plan.cta}
+                              <ChevronRight className='ml-1 size-4 transition-transform group-hover:translate-x-1' />
                             </Button>
                           </CardContent>
                         </Card>
@@ -342,19 +356,21 @@ export default function LandingPage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: i * 0.1 }}
+                        whileHover={{ y: -8 }}
+                        className='h-full'
                       >
                         <Card
-                          className={`relative h-full overflow-hidden ${plan.popular ? 'border-primary shadow-lg' : 'border-border/40 shadow-md'} from-background to-muted/10 bg-gradient-to-b backdrop-blur`}
+                          className={`relative h-full overflow-hidden transition-all duration-300 group ${plan.popular ? 'border-primary shadow-xl ring-2 ring-primary/20' : 'border-border/40 shadow-md hover:shadow-lg'} from-background to-muted/10 bg-gradient-to-b backdrop-blur hover:border-primary/50`}
                         >
                           {plan.popular && (
-                            <div className='bg-primary text-primary-foreground absolute top-0 right-0 rounded-bl-lg px-3 py-1 text-xs font-medium'>
+                            <div className='bg-primary text-primary-foreground absolute top-0 right-0 rounded-bl-lg px-3 py-1 text-xs font-medium shadow-md'>
                               Most Popular
                             </div>
                           )}
                           <CardContent className='flex h-full flex-col p-6'>
-                            <h3 className='text-2xl font-bold'>{plan.name}</h3>
+                            <h3 className='text-2xl font-bold group-hover:text-primary transition-colors duration-200'>{plan.name}</h3>
                             <div className='mt-4 flex items-baseline'>
-                              <span className='text-4xl font-bold'>
+                              <span className='text-4xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent'>
                                 {plan.price}
                               </span>
                               {plan.price !== 'Custom' && (
@@ -371,17 +387,18 @@ export default function LandingPage() {
                             </p>
                             <ul className='my-6 flex-grow space-y-3'>
                               {plan.features.map((feature, j) => (
-                                <li key={j} className='flex items-center'>
-                                  <Check className='text-primary mr-2 size-4' />
-                                  <span>{feature}</span>
+                                <li key={j} className='flex items-center group/item'>
+                                  <Check className='text-primary mr-2 size-4 transition-transform group-hover/item:scale-110' />
+                                  <span className='group-hover/item:text-foreground transition-colors'>{feature}</span>
                                 </li>
                               ))}
                             </ul>
                             <Button
-                              className={`mt-auto w-full rounded-md ${plan.popular ? 'bg-primary hover:bg-primary/90' : 'bg-muted hover:bg-muted/80'}`}
+                              className={`mt-auto w-full rounded-md transition-all duration-200 ${plan.popular ? 'bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg hover:scale-105' : 'bg-muted hover:bg-muted/80 hover:border-primary'}`}
                               variant={plan.popular ? 'default' : 'outline'}
                             >
                               {plan.cta}
+                              <ChevronRight className='ml-1 size-4 transition-transform group-hover:translate-x-1' />
                             </Button>
                           </CardContent>
                         </Card>
@@ -395,7 +412,7 @@ export default function LandingPage() {
         </section>
 
         {/* FAQ Section */}
-        <section id='faq' className='w-full py-20 md:py-32'>
+        <section id='faq' className='w-full py-20 md:py-32 bg-muted/20'>
           <div className='container px-4 md:px-6'>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -405,12 +422,12 @@ export default function LandingPage() {
               className='mb-12 flex flex-col items-center justify-center space-y-4 text-center'
             >
               <Badge
-                className='rounded-md px-4 py-1.5 text-sm font-medium'
+                className='rounded-md px-4 py-1.5 text-sm font-medium shadow-sm'
                 variant='secondary'
               >
                 FAQ
               </Badge>
-              <h2 className='text-3xl font-bold tracking-tight md:text-4xl'>
+              <h2 className='text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent'>
                 Frequently Asked Questions
               </h2>
               <p className='text-muted-foreground max-w-[800px] md:text-lg'>
@@ -431,12 +448,12 @@ export default function LandingPage() {
                   >
                     <AccordionItem
                       value={`item-${i}`}
-                      className='border-border/40 border-b py-2'
+                      className='border-border/40 border-b py-2 transition-all duration-200 hover:bg-muted/30 rounded-lg px-2'
                     >
-                      <AccordionTrigger className='text-left font-medium hover:no-underline'>
+                      <AccordionTrigger className='text-left font-medium hover:no-underline hover:text-primary transition-colors duration-200'>
                         {faq.question}
                       </AccordionTrigger>
-                      <AccordionContent className='text-muted-foreground'>
+                      <AccordionContent className='text-muted-foreground leading-relaxed'>
                         {faq.answer}
                       </AccordionContent>
                     </AccordionItem>
@@ -450,8 +467,9 @@ export default function LandingPage() {
         {/* CTA Section */}
         <section className='from-primary to-primary/80 text-primary-foreground relative w-full overflow-hidden bg-gradient-to-br py-20 md:py-32'>
           <div className='absolute inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:4rem_4rem]'></div>
-          <div className='absolute -top-24 -left-24 h-64 w-64 rounded-md bg-white/10 blur-3xl'></div>
-          <div className='absolute -right-24 -bottom-24 h-64 w-64 rounded-md bg-white/10 blur-3xl'></div>
+          <div className='absolute -top-24 -left-24 h-64 w-64 rounded-md bg-white/10 blur-3xl animate-pulse'></div>
+          <div className='absolute -right-24 -bottom-24 h-64 w-64 rounded-md bg-white/10 blur-3xl animate-pulse' style={{ animationDelay: '1s' }}></div>
+          <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-white/5 blur-3xl'></div>
 
           <div className='relative container px-4 md:px-6'>
             <motion.div
@@ -461,10 +479,10 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               className='flex flex-col items-center justify-center space-y-6 text-center'
             >
-              <h2 className='text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl'>
+              <h2 className='text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl drop-shadow-sm'>
                 Ready to Modernize Your Attendance?
               </h2>
-              <p className='text-primary-foreground/80 mx-auto max-w-[700px] md:text-xl'>
+              <p className='text-primary-foreground/90 mx-auto max-w-[700px] md:text-xl'>
                 Join thousands of organizations who have streamlined their
                 attendance management with ekiliSync's smart location-based
                 tracking system.
@@ -473,44 +491,51 @@ export default function LandingPage() {
                 <Button
                   size='lg'
                   variant='secondary'
-                  className='h-12 rounded-md px-8 text-base'
+                  className='h-12 rounded-md px-8 text-base shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 group'
+                  onClick={() => {
+                    navigate({
+                      to: '/sign-up',
+                    })
+                  }}
                 >
                   Start Free Trial
-                  <ArrowRight className='ml-2 size-4' />
+                  <ArrowRight className='ml-2 size-4 transition-transform group-hover:translate-x-1' />
                 </Button>
                 <Button
                   size='lg'
                   variant='outline'
-                  className='h-12 rounded-md border-white bg-transparent px-8 text-base text-white hover:bg-white/10'
+                  className='h-12 rounded-md border-white/50 bg-white/5 backdrop-blur-sm px-8 text-base text-white hover:bg-white/20 transition-all duration-200 hover:scale-105'
                 >
                   Schedule a Demo
                 </Button>
               </div>
-              <p className='text-primary-foreground/80 mt-4 text-sm'>
+              <p className='text-primary-foreground/80 mt-4 text-sm flex items-center justify-center gap-2'>
+                <Check className='size-4' />
                 No setup fees. 30-day free trial. Cancel anytime.
               </p>
             </motion.div>
           </div>
         </section>
       </main>
-      <footer className='bg-background/95 w-full border-t backdrop-blur-sm'>
+      <footer className='bg-background/95 w-full border-t border-border/40 backdrop-blur-sm'>
         <div className='container flex flex-col gap-8 px-4 py-10 md:px-6 lg:py-16'>
           <div className='grid gap-8 sm:grid-cols-2 md:grid-cols-4'>
             <div className='space-y-4'>
               <div className='flex items-center gap-2 font-bold'>
-                <div className='from-primary to-primary/70 text-primary-foreground flex size-8 items-center justify-center rounded-lg bg-gradient-to-br'>
+                <div className='from-primary to-primary/70 text-primary-foreground flex size-8 items-center justify-center rounded-lg bg-gradient-to-br shadow-sm'>
                   E
                 </div>
-                <span>ekiliSync</span>
+                <span className='bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent'>ekiliSync</span>
               </div>
-              <p className='text-muted-foreground text-sm'>
+              <p className='text-muted-foreground text-sm leading-relaxed'>
                 Smart attendance tracking that works automatically. Streamline
                 your workforce management with location-based technology.
               </p>
               <div className='flex gap-4'>
                 <a
                   href='https://facebook.com/ekilisync'
-                  className='text-muted-foreground hover:text-foreground transition-colors'
+                  className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-110'
+                  aria-label='Facebook'
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -530,7 +555,8 @@ export default function LandingPage() {
                 </a>
                 <a
                   href='https://twitter.com/ekilisync'
-                  className='text-muted-foreground hover:text-foreground transition-colors'
+                  className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-110'
+                  aria-label='Twitter'
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -550,7 +576,8 @@ export default function LandingPage() {
                 </a>
                 <a
                   href='https://linkedin.com/company/ekilisync'
-                  className='text-muted-foreground hover:text-foreground transition-colors'
+                  className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-110'
+                  aria-label='LinkedIn'
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -578,7 +605,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='#features'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Features
                   </a>
@@ -586,7 +613,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='#pricing'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Pricing
                   </a>
@@ -594,7 +621,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/mobile-app'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Mobile App
                   </a>
@@ -602,7 +629,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/api'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     API
                   </a>
@@ -615,7 +642,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/documentation'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Documentation
                   </a>
@@ -623,7 +650,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/help-center'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Help Center
                   </a>
@@ -631,7 +658,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/blog'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Blog
                   </a>
@@ -639,7 +666,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/support'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Support
                   </a>
@@ -652,7 +679,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/about'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     About
                   </a>
@@ -660,7 +687,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/careers'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Careers
                   </a>
@@ -668,7 +695,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/policies'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Privacy Policy
                   </a>
@@ -676,7 +703,7 @@ export default function LandingPage() {
                 <li>
                   <a
                     href='/terms'
-                    className='text-muted-foreground hover:text-foreground transition-colors'
+                    className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1 inline-block'
                   >
                     Terms of Service
                   </a>
