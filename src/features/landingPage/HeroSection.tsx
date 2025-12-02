@@ -40,7 +40,11 @@ export default function HeroSection() {
               Get started for free
               <ArrowRight className="ml-2 size-4" />
             </Button>
-            <Button size="lg" variant="outline" className="rounded-md h-12 px-8 text-base bg-transparent">
+            <Button size="lg" variant="outline" className="rounded-md h-12 px-8 text-base bg-transparent" onClick={() => {
+              navigate({
+                to: '/sign-up',
+              })
+            }}>
               Dive In
             </Button>
           </div>
@@ -51,7 +55,7 @@ export default function HeroSection() {
             </div>
             <div className="flex items-center gap-1">
               <Check className="size-4 text-primary" />
-              <span>30-day trial</span>
+              <span>Generous free plan</span>
             </div>
             <div className="flex items-center gap-1">
               <Check className="size-4 text-primary" />
