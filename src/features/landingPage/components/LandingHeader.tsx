@@ -3,6 +3,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
 import { ChevronRight, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import AppLogo from '@/components/app-logo'
 
 export default function LandingHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -28,9 +29,7 @@ export default function LandingHeader() {
     >
       <div className='container flex h-16 items-center justify-between'>
         <div className='flex items-center gap-2 font-bold transition-transform hover:scale-105'>
-          <div className='from-primary to-primary/70 text-primary-foreground flex size-8 items-center justify-center rounded-lg bg-gradient-to-br shadow-sm'>
-            E
-          </div>
+          <AppLogo />
           <span className='bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent'>ekiliSync</span>
         </div>
         <nav className='hidden gap-8 md:flex'>
