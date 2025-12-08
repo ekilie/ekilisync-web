@@ -1,5 +1,4 @@
 import AppLogo from "@/components/app-logo"
-import { FloatingPaths } from "@/components/floating-paths"
 
 interface Props {
   children: React.ReactNode
