@@ -7,7 +7,7 @@ import FAQSection from './components/FAQSection'
 import CTASection from './components/CTASection'
 import LandingFooter from './components/LandingFooter'
 
-export default function LandingPage() {
+export default function LandingPage() {  
   return (
     <div className='flex min-h-[100dvh] flex-col'>
       <LandingHeader />
