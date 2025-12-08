@@ -21,30 +21,6 @@ export const howItWorksSteps = [
   },
 ];
 
-export const testimonials = [
-  {
-    quote:
-      'ekiliSync eliminated our attendance headaches completely. No more manual tracking or disputes about working hours. It just works!',
-    author: 'Tachera W',
-    role: 'Founder, ekilie',
-    rating: 5,
-  }, 
-  {
-    quote:
-      'The location-based tracking is incredibly accurate. Our employees love not having to remember to punch in and out every day.',
-    author: 'Grayson Julis',
-    role: 'Business Director, iPFSoftwares',
-    rating: 4,
-  },
-  {
-    quote:
-      'Implementation was seamless and the real-time reports have given us insights we never had before. Highly recommended!',
-    author: 'Nelson Malekela',
-    role: 'Stratergy director, iPFSoftwares',
-    rating: 4,
-  },
-];
-
 export const pricingPlans = {
   monthly: [
     {
