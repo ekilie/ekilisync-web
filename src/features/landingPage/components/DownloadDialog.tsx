@@ -75,8 +75,8 @@ export function DownloadDialog({ open, onOpenChange }: DownloadDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-4xl p-0 overflow-hidden">
-        <div className="flex flex-col sm:flex-row">
+      <DialogContent className="sm:max-w-4xl p-0 overflow-hidden h-auto">
+        <div className="flex flex-col sm:flex-row h-full min-h-[500px]">
           {/* Left Section - Main Content */}
           <div className="flex-1 p-6 sm:p-8">
             <DialogHeader className="text-left">
@@ -134,34 +134,21 @@ export function DownloadDialog({ open, onOpenChange }: DownloadDialogProps) {
           </div>
           
           {/* Right Section - Glowing Card */}
-          <div className="w-full sm:w-80 flex-shrink-0 border-t sm:border-t-0 sm:border-l bg-gradient-to-b from-background to-muted/20">
-            <div className="p-6 h-full flex items-center justify-center">
-              <GlowingStarsBackgroundCard className="h-full">
-                <div className="flex flex-col h-full justify-between">
-                  <div>
-                    <GlowingStarsTitle className="text-xl mb-4">
-                      ✨ Sync & Shine
-                    </GlowingStarsTitle>
-                    <GlowingStarsDescription className="text-sm">
-                      Experience seamless synchronization across all your devices. 
-                      Fast, secure, and blazingly efficient—your data flows like starlight.
-                    </GlowingStarsDescription>
-                  </div>
-                  
-                  <div className="mt-6 pt-6 border-t border-white/10">
-                    <div className="flex justify-between items-end">
-                      <div>
-                        <p className="text-xs text-white/60 mb-1">Unique Feature</p>
-                        <p className="text-sm font-medium">Quantum Sync Engine</p>
-                      </div>
-                      <div className="h-10 w-10 rounded-full bg-[hsla(0,0%,100%,.1)] flex items-center justify-center border border-white/20">
-                        <Sparkles className="h-5 w-5 text-white" />
-                      </div>
-                    </div>
-                  </div>
+          <div className="w-full sm:w-80 flex-shrink-0 border-t sm:border-t-0 sm:border-l h-full min-h-[500px]">
+            <GlowingStarsBackgroundCard className="h-full w-full max-w-none max-h-none rounded-md border-0">
+              <div className="flex flex-col h-full justify-between p-6">
+                <div>
+                  <GlowingStarsTitle className="text-xl mb-4">
+                     ekilie
+                  </GlowingStarsTitle>
+                  <GlowingStarsDescription className="text-sm">
+                  Smart attendance tracking that works automatically. Streamline your workforce management with location-based technology.
+                  </GlowingStarsDescription>
                 </div>
-              </GlowingStarsBackgroundCard>
-            </div>
+                
+                
+              </div>
+            </GlowingStarsBackgroundCard>
           </div>
         </div>
       </DialogContent>
