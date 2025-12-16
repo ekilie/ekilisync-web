@@ -47,7 +47,8 @@ export const pricingPlans = {
         'Email support',
       ],
       cta: 'Get Early Access',
-      priceNote: 'per employee/month',
+      popular: true,
+      priceNote: '',
     },
     {
       name: 'Professional',
@@ -61,24 +62,9 @@ export const pricingPlans = {
         'API access',
       ],
       cta: 'Get Early Access',
-      popular: true,
-      priceNote: 'per employee/month',
+      priceNote: '',
     },
-    {
-      name: 'Enterprise',
-      price: 'Custom',
-      description: 'For large organizations with complex needs.',
-      features: [
-        'Unlimited employees',
-        'Custom integrations',
-        'Advanced analytics',
-        '24/7 phone support',
-        'Dedicated account manager',
-        'Custom SLA',
-      ],
-      cta: 'Contact Sales',
-      priceNote: 'Contact us for pricing',
-    },
+  
   ],
   annually: [
     {
@@ -105,7 +91,8 @@ export const pricingPlans = {
         'Email support',
       ],
       cta: 'Get Early Access',
-      priceNote: 'per employee/month',
+      popular: true,
+      priceNote: '',
     },
     {
       name: 'Professional',
@@ -119,23 +106,7 @@ export const pricingPlans = {
         'API access',
       ],
       cta: 'Get Early Access',
-      popular: true,
-      priceNote: 'per employee/month',
-    },
-    {
-      name: 'Enterprise',
-      price: 'Custom',
-      description: 'For large organizations with complex needs.',
-      features: [
-        'Unlimited employees',
-        'Custom integrations',
-        'Advanced analytics',
-        '24/7 phone support',
-        'Dedicated account manager',
-        'Custom SLA',
-      ],
-      cta: 'Contact Sales',
-      priceNote: 'Contact us for pricing',
+      priceNote: '',
     },
   ],
 };
