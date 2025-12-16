@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query'
-import { createRootRouteWithContext, Outlet, useNavigate } from '@tanstack/react-router'
+import { createRootRouteWithContext, Outlet, redirect } from '@tanstack/react-router' // import redirect here
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Toaster } from '@/components/ui/sonner'
@@ -8,15 +8,24 @@ import { AuthProvider } from '@/context/AuthContext'
 import GeneralError from '@/features/errors/general-error'
 import NotFoundError from '@/features/errors/not-found-error'
 
+declare global {
+  interface Window {
+    __TAURI__?: Record<string, unknown>
+  }
+}
+
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
-  component: () => {
-
-  const navigate = useNavigate();
-    if (window.__TAURI__ && window.location.pathname === '/') {
-      navigate({ to: '/dashboard' })
+  beforeLoad: ({ location }) => {
+    if (window.__TAURI__ && location.pathname === '/') {
+      throw redirect({
+        to: '/dashboard',
+        replace: true,
+      })
     }
+  },
+  component: () => {
     return (
       <AuthProvider>
         <NavigationProgress />
