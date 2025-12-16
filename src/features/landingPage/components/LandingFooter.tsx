@@ -20,6 +20,7 @@ export default function LandingFooter() {
                 href='https://linkedin.com/company/ekilie'
                 className='text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-110'
                 aria-label='LinkedIn'
+                target="_blank"
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'

@@ -331,6 +331,7 @@ export function OnboardingFlow({ className, ...props }: OnboardingFlowProps) {
                         <PasswordInput
                           placeholder='Create a strong password'
                           className='pl-9'
+                          autoComplete='new-password'
                           {...field}
                         />
                       </div>
@@ -354,6 +355,7 @@ export function OnboardingFlow({ className, ...props }: OnboardingFlowProps) {
                         <PasswordInput
                           placeholder='Confirm your password'
                           className='pl-9'
+                          autoComplete='new-password'
                           {...field}
                         />
                       </div>
