@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query'
-import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
+import { createRootRouteWithContext, Outlet, useNavigate } from '@tanstack/react-router'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Toaster } from '@/components/ui/sonner'
@@ -12,6 +12,11 @@ export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   component: () => {
+
+  const navigate = useNavigate();
+    if (window.__TAURI__ && window.location.pathname === '/') {
+      navigate({ to: '/dashboard' })
+    }
     return (
       <AuthProvider>
         <NavigationProgress />
