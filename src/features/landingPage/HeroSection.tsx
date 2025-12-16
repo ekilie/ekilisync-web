@@ -1,17 +1,11 @@
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Check, Download } from "lucide-react"
+import { ArrowRight, Check } from "lucide-react"
 import { useNavigate } from "@tanstack/react-router"
 import { ContainerTextFlip } from "@/components/ui/container-text-flip"
 import { useState } from "react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { DownloadDialog } from "./components/DownloadDialog"
 
 export default function HeroSection() {
   const navigate = useNavigate()
@@ -92,86 +86,7 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      <Dialog open={downloadDialogOpen} onOpenChange={setDownloadDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Download EkiliSync</DialogTitle>
-            <DialogDescription>
-              Choose your platform to download the EkiliSync application.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-3 py-4">
-            <Button
-              className="w-full justify-start h-auto py-4 px-4"
-              onClick={() => {
-                // TODO: Add actual download link for Mac DMG
-                window.open('#', '_blank')
-              }}
-            >
-              <div className="flex items-center gap-3 w-full">
-                <div className="text-2xl">🍎</div>
-                <div className="flex-1 text-left">
-                  <div className="font-semibold">macOS</div>
-                  <div className="text-sm text-muted-foreground">DMG installer</div>
-                </div>
-                <Download className="size-4" />
-              </div>
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full justify-start h-auto py-4 px-4 opacity-50 cursor-not-allowed"
-              disabled
-            >
-              <div className="flex items-center gap-3 w-full">
-                <div className="text-2xl">🪟</div>
-                <div className="flex-1 text-left">
-                  <div className="font-semibold">Windows</div>
-                  <div className="text-sm text-muted-foreground">Coming soon</div>
-                </div>
-              </div>
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full justify-start h-auto py-4 px-4 opacity-50 cursor-not-allowed"
-              disabled
-            >
-              <div className="flex items-center gap-3 w-full">
-                <div className="text-2xl">📱</div>
-                <div className="flex-1 text-left">
-                  <div className="font-semibold">iOS</div>
-                  <div className="text-sm text-muted-foreground">Coming soon</div>
-                </div>
-              </div>
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full justify-start h-auto py-4 px-4 opacity-50 cursor-not-allowed"
-              disabled
-            >
-              <div className="flex items-center gap-3 w-full">
-                <div className="text-2xl">🤖</div>
-                <div className="flex-1 text-left">
-                  <div className="font-semibold">Android</div>
-                  <div className="text-sm text-muted-foreground">Coming soon</div>
-                </div>
-              </div>
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full justify-start h-auto py-4 px-4 opacity-50 cursor-not-allowed"
-              disabled
-            >
-              <div className="flex items-center gap-3 w-full">
-                <div className="text-2xl">🐧</div>
-                <div className="flex-1 text-left">
-                  <div className="font-semibold">Linux</div>
-                  <div className="text-sm text-muted-foreground">Coming soon</div>
-                </div>
-              </div>
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <DownloadDialog open={downloadDialogOpen} onOpenChange={setDownloadDialogOpen} />
     </section>
   )
 } 
