@@ -4,9 +4,12 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Check } from "lucide-react"
 import { useNavigate } from "@tanstack/react-router"
 import { ContainerTextFlip } from "@/components/ui/container-text-flip"
+import { useState } from "react"
+import { DownloadDialog } from "./components/DownloadDialog"
 
 export default function HeroSection() {
   const navigate = useNavigate()
+  const [downloadDialogOpen, setDownloadDialogOpen] = useState(false)
   return (
     <section className="w-full py-20 md:py-32 lg:py-40 overflow-hidden">
       <div className="container px-4 md:px-6 relative">
@@ -37,15 +40,13 @@ export default function HeroSection() {
                 to: '/sign-up',
               })
             }}>
-              Get started for free
+              Get Early Access
               <ArrowRight className="ml-2 size-4" />
             </Button>
             <Button size="lg" variant="outline" className="rounded-md h-12 px-8 text-base bg-transparent" onClick={() => {
-              navigate({
-                to: '/sign-up',
-              })
+              setDownloadDialogOpen(true)
             }}>
-              Dive In
+              Download
             </Button>
           </div>
           <div className="flex items-center justify-center gap-4 mt-6 text-sm text-muted-foreground">
@@ -84,6 +85,8 @@ export default function HeroSection() {
           <div className="absolute -top-6 -left-6 -z-10 h-[300px] w-[300px] rounded-md bg-gradient-to-br from-secondary/30 to-primary/30 blur-3xl opacity-70"></div>
         </motion.div>
       </div>
+
+      <DownloadDialog open={downloadDialogOpen} onOpenChange={setDownloadDialogOpen} />
     </section>
   )
 } 

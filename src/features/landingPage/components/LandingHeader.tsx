@@ -71,7 +71,7 @@ export default function LandingHeader() {
               })
             }}
           >
-            Get Started
+            Get Early Access
             <ChevronRight className='ml-1 size-4 transition-transform group-hover:translate-x-1' />
           </Button>
         </div>
@@ -137,7 +137,7 @@ export default function LandingHeader() {
                   })
                 }}
               >
-                Get Started
+                Get Early Access
                 <ChevronRight className='ml-1 size-4 transition-transform group-hover:translate-x-1' />
               </Button>
             </div>

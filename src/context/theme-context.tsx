@@ -23,7 +23,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
-  storageKey = 'vite-ui-theme',
+  storageKey = 'ekilisync-ui-theme',
   ...props
 }: ThemeProviderProps) {
   const [theme, _setTheme] = useState<Theme>(
