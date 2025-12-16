@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { pricingPlans } from '../data'
+import { useNavigate } from '@tanstack/react-router'
 
 export default function PricingSection() {
+  const navigate = useNavigate()
   return (
     <section
       id='pricing'
@@ -33,8 +35,7 @@ export default function PricingSection() {
             Simple, Transparent Pricing
           </h2>
           <p className='text-muted-foreground max-w-[800px] md:text-lg'>
-            Choose the plan that fits your team size. All plans include a
-            30-day free trial.
+            Choose the plan that fits your team size. Start with our free plan or upgrade when you're ready.
           </p>
         </motion.div>
 
@@ -99,6 +100,15 @@ export default function PricingSection() {
                         <Button
                           className={`mt-auto w-full rounded-md transition-all duration-200 ${plan.popular ? 'bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg hover:scale-105' : 'bg-muted hover:bg-muted/80 hover:border-primary'}`}
                           variant={plan.popular ? 'default' : 'outline'}
+                          onClick={() => {
+                            if (plan.cta === 'Contact Sales') {
+                              // TODO: Handle contact sales
+                              return
+                            }
+                            navigate({
+                              to: '/sign-up',
+                            })
+                          }}
                         >
                           {plan.cta}
                           <ChevronRight className='ml-1 size-4 transition-transform group-hover:translate-x-1' />
@@ -158,6 +168,15 @@ export default function PricingSection() {
                         <Button
                           className={`mt-auto w-full rounded-md transition-all duration-200 ${plan.popular ? 'bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg hover:scale-105' : 'bg-muted hover:bg-muted/80 hover:border-primary'}`}
                           variant={plan.popular ? 'default' : 'outline'}
+                          onClick={() => {
+                            if (plan.cta === 'Contact Sales') {
+                              // TODO: Handle contact sales
+                              return
+                            }
+                            navigate({
+                              to: '/sign-up',
+                            })
+                          }}
                         >
                           {plan.cta}
                           <ChevronRight className='ml-1 size-4 transition-transform group-hover:translate-x-1' />

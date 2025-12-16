@@ -24,6 +24,19 @@ export const howItWorksSteps = [
 export const pricingPlans = {
   monthly: [
     {
+      name: 'Free',
+      price: 'Free',
+      description: 'Perfect for trying out EkiliSync.',
+      features: [
+        'Up to 5 employees',
+        'Basic attendance tracking',
+        'Mobile app access',
+        'Community support',
+      ],
+      cta: 'Get Early Access',
+      priceNote: 'Forever free',
+    },
+    {
       name: 'Starter',
       price: 'TZS 7,200',
       description: 'Perfect for small teams and startups.',
@@ -33,7 +46,7 @@ export const pricingPlans = {
         'Mobile app access',
         'Email support',
       ],
-      cta: 'Start Free Trial',
+      cta: 'Get Early Access',
       priceNote: 'per employee/month',
     },
     {
@@ -47,7 +60,7 @@ export const pricingPlans = {
         'Priority support',
         'API access',
       ],
-      cta: 'Start Free Trial',
+      cta: 'Get Early Access',
       popular: true,
       priceNote: 'per employee/month',
     },
@@ -69,6 +82,19 @@ export const pricingPlans = {
   ],
   annually: [
     {
+      name: 'Free',
+      price: 'Free',
+      description: 'Perfect for trying out EkiliSync.',
+      features: [
+        'Up to 5 employees',
+        'Basic attendance tracking',
+        'Mobile app access',
+        'Community support',
+      ],
+      cta: 'Get Early Access',
+      priceNote: 'Forever free',
+    },
+    {
       name: 'Starter',
       price: 'TZS 5,760',
       description: 'Perfect for small teams and startups.',
@@ -78,7 +104,7 @@ export const pricingPlans = {
         'Mobile app access',
         'Email support',
       ],
-      cta: 'Start Free Trial',
+      cta: 'Get Early Access',
       priceNote: 'per employee/month',
     },
     {
@@ -92,7 +118,7 @@ export const pricingPlans = {
         'Priority support',
         'API access',
       ],
-      cta: 'Start Free Trial',
+      cta: 'Get Early Access',
       popular: true,
       priceNote: 'per employee/month',
     },

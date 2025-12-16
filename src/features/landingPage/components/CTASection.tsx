@@ -40,13 +40,13 @@ export default function CTASection() {
                 })
               }}
             >
-              Start Free 
+              Get Early Access
               <ArrowRight className='ml-2 size-4 transition-transform group-hover:translate-x-1' />
             </Button>
           </div>
           <p className='text-primary-foreground/80 mt-4 text-sm flex items-center justify-center gap-2'>
             <Check className='size-4' />
-            No setup fees. 30-day free trial. Cancel anytime.
+            No setup fees. Free plan available. Cancel anytime.
           </p>
         </motion.div>
       </div>
