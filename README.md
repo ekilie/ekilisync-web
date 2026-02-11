@@ -15,7 +15,7 @@ Smart location-based attendance tracking system built with React, TypeScript, an
 ## 📋 Prerequisites
 
 - Node.js 18+ 
-- npm or yarn
+- pnpm
 - Git
 
 ## 🛠️ Installation
@@ -28,21 +28,21 @@ git clone https://github.com/ekilie/ekilisync-web.git
 cd ekilisync-web/web
 
 # Install dependencies
-npm install
+pnpm install
 
 # Start development server
-npm run dev
+pnpm run dev
 ```
 
 ## 🏃‍♂️ Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check code formatting
-- `npm run knip` - Check for unused dependencies
+- `pnpm run dev` - Start development server
+- `pnpm run build` - Build for production
+- `pnpm run preview` - Preview production build
+- `pnpm run lint` - Run ESLint
+- `pnpm run format` - Format code with Prettier
+- `pnpm run format:check` - Check code formatting
+- `pnpm run knip` - Check for unused dependencies
 
 ## 📁 Project Structure
 
@@ -169,7 +169,7 @@ VITE_APP_ENV=development
 ### Production Build
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 The build output will be in the `dist/` directory.
@@ -184,7 +184,7 @@ This project is configured for:
 ### Pre-deployment Checklist
 
 - [ ] Update environment variables
-- [ ] Test production build locally (`npm run preview`)
+- [ ] Test production build locally (`pnpm run preview`)
 - [ ] Verify all routes work correctly
 - [ ] Check SEO meta tags
 - [ ] Test on different devices
@@ -198,10 +198,10 @@ This project also includes a Tauri configuration for building native desktop app
 
 ```bash
 # Development
-npm run tauri:dev
+pnpm run tauri:dev
 
 # Build
-npm run tauri:build
+pnpm run tauri:build
 ```
 
 ## 🧪 Testing
