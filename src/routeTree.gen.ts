@@ -291,7 +291,6 @@ export interface FileRoutesByFullPath {
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
-  '/clerk/': typeof ClerkauthRouteRouteWithChildren
   '/employee-verify': typeof authEmployeeVerifyRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
@@ -323,6 +322,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/api': typeof ApiRoute
   '/blog': typeof BlogRoute
@@ -332,7 +332,6 @@ export interface FileRoutesByTo {
   '/policies': typeof PoliciesRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
-  '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/employee-verify': typeof authEmployeeVerifyRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
@@ -423,7 +422,6 @@ export interface FileRouteTypes {
     | '/support'
     | '/terms'
     | '/settings'
-    | '/clerk/'
     | '/employee-verify'
     | '/forgot-password'
     | '/otp'
@@ -455,6 +453,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/clerk'
     | '/about'
     | '/api'
     | '/blog'
@@ -464,7 +463,6 @@ export interface FileRouteTypes {
     | '/policies'
     | '/support'
     | '/terms'
-    | '/clerk'
     | '/employee-verify'
     | '/forgot-password'
     | '/otp'
@@ -738,8 +736,8 @@ declare module '@tanstack/react-router' {
     }
     '/clerk/(auth)': {
       id: '/clerk/(auth)'
-      path: '/'
-      fullPath: '/clerk/'
+      path: ''
+      fullPath: '/clerk'
       preLoaderRoute: typeof ClerkauthRouteRouteImport
       parentRoute: typeof ClerkRouteRoute
     }
